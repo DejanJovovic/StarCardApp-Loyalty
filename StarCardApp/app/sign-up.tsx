@@ -1,5 +1,6 @@
 import {View, Text, TouchableOpacity, Image, TextInput, ScrollView} from 'react-native'
 import React from 'react'
+import {router} from "expo-router";
 
 const SignUp = () => {
     return (
@@ -70,7 +71,7 @@ const SignUp = () => {
 
                     <View className="flex-row justify-center mt-4">
                         <Text className="text-sm font-bold text-gray-600">Already have an account?</Text>
-                        <TouchableOpacity>
+                        <TouchableOpacity onPress={() => router.push('/sign-in')}>
                             <Text className="text-sm text-blue-500 font-semibold ml-1">Sign in</Text>
                         </TouchableOpacity>
                     </View>
