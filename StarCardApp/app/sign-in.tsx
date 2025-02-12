@@ -1,9 +1,58 @@
-import {View, Text, Image, TextInput, TouchableOpacity, ScrollView} from 'react-native'
-import React from 'react'
-import {router} from "expo-router";
+import {View, Text, Image, TextInput, TouchableOpacity, ScrollView, Alert} from 'react-native'
+import React, {useCallback, useEffect, useState} from 'react'
+import {router, useFocusEffect} from "expo-router";
 import {LinearGradient} from "expo-linear-gradient";
 
 const SignIn = () => {
+
+
+    const [email, setEmail] = useState("");
+    const [password, setPassword] = useState("");
+    const [emailError, setEmailError] = useState(false);
+    const [passwordError, setPasswordError] = useState(false);
+
+    const isEmailValid = email.includes("@");
+    const isPasswordValid = password.length >= 8;
+
+    const handleContinuePress = () => {
+
+        setEmailError(!isEmailValid);
+        setPasswordError(!isPasswordValid);
+
+        if (!isEmailValid || !isPasswordValid) {
+            Alert.alert("Invalid Input", "Please enter a valid email and password (8+ characters).");
+            return;
+        }
+
+       /* if (!isEmailValid) {
+            Alert.alert("Invalid Email", "Please enter a valid email address.");
+            return;
+        }
+
+        if (!isPasswordValid) {
+            Alert.alert("Invalid Password", "Password must be at least 8 characters long.");
+            return;
+        }*/
+
+        Alert.alert("Success", "Sign in successful.", [
+            {
+                text: "OK",
+                onPress: () => router.push("/home-screen"),
+            },
+        ]);
+    };
+
+    useFocusEffect(
+        useCallback(() => {
+            return () => {
+                setEmail("");
+                setPassword("");
+                setEmailError(false);
+                setPasswordError(false);
+            };
+        }, [])
+    );
+
     return (
         <LinearGradient colors={["#3E5060", "#B0C4DE"]} className="flex-1">
             <ScrollView contentContainerStyle={{flexGrow: 1}}>
@@ -29,13 +78,20 @@ const SignIn = () => {
                     <View className="mt-5">
                         <View className="flex-row justify-between items-center">
                             <Text className="text-xs text-gray-200 ">Email Address</Text>
-                            <TouchableOpacity onPress={() => router.push('/verify-account')}>
+                            <TouchableOpacity
+                                onPress={() => router.push('/verify-account')}
+                                 >
                                 <Text className="text-xs font-bold text-gray-100">Account Verification</Text>
                             </TouchableOpacity>
                         </View>
                         <TextInput
-                            className="border border-gray-400 text-gray-500 rounded-md p-3 mt-1 h-12 bg-white"
+                            className={`border ${emailError ? "border-red-500" : "border-gray-400"} text-gray-500 rounded-md p-3 mt-1 h-12 bg-white`}
                             keyboardType="email-address"
+                            value={email}
+                            onChangeText={(text) => {
+                                setEmail(text);
+                                setEmailError(false);
+                            }}
                         />
 
                         <View className="flex-row justify-between items-center mt-4">
@@ -45,12 +101,18 @@ const SignIn = () => {
                             </TouchableOpacity>
                         </View>
                         <TextInput
-                            className="border border-gray-400 text-gray-500 rounded-md p-3 mt-1 h-12 bg-white"
+                            className={`border ${passwordError ? "border-red-500" : "border-gray-400"} text-gray-500 rounded-md p-3 mt-1 h-12 bg-white`}
                             secureTextEntry
+                            value={password}
+                            onChangeText={(text) => {
+                                setPassword(text);
+                                setPasswordError(false);
+                            }}
                         />
 
 
-                        <TouchableOpacity className="bg-gray-200 py-4 rounded-md mt-6">
+                        <TouchableOpacity className="bg-gray-200 py-4 rounded-md mt-6"
+                            onPress={handleContinuePress}>
                             <Text className="text-center font-semibold text-gray-500 text-base">CONTINUE</Text>
                         </TouchableOpacity>
 

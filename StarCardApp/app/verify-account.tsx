@@ -1,10 +1,45 @@
-import {View, Text, ScrollView, Image, TouchableOpacity, TextInput} from 'react-native'
-import React from 'react'
-import {router} from "expo-router";
+import {View, Text, ScrollView, Image, TouchableOpacity, TextInput, Alert} from 'react-native'
+import React, {useCallback, useState} from 'react'
+import {router, useFocusEffect} from "expo-router";
 import {LinearGradient} from "expo-linear-gradient";
 
 const VerifyAccount = () => {
 
+    const [code, setCode] = useState("");
+    const dummyCode = "1234";
+
+    // should be changed when the code logic is implemented
+    const isCodeValid = code === dummyCode;
+    const [codeError, setCodeError] = useState(false);
+
+
+    const handleContinuePress = () => {
+
+        setCodeError(!isCodeValid);
+
+        if (code !== dummyCode) {
+            Alert.alert("Invalid code", "Please enter a valid code.")
+            return;
+        }
+
+        Alert.alert("Success", "Proceed to your account.", [
+            {
+                text: "OK",
+                // should be changed to navigate to profile screen?
+                onPress: () => router.push("/home-screen"),
+            },
+        ]);
+
+    }
+
+    useFocusEffect(
+        useCallback(() => {
+            return () => {
+                setCode("");
+                setCodeError(false);
+            };
+        }, [])
+    );
 
     return (
         <LinearGradient colors={["#3E5060", "#B0C4DE"]} className="flex-1">
@@ -32,16 +67,24 @@ const VerifyAccount = () => {
                         <View className="flex-row justify-between">
                             <Text className="text-xs text-gray-200">Code</Text>
                             <TouchableOpacity>
+                                {/*send the code again to the email?*/}
                                 <Text className="text-xs font-bold text-gray-200">Forgot your code?</Text>
                             </TouchableOpacity>
                         </View>
                         <TextInput
-                            className="border border-gray-400 text-gray-500 bg-white rounded-md p-3 mt-1"
+                            className={`border ${codeError ? "border-red-500" : "border-gray-400"} text-gray-500 rounded-md p-3 mt-1 h-12 bg-white`}
                             keyboardType="number-pad"
                             secureTextEntry
+                            value={code}
+                            onChangeText={(text) => {
+                                setCode(text);
+                                setCodeError(false);
+
+                            }}
                         />
 
-                        <TouchableOpacity className="bg-gray-200 py-4 rounded-md mt-6">
+                        <TouchableOpacity className="bg-gray-200 py-4 rounded-md mt-6"
+                                          onPress={handleContinuePress}>
                             <Text className="text-center font-semibold text-gray-500 text-base">CONTINUE</Text>
                         </TouchableOpacity>
 

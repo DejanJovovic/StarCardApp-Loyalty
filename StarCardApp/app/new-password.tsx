@@ -1,9 +1,48 @@
-import {View, Text, ScrollView, Image, TouchableOpacity, TextInput} from 'react-native'
-import React from 'react'
-import {router} from "expo-router";
+import {View, Text, ScrollView, Image, TouchableOpacity, TextInput, Alert} from 'react-native'
+import React, {useCallback, useState} from 'react'
+import {router, useFocusEffect} from "expo-router";
 import {LinearGradient} from "expo-linear-gradient";
 
 const NewPassword = () => {
+
+    const [email, setEmail] = useState("");
+    const dummyEmail = "test@gmail.com";
+
+    const [emailError, setEmailError] = useState(false);
+    const isEmailValid = email.includes("@");
+
+    const handleContinuePress = () => {
+
+        setEmailError(!isEmailValid);
+
+        if(!isEmailValid) {
+            Alert.alert("Invalid email", "Please enter a valid email address.")
+            return;
+        }
+
+        if(email !== dummyEmail){
+            Alert.alert("Invalid email", "Please check your email address.")
+            return;
+        }
+
+        Alert.alert("Success", "Code successfully sent to your email.", [
+            {
+                text: "OK",
+                // should be changed to navigate to change-password screen
+                onPress: () => router.push("/sign-in"),
+            },
+        ]);
+    }
+
+    useFocusEffect(
+        useCallback(() => {
+            return () => {
+                setEmail("");
+                setEmailError(false);
+            };
+        }, [])
+    );
+
     return (
         <LinearGradient colors={["#3E5060", "#B0C4DE"]} className="flex-1">
             <ScrollView contentContainerStyle={{flexGrow: 1}}>
@@ -29,14 +68,20 @@ const NewPassword = () => {
                     <View className=" mt-5">
                         <Text className=" text-xs text-gray-200 mt-4">Email address</Text>
                         <TextInput
-                            className=" border border-gray-400 text-gray-500 bg-white rounded-md p-3 mt-1"
+                            className={`border ${emailError ? "border-red-500" : "border-gray-400"} text-gray-500 rounded-md p-3 mt-1 h-12 bg-white`}
                             keyboardType="email-address"
+                            value={email}
+                            onChangeText={(text) => {
+                                setEmail(text);
+                                setEmailError(false);
+                            }}
                         />
                         <Text
                             className=" text-[10px] text-gray-200 mt-2">If you don't have your account password, send a
                             request for a new one</Text>
 
-                        <TouchableOpacity className="bg-gray-200 py-4 rounded-md mt-6">
+                        <TouchableOpacity className="bg-gray-200 py-4 rounded-md mt-6"
+                                            onPress={handleContinuePress}>
                             <Text className="text-center font-semibold text-gray-500 text-base">CONTINUE</Text>
                         </TouchableOpacity>
 
