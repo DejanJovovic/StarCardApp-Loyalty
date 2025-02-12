@@ -45,7 +45,7 @@ const VerifyAccount = () => {
         <LinearGradient colors={["#3E5060", "#B0C4DE"]} className="flex-1">
             <ScrollView contentContainerStyle={{flexGrow: 1}}>
 
-                <View className="relative">
+                <View className="relative mx-auto w-[92%] overflow-hidden rounded-bl-[80px] mt-5">
                     <Image
                         source={require('../assets/images/cellphones.jpg')}
                         className="w-full h-56"

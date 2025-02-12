@@ -25,6 +25,8 @@ const textDescriptions = [
     "Revolution",
 ];
 
+// the screen needs fixing
+
 const Index = () => {
     const router = useRouter();
     const textOpacity = useRef(new Animated.Value(0)).current;
@@ -85,7 +87,7 @@ const Index = () => {
                                 source={item}
                                 style={{ width: "100%", height: "90%" }}
                                 resizeMode="cover"
-                                className=" rounded-lg shadow-gray-700"
+                                className=" rounded-[50px] shadow-gray-700"
 
                             />
 
