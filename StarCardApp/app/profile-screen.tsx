@@ -1,33 +1,31 @@
 import {View, Text, SafeAreaView, ScrollView, Image, TouchableOpacity, ImageSourcePropType, Alert} from 'react-native'
 import React from 'react'
 import icons from "@/constants/icons";
-import {settings} from "@/constants/data";
+import {profile} from "@/constants/data";
 import {router} from "expo-router";
 
 const ProfileScreen = () => {
 
-    interface SettingsItemProp {
+    interface ProfileItemProp {
         icon: ImageSourcePropType;
         title: string;
         onPress?: () => void;
-        textStyle?: string;
         showArrow?: boolean;
     }
 
-    const SettingsItem = ({
+    const ProfileItem = ({
                               icon,
                               title,
                               onPress,
-                              textStyle,
                               showArrow = true,
-                          }: SettingsItemProp) => (
+                          }: ProfileItemProp) => (
         <TouchableOpacity
             onPress={onPress}
             className="flex flex-row items-center justify-between py-3"
         >
             <View className="flex flex-row items-center gap-3">
                 <Image source={icon} className="size-6"/>
-                <Text className={`text-lg font-rubik-medium text-black-300 ${textStyle}`}>
+                <Text className={`text-lg font-rubik-medium text-black-300`}>
                     {title}
                 </Text>
             </View>
@@ -77,21 +75,20 @@ const ProfileScreen = () => {
                 </View>
 
                 <View className="flex flex-col mt-10">
-                    <SettingsItem icon={icons.card} title="My Cards"/>
-                    <SettingsItem icon={icons.wallet} title="Payments"/>
+                    <ProfileItem icon={icons.card} title="My Cards"/>
+                    <ProfileItem icon={icons.wallet} title="Payments"/>
                 </View>
 
                 <View className="flex flex-col mt-5 border-t pt-5 border-primary-200">
-                    {settings.slice(2).map((item, index) => (
-                        <SettingsItem key={index} {...item} />
+                    {profile.slice(2).map((item, index) => (
+                        <ProfileItem key={index} {...item} />
                     ))}
                 </View>
 
                 <View className="flex flex-col border-t mt-5 pt-5 border-primary-200">
-                    <SettingsItem
+                    <ProfileItem
                         icon={icons.logout}
                         title="Logout"
-                        textStyle="text-danger"
                         showArrow={false}
                         onPress={handleLogout}
                     />

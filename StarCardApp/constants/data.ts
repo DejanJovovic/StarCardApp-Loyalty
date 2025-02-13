@@ -1,6 +1,6 @@
 import icons from "./icons";
 
-export const settings = [
+export const profile = [
     {
         title: "My Cards",
         icon: icons.card,
