@@ -2,6 +2,8 @@ import {View, Text, TouchableOpacity, Image, TextInput, ScrollView, Alert} from 
 import React, {useCallback, useState} from 'react'
 import {router, useFocusEffect} from "expo-router";
 import {LinearGradient} from "expo-linear-gradient";
+import images from "@/constants/images";
+import colors from "@/constants/colors";
 
 const SignUp = () => {
 
@@ -90,32 +92,36 @@ const SignUp = () => {
     );
 
     return (
-        <LinearGradient colors={["#3E5060", "#B0C4DE"]} className="flex-1">
+        <LinearGradient colors={[colors.gradientColor1, colors.gradientColor2]} className="flex-1">
             <ScrollView contentContainerStyle={{flexGrow: 1}}>
                 <View className="relative mx-auto w-[92%] overflow-hidden rounded-bl-[80px] mt-5">
                     <Image
-                        source={require('../assets/images/cellphones.jpg')}
+                        source={images.cellPhonesImage}
                         className="w-full h-56"
                         resizeMode="cover"
                     />
                 </View>
 
                 <View className="px-6 py-8">
-                    <Text className="text-lg font-semibold text-gray-100 text-start">LOYALTY CARDS</Text>
-                    <Text className="text-lg font-semibold text-gray-100 text-start">REVOLUTION</Text>
+                    <Text className="text-lg font-semibold text-start"
+                          style={{color: colors.primary}}>LOYALTY CARDS</Text>
+                    <Text className="text-lg font-semibold text-start"
+                          style={{color: colors.primary}}>REVOLUTION</Text>
 
-                    <Text className="text-2xl mt-6 text-gray-100">
+                    <Text className="text-2xl mt-6"
+                          style={{color: colors.primary}}>
                         <Text className="font-bold">CREATE</Text>
                         <Text> AN ACCOUNT</Text>
                     </Text>
-                    <View className="border-b border-gray-400 w-full mx-auto my-2"/>
+                    <View className="border-b border-[#74747EF3] w-full mx-auto my-2"/>
 
                     <View className="mt-5">
                         <View className="flex-row justify-between">
                             <View className="flex-1 mr-2">
-                                <Text className="text-xs text-gray-200">Full Name</Text>
+                                <Text className="text-sm"
+                                      style={{color: colors.primary}}>Full Name</Text>
                                 <TextInput
-                                    className={`border ${fullNameError ? "border-red-500" : "border-gray-400"} text-gray-500 rounded-md p-3 mt-1 h-12 bg-white`}
+                                    className={`border ${fullNameError ? "border-red-500" : "border-[#74747EF3]"} text-[#74747EF3] rounded-md p-3 mt-1 h-12 bg-white`}
                                     value={fullName}
                                     onChangeText={(text) => {
                                         setFullName(text);
@@ -124,9 +130,10 @@ const SignUp = () => {
                             </View>
 
                             <View className="flex-1 ml-2">
-                                <Text className="text-xs text-gray-200">Phone number</Text>
+                                <Text className="text-sm"
+                                      style={{color: colors.primary}}>Phone number</Text>
                                 <TextInput
-                                    className={`border ${phoneError ? "border-red-500" : "border-gray-400"} text-gray-500 rounded-md p-3 mt-1 h-12 bg-white`}
+                                    className={`border ${phoneError ? "border-red-500" : "border-[#74747EF3]"} text-[#74747EF3] rounded-md p-3 mt-1 h-12 bg-white`}
                                     keyboardType="phone-pad"
                                     value={phone}
                                     onChangeText={(text) => {
@@ -137,9 +144,10 @@ const SignUp = () => {
                             </View>
                         </View>
 
-                        <Text className="text-xs text-gray-200 mt-4">Email Address</Text>
+                        <Text className="text-sm mt-4"
+                              style={{color: colors.primary}}>Email Address</Text>
                         <TextInput
-                            className={`border ${emailError ? "border-red-500" : "border-gray-400"} text-gray-500 rounded-md p-3 mt-1 h-12 bg-white`}
+                            className={`border ${emailError ? "border-red-500" : "border-[#74747EF3]"} text-[#74747EF3] rounded-md p-3 mt-1 h-12 bg-white`}
                             keyboardType="email-address"
                             value={email}
                             onChangeText={(text) => {
@@ -147,9 +155,10 @@ const SignUp = () => {
                                 setEmailError(false);
                             }}/>
 
-                        <Text className="text-xs text-gray-200 mt-4">Password</Text>
+                        <Text className="text-sm mt-4"
+                              style={{color: colors.primary}}>Password</Text>
                         <TextInput
-                            className={`border ${passwordError ? "border-red-500" : "border-gray-400"} text-gray-500 rounded-md p-3 mt-1 h-12 bg-white`}
+                            className={`border ${passwordError ? "border-red-500" : "border-[#74747EF3]"} text-[#74747EF3] rounded-md p-3 mt-1 h-12 bg-white`}
                             secureTextEntry
                             value={password}
                             onChangeText={(text) => {
@@ -157,9 +166,10 @@ const SignUp = () => {
                                 setPasswordError(false);
                             }}/>
 
-                        <Text className="text-xs text-gray-200 mt-4">Confirm Password</Text>
+                        <Text className="text-sm mt-4"
+                              style={{color: colors.primary}}>Confirm Password</Text>
                         <TextInput
-                            className={`border ${confirmPasswordError ? "border-red-500" : "border-gray-400"} text-gray-500 rounded-md p-3 mt-1 h-12 bg-white`}
+                            className={`border ${confirmPasswordError ? "border-red-500" : "border-[#74747EF3]"} text-[#74747EF3] rounded-md p-3 mt-1 h-12 bg-white`}
                             secureTextEntry
                             value={confirmPassword}
                             onChangeText={(text) => {
@@ -167,19 +177,23 @@ const SignUp = () => {
                                 setConfirmPasswordError(false);
                             }}/>
 
-                        <Text className="text-[10px] text-gray-200 mt-2">
+                        <Text className="text-[10px] mt-2"
+                              style={{color: colors.primary}}>
                             The password must be at least 8 characters long
                         </Text>
 
-                        <TouchableOpacity className="bg-gray-200 py-4 rounded-md mt-6"
+                        <TouchableOpacity className="bg-white py-4 rounded-md mt-6"
                                           onPress={handleContinuePress}>
-                            <Text className="text-center font-semibold text-gray-500 text-base">CONTINUE</Text>
+                            <Text className="text-center font-semibold text-base"
+                                  style={{color: colors.secondary}}>CONTINUE</Text>
                         </TouchableOpacity>
 
                         <View className="flex-row justify-center mt-4">
-                            <Text className="text-sm font-bold text-gray-200">Already have an account?</Text>
+                            <Text className="text-lg font-semibold"
+                                  style={{color: colors.primary}}>Already have an account?</Text>
                             <TouchableOpacity onPress={() => router.push("/sign-in")}>
-                                <Text className="text-sm text-gray-500 font-semibold ml-2">Sign in</Text>
+                                <Text className="text-lg font-bold ml-2"
+                                      style={{color: colors.secondary}}>Sign in</Text>
                             </TouchableOpacity>
                         </View>
                     </View>

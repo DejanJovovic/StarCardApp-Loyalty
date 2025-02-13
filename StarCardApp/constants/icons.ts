@@ -13,6 +13,9 @@ import shield from "@/assets/icons/shield.png";
 import wallet from "@/assets/icons/wallet.png";
 import rightArrow from "@/assets/icons/right-arrow.png";
 import edit from "@/assets/icons/edit.png";
+import twoArrows from "@/assets/icons/two-arrows.png";
+import checkMark from "@/assets/icons/check-mark.png";
+import avatar from "../assets/images/avatar.png";
 
 export default {
     google,
@@ -30,4 +33,7 @@ export default {
     wallet,
     rightArrow,
     edit,
+    twoArrows,
+    checkMark,
+    avatar
 };

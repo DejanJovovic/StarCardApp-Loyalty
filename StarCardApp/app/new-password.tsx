@@ -2,6 +2,8 @@ import {View, Text, ScrollView, Image, TouchableOpacity, TextInput, Alert} from 
 import React, {useCallback, useState} from 'react'
 import {router, useFocusEffect} from "expo-router";
 import {LinearGradient} from "expo-linear-gradient";
+import images from "@/constants/images";
+import colors from "@/constants/colors";
 
 const NewPassword = () => {
 
@@ -15,12 +17,12 @@ const NewPassword = () => {
 
         setEmailError(!isEmailValid);
 
-        if(!isEmailValid) {
+        if (!isEmailValid) {
             Alert.alert("Invalid email", "Please enter a valid email address.")
             return;
         }
 
-        if(email !== dummyEmail){
+        if (email !== dummyEmail) {
             Alert.alert("Invalid email", "Please check your email address.")
             return;
         }
@@ -44,31 +46,35 @@ const NewPassword = () => {
     );
 
     return (
-        <LinearGradient colors={["#3E5060", "#B0C4DE"]} className="flex-1">
+        <LinearGradient colors={[colors.gradientColor1, colors.gradientColor2]} className="flex-1">
             <ScrollView contentContainerStyle={{flexGrow: 1}}>
 
                 <View className="relative mx-auto w-[92%] overflow-hidden rounded-bl-[80px] mt-5">
                     <Image
-                        source={require('../assets/images/cellphones.jpg')}
+                        source={images.cellPhonesImage}
                         className=" w-full h-56"
                         resizeMode="cover"
                     />
                 </View>
 
                 <View className=" px-6 py-8">
-                    <Text className=" text-lg font-semibold text-gray-100 text-start">LOYALTY CARDS</Text>
-                    <Text className=" text-lg font-semibold text-gray-100 text-start">REVOLUTION</Text>
+                    <Text className=" text-lg font-semibold text-start"
+                          style={{color: colors.primary}}>LOYALTY CARDS</Text>
+                    <Text className=" text-lg font-semibold text-start"
+                          style={{color: colors.primary}}>REVOLUTION</Text>
 
-                    <Text className=" text-2xl mt-10 text-gray-100">
+                    <Text className=" text-2xl mt-10"
+                          style={{color: colors.primary}}>
                         <Text className=" font-bold">NEW</Text>
                         <Text> PASSWORD</Text>
                     </Text>
-                    <View className=" border-b border-gray-400 w-full mx-auto my-2"/>
+                    <View className=" border-b border-[#74747EF3] w-full mx-auto my-2"/>
 
                     <View className=" mt-5">
-                        <Text className=" text-xs text-gray-200 mt-4">Email address</Text>
+                        <Text className=" text-sm mt-4"
+                              style={{color: colors.primary}}>Email address</Text>
                         <TextInput
-                            className={`border ${emailError ? "border-red-500" : "border-gray-400"} text-gray-500 rounded-md p-3 mt-1 h-12 bg-white`}
+                            className={`border ${emailError ? "border-red-500" : "border-[#74747EF3]"} text-[#74747EF3] rounded-md p-3 mt-1 h-12 bg-white`}
                             keyboardType="email-address"
                             value={email}
                             onChangeText={(text) => {
@@ -77,18 +83,22 @@ const NewPassword = () => {
                             }}
                         />
                         <Text
-                            className=" text-[10px] text-gray-200 mt-2">If you don't have your account password, send a
+                            className=" text-[10px] mt-2"
+                            style={{color: colors.primary}}>If you don't have your account password, send a
                             request for a new one</Text>
 
-                        <TouchableOpacity className="bg-gray-200 py-4 rounded-md mt-6"
-                                            onPress={handleContinuePress}>
-                            <Text className="text-center font-semibold text-gray-500 text-base">CONTINUE</Text>
+                        <TouchableOpacity className="bg-white py-4 rounded-md mt-6"
+                                          onPress={handleContinuePress}>
+                            <Text className="text-center font-semibold text-base"
+                                  style={{color: colors.secondary}}>CONTINUE</Text>
                         </TouchableOpacity>
 
                         <View className="flex-row justify-end mt-4">
-                            <Text className="text-sm font-bold text-gray-200">Already have an account?</Text>
+                            <Text className="text-lg font-bold"
+                                  style={{color: colors.primary}}>Already have an account?</Text>
                             <TouchableOpacity onPress={() => router.push('/sign-in')}>
-                                <Text className="text-sm text-gray-500 font-semibold ml-2">Sign in</Text>
+                                <Text className="text-lg font-semibold ml-2"
+                                      style={{color: colors.secondary}}>Sign in</Text>
                             </TouchableOpacity>
                         </View>
                     </View>

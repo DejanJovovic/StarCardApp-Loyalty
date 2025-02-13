@@ -10,22 +10,13 @@ import {
 import React, {useEffect, useRef, useState} from 'react';
 import {useRouter} from "expo-router";
 import {LinearGradient} from "expo-linear-gradient";
+import {rootData} from "@/constants/data";
+import colors from "@/constants/colors";
 
-const { width, height } = Dimensions.get("window");
+const {width, height} = Dimensions.get("window");
 
-const images = [
-    require("../../../assets/images/elements/cc3b.jpg"),
-    require("../../../assets/images/elements/cc1c.jpg"),
-    require("../../../assets/images/elements/cc4b.jpg"),
-];
 
-const textDescriptions = [
-    "Welcome to StarCard",
-    "Loyalty cards",
-    "Revolution",
-];
-
-// the screen needs fixing
+// the screen needs improvement
 
 const Index = () => {
     const router = useRouter();
@@ -59,7 +50,7 @@ const Index = () => {
                 "",
                 "Are you sure you want to exit the app?",
                 [
-                    { text: "No", style: "cancel" },
+                    {text: "No", style: "cancel"},
                     {
                         text: "Yes",
                         onPress: () => {
@@ -83,17 +74,18 @@ const Index = () => {
     };
 
     return (
-        <LinearGradient colors={["#3E5060", "#B0C4DE"]} className="flex-1 justify-center items-center">
+        <LinearGradient colors={[colors.gradientColor1, colors.gradientColor2]}
+                        className="flex-1 justify-center items-center">
 
             <FlatList
-                data={images}
+                data={rootData}
                 horizontal
                 pagingEnabled
                 showsHorizontalScrollIndicator={false}
                 snapToAlignment="center"
                 onScroll={handleScroll}
                 keyExtractor={(_, index) => index.toString()}
-                renderItem={({ item }) => (
+                renderItem={({item}) => (
                     <View
                         style={{
                             width,
@@ -110,21 +102,38 @@ const Index = () => {
                             }}
                         >
                             <Image
-                                source={item}
-                                style={{ width: "100%", height: "90%" }}
+                                source={item.image}
+                                style={{width: "100%", height: "90%"}}
                                 resizeMode="cover"
                                 className=" rounded-[50px] shadow-gray-700"
-
                             />
 
+                            <View
+                                style={{
+                                    position: "absolute",
+                                    bottom: 50,
+                                    left: 0,
+                                    right: 0,
+                                    alignItems: "center",
+                                    backgroundColor: "rgba(0, 0, 0, 0.2)",
+                                    paddingVertical: 8,
+                                    borderBottomLeftRadius: 50,
+                                    borderBottomRightRadius: 50,
+                                }}
+                            >
+                                <Text className="text-white text-2xl font-bold">
+                                    {item.description}
+                                </Text>
+                            </View>
                         </View>
+
                     </View>
 
                 )}
             />
 
             <View className="flex-row mt-4 mb-12">
-                {images.map((_, i) => (
+                {rootData.map((_, i) => (
                     <View
                         key={i}
                         className={`w-3 h-3 mx-1 rounded-full ${i === activeIndex ? 'bg-white' : 'bg-gray-500'}`}
@@ -134,35 +143,37 @@ const Index = () => {
 
             <Animated.Text
                 style={{
-                    fontSize: 24,
+                    fontSize: 28,
                     fontWeight: "bold",
-                    color: "white",
+                    color: colors.primary,
                     marginTop: 10,
                     opacity: textOpacity,
                 }}
             >
-                {textDescriptions[activeIndex]}
+                Welcome to StarCard
             </Animated.Text>
 
             <Animated.View
                 style={{
                     marginTop: 20,
                     marginBottom: 10,
-                    transform: [{ translateY: buttonTranslateY }],
+                    transform: [{translateY: buttonTranslateY}],
                 }}
             >
                 <TouchableOpacity
                     className="bg-white py-4 px-12 rounded-full mb-4"
                     onPress={() => router.push("/sign-up")}
                 >
-                    <Text className="text-gray-500 text-lg font-semibold">Sign Up</Text>
+                    <Text className="text-xl font-bold"
+                          style={{color: colors.primary}}>Sign Up</Text>
                 </TouchableOpacity>
 
                 <TouchableOpacity
-                    className="border border-white py-4 px-12 rounded-full"
+                    className="border border-[#92C4CE] py-4 px-12 rounded-full"
                     onPress={() => router.push("/sign-in")}
                 >
-                    <Text className="text-white text-lg font-semibold">Sign In</Text>
+                    <Text className="text-xl font-bold"
+                          style={{color: colors.secondary}}>Sign In</Text>
                 </TouchableOpacity>
             </Animated.View>
         </LinearGradient>

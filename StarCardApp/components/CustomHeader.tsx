@@ -1,6 +1,7 @@
 import {View, Text, Image, TouchableOpacity, Alert, Animated} from 'react-native'
 import React, {useRef, useState} from 'react'
 import {router, usePathname, useRouter} from "expo-router";
+import colors from "@/constants/colors";
 
 const CustomHeader = () => {
 
@@ -81,7 +82,8 @@ const CustomHeader = () => {
                     style={{tintColor: "black", width: 40, height: 40, resizeMode: "contain", marginRight: 10}}
                 />
             </TouchableOpacity>
-            <Text className="text-2xl font-bold text-gray-700">STARCARD</Text>
+            <Text className="text-2xl font-bold"
+                  style={{color: colors.primary}}>STARCARD</Text>
 
             {/* drop down menu works only on home-screen(it should work on profile and setings and the rest also??)*/}
             {isHomeScreen && (
