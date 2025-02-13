@@ -77,7 +77,7 @@ const ProfileScreen = () => {
                 </View>
 
                 <View className="flex flex-col mt-10">
-                    <SettingsItem icon={icons.calendar} title="My Cards"/>
+                    <SettingsItem icon={icons.card} title="My Cards"/>
                     <SettingsItem icon={icons.wallet} title="Payments"/>
                 </View>
 
