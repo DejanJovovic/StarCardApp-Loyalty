@@ -15,7 +15,9 @@ const CustomHeader = () => {
 
     const goBackToHome = () => {
         // works but it doesnt make sense to be able to press the logo from home-screen and then go back to the starting screen
-        // so it probably needs fixing
+        // it should check whether the user is logged in and based on that
+        // let him press the logo and always go back to the home-screen
+        // that way it doesn't log him out of the app
         if (!isRootScreen) {
             router.push('/');
         }
@@ -61,7 +63,17 @@ const CustomHeader = () => {
 
     return (
         <View
-            className={`relative bg-white p-4 shadow-md ${isHomeScreen ? "flex-row items-center justify-between" : "flex-row items-center justify-start"}`}>
+            className={`relative bg-white p-3 shadow-md ${isHomeScreen ? "flex-row items-center justify-between" : "flex-row items-center justify-start"}`}>
+
+            {!isRootScreen && !isHomeScreen && (
+                <TouchableOpacity onPress={() => router.back()} className="p-2">
+                    <Image
+                        source={require("../assets/icons/back-arrow.png")}
+                        style={{ width: 30, height: 30 }}
+                    />
+                </TouchableOpacity>
+            )}
+
             <TouchableOpacity
                 onPress={goBackToHome} disabled={isRootScreen}>
                 <Image

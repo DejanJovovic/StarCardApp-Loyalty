@@ -5,7 +5,7 @@ import {
     TouchableOpacity,
     FlatList,
     Image,
-    Dimensions
+    Dimensions, Alert, BackHandler
 } from 'react-native'
 import React, {useEffect, useRef, useState} from 'react';
 import {useRouter} from "expo-router";
@@ -49,6 +49,32 @@ const Index = () => {
                 useNativeDriver: true,
             }).start();
         }, 1000);
+    }, []);
+
+    // activates when the user tries to leave by swiping on their phone
+    // is it good to have two useEffects???
+    useEffect(() => {
+        const handleBackPress = () => {
+            Alert.alert(
+                "",
+                "Are you sure you want to exit the app?",
+                [
+                    { text: "No", style: "cancel" },
+                    {
+                        text: "Yes",
+                        onPress: () => {
+                            BackHandler.exitApp();
+                        }
+                    }
+                ]
+            );
+            return true; // prevents exiting the app
+        };
+        BackHandler.addEventListener("hardwareBackPress", handleBackPress);
+
+        return () => {
+            BackHandler.removeEventListener("hardwareBackPress", handleBackPress);
+        };
     }, []);
 
     const handleScroll = (event: any) => {
