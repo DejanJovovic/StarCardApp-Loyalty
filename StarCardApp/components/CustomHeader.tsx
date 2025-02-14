@@ -2,6 +2,7 @@ import {View, Text, Image, TouchableOpacity, Alert, Animated} from 'react-native
 import React, {useRef, useState} from 'react'
 import {router, usePathname, useRouter} from "expo-router";
 import colors from "@/constants/colors";
+import images from "@/constants/images";
 
 const CustomHeader = () => {
 
@@ -14,15 +15,6 @@ const CustomHeader = () => {
     const fadeAnim = useRef(new Animated.Value(1)).current; // Opacity for open menu icon
     const rotateAnim = useRef(new Animated.Value(0)).current; // Rotation animation
 
-    const goBackToHome = () => {
-        // works but it doesnt make sense to be able to press the logo from home-screen and then go back to the starting screen
-        // it should check whether the user is logged in and based on that
-        // let him press the logo and always go back to the home-screen
-        // that way it doesn't log him out of the app
-        if (!isRootScreen) {
-            router.push('/');
-        }
-    };
 
     const toggleMenu = () => {
         const toValue = menuVisible ? 0 : 1;
@@ -55,7 +47,7 @@ const CustomHeader = () => {
                     onPress: () => {
                         setMenuVisible(false);
                         // logout logic needs to be implemented, to clear auth state
-                        router.push("/sign-in");
+                        router.replace("/sign-in");
                     }
                 }
             ]
@@ -75,13 +67,12 @@ const CustomHeader = () => {
                 </TouchableOpacity>
             )}
 
-            <TouchableOpacity
-                onPress={goBackToHome} disabled={isRootScreen}>
+            <View>
                 <Image
-                    source={require("../assets/images/logo.png")}
+                    source={images.logo}
                     style={{tintColor: "black", width: 40, height: 40, resizeMode: "contain", marginRight: 10}}
                 />
-            </TouchableOpacity>
+            </View>
             <Text className="text-2xl font-bold"
                   style={{color: colors.primary}}>STARCARD</Text>
 

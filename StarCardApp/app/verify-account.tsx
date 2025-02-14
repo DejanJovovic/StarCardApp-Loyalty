@@ -79,7 +79,7 @@ const VerifyAccount = () => {
                             </TouchableOpacity>
                         </View>
                         <TextInput
-                            className={`border ${codeError ? "border-red-500" : "border-[#74747EF3]"} text-[#74747EF3] rounded-md p-3 mt-1 h-12 bg-white`}
+                            className={`border ${codeError ? "border-red-500" : "border-[#74747EF3]"} text-black rounded-md p-3 mt-1 h-12 bg-white`}
                             keyboardType="number-pad"
                             secureTextEntry
                             value={code}

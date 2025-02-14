@@ -74,7 +74,7 @@ const NewPassword = () => {
                         <Text className=" text-sm mt-4"
                               style={{color: colors.primary}}>Email address</Text>
                         <TextInput
-                            className={`border ${emailError ? "border-red-500" : "border-[#74747EF3]"} text-[#74747EF3] rounded-md p-3 mt-1 h-12 bg-white`}
+                            className={`border ${emailError ? "border-red-500" : "border-[#74747EF3]"} text-black rounded-md p-3 mt-1 h-12 bg-white`}
                             keyboardType="email-address"
                             value={email}
                             onChangeText={(text) => {

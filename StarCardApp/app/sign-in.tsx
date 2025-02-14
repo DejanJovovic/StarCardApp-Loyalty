@@ -92,7 +92,7 @@ const SignIn = () => {
                             </TouchableOpacity>
                         </View>
                         <TextInput
-                            className={`border ${emailError ? "border-red-500" : "border-[#74747EF3]"} text-[#74747EF3] rounded-md p-3 mt-1 h-12 bg-white`}
+                            className={`border ${emailError ? "border-red-500" : "border-[#74747EF3]"} text-black rounded-md p-3 mt-1 h-12 bg-white`}
                             keyboardType="email-address"
                             value={email}
                             onChangeText={(text) => {
@@ -110,7 +110,7 @@ const SignIn = () => {
                             </TouchableOpacity>
                         </View>
                         <TextInput
-                            className={`border ${passwordError ? "border-red-500" : "border-[#74747EF3]"} text-[#74747EF3] rounded-md p-3 mt-1 h-12 bg-white`}
+                            className={`border ${passwordError ? "border-red-500" : "border-[#74747EF3]"} text-black rounded-md p-3 mt-1 h-12 bg-white`}
                             secureTextEntry
                             value={password}
                             onChangeText={(text) => {

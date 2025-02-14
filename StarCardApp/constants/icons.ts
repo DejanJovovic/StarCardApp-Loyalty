@@ -16,6 +16,7 @@ import edit from "@/assets/icons/edit.png";
 import twoArrows from "@/assets/icons/two-arrows.png";
 import checkMark from "@/assets/icons/check-mark.png";
 import avatar from "../assets/images/avatar.png";
+import starIcon from "../assets/icons/star-icon.png";
 
 export default {
     google,
@@ -35,5 +36,6 @@ export default {
     edit,
     twoArrows,
     checkMark,
-    avatar
+    avatar,
+    starIcon,
 };

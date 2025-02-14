@@ -121,7 +121,7 @@ const SignUp = () => {
                                 <Text className="text-sm"
                                       style={{color: colors.primary}}>Full Name</Text>
                                 <TextInput
-                                    className={`border ${fullNameError ? "border-red-500" : "border-[#74747EF3]"} text-[#74747EF3] rounded-md p-3 mt-1 h-12 bg-white`}
+                                    className={`border ${fullNameError ? "border-red-500" : "border-[#74747EF3]"} text-black rounded-md p-3 mt-1 h-12 bg-white`}
                                     value={fullName}
                                     onChangeText={(text) => {
                                         setFullName(text);
@@ -133,7 +133,7 @@ const SignUp = () => {
                                 <Text className="text-sm"
                                       style={{color: colors.primary}}>Phone number</Text>
                                 <TextInput
-                                    className={`border ${phoneError ? "border-red-500" : "border-[#74747EF3]"} text-[#74747EF3] rounded-md p-3 mt-1 h-12 bg-white`}
+                                    className={`border ${phoneError ? "border-red-500" : "border-[#74747EF3]"} text-black rounded-md p-3 mt-1 h-12 bg-white`}
                                     keyboardType="phone-pad"
                                     value={phone}
                                     onChangeText={(text) => {
@@ -147,7 +147,7 @@ const SignUp = () => {
                         <Text className="text-sm mt-4"
                               style={{color: colors.primary}}>Email Address</Text>
                         <TextInput
-                            className={`border ${emailError ? "border-red-500" : "border-[#74747EF3]"} text-[#74747EF3] rounded-md p-3 mt-1 h-12 bg-white`}
+                            className={`border ${emailError ? "border-red-500" : "border-[#74747EF3]"} text-black rounded-md p-3 mt-1 h-12 bg-white`}
                             keyboardType="email-address"
                             value={email}
                             onChangeText={(text) => {
@@ -158,7 +158,7 @@ const SignUp = () => {
                         <Text className="text-sm mt-4"
                               style={{color: colors.primary}}>Password</Text>
                         <TextInput
-                            className={`border ${passwordError ? "border-red-500" : "border-[#74747EF3]"} text-[#74747EF3] rounded-md p-3 mt-1 h-12 bg-white`}
+                            className={`border ${passwordError ? "border-red-500" : "border-[#74747EF3]"} text-black rounded-md p-3 mt-1 h-12 bg-white`}
                             secureTextEntry
                             value={password}
                             onChangeText={(text) => {
@@ -169,7 +169,7 @@ const SignUp = () => {
                         <Text className="text-sm mt-4"
                               style={{color: colors.primary}}>Confirm Password</Text>
                         <TextInput
-                            className={`border ${confirmPasswordError ? "border-red-500" : "border-[#74747EF3]"} text-[#74747EF3] rounded-md p-3 mt-1 h-12 bg-white`}
+                            className={`border ${confirmPasswordError ? "border-red-500" : "border-[#74747EF3]"} text-black rounded-md p-3 mt-1 h-12 bg-white`}
                             secureTextEntry
                             value={confirmPassword}
                             onChangeText={(text) => {

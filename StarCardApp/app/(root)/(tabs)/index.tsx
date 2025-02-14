@@ -44,7 +44,8 @@ const Index = () => {
 
     // activates when the user tries to leave by swiping on their phone
     // is it good to have two useEffects???
-    useEffect(() => {
+    // needs fixing
+    /*useEffect(() => {
         const handleBackPress = () => {
             Alert.alert(
                 "",
@@ -61,12 +62,10 @@ const Index = () => {
             );
             return true; // prevents exiting the app
         };
-        BackHandler.addEventListener("hardwareBackPress", handleBackPress);
+        const backHandler = BackHandler.addEventListener("hardwareBackPress", handleBackPress);
 
-        return () => {
-            BackHandler.removeEventListener("hardwareBackPress", handleBackPress);
-        };
-    }, []);
+        return () => backHandler.remove();
+    }, []);*/
 
     const handleScroll = (event: any) => {
         const index = Math.round(event.nativeEvent.contentOffset.x / width);
