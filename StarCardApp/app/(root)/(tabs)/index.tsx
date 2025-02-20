@@ -149,7 +149,7 @@ const Index = () => {
                     opacity: textOpacity,
                 }}
             >
-                Welcome to StarCard
+                Welcome to STARcard
             </Animated.Text>
 
             <Animated.View

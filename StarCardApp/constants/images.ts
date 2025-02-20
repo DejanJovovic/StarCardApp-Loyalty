@@ -20,6 +20,12 @@ import userHomeImage3 from "../assets/images/user-home3.png";
 import contactMapImage from "../assets/images/contact-map.png";
 import logo from "../assets/images/logo.png";
 import qrCodeTest from "../assets/images/qrcode-test.png";
+import brushColor1 from "../assets/images/brush-color1.png";
+import brushColor2 from "../assets/images/brush-color2.png";
+import brushColor3 from "../assets/images/brush-color3.png";
+import brushColor4 from "../assets/images/brush-color4.png";
+import brushColor5 from "../assets/images/brush-color5.png";
+import brushColor6 from "../assets/images/brush-color6.png";
 
 export default {
     howItWorks1,
@@ -43,6 +49,12 @@ export default {
     userHomeImage3,
     contactMapImage,
     logo,
-    qrCodeTest
+    qrCodeTest,
+    brushColor1,
+    brushColor2,
+    brushColor3,
+    brushColor4,
+    brushColor5,
+    brushColor6
 
 }
