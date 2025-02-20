@@ -4,6 +4,7 @@ import {router, useFocusEffect} from "expo-router";
 import {LinearGradient} from "expo-linear-gradient";
 import images from "@/constants/images";
 import colors from "@/constants/colors";
+import {useAuth} from "@/components/AuthContext";
 
 const SignIn = () => {
 
@@ -15,6 +16,8 @@ const SignIn = () => {
 
     const isEmailValid = email.includes("@");
     const isPasswordValid = password.length >= 8;
+
+    const { setAuth } = useAuth();
 
     const handleContinuePress = () => {
 
@@ -36,10 +39,12 @@ const SignIn = () => {
              return;
          }*/
 
+        setAuth(email, password);
         Alert.alert("Success", "Sign in successful.", [
             {
                 text: "OK",
                 onPress: () => router.push("/home-screen"),
+
             },
         ]);
     };

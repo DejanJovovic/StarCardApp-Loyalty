@@ -17,6 +17,8 @@ import twoArrows from "@/assets/icons/two-arrows.png";
 import checkMark from "@/assets/icons/check-mark.png";
 import avatar from "../assets/images/avatar.png";
 import starIcon from "../assets/icons/star-icon.png";
+import eyeOpen from "../assets/icons/eye-open.png";
+import eyeClosed from "../assets/icons/eye-closed.png";
 
 export default {
     google,
@@ -38,4 +40,6 @@ export default {
     checkMark,
     avatar,
     starIcon,
+    eyeOpen,
+    eyeClosed
 };

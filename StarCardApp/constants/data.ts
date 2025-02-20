@@ -9,28 +9,8 @@ export const rootData = [
 
 export const profile = [
     {
-        title: "My Cards",
-        icon: icons.card,
-    },
-    {
-        title: "Payments",
-        icon: icons.wallet,
-    },
-    {
-        title: "Profile",
-        icon: icons.person,
-    },
-    {
         title: "Notifications",
         icon: icons.bell,
-    },
-    {
-        title: "Security",
-        icon: icons.shield,
-    },
-    {
-        title: "Language",
-        icon: icons.language,
     },
     {
         title: "Help Center",
@@ -41,6 +21,23 @@ export const profile = [
         icon: icons.people,
     },
 ];
+
+export const settings = [
+    {
+        title: "Payments",
+        icon: icons.wallet,
+    },
+    {
+        title: "Security",
+        icon: icons.shield,
+    },
+    {
+        title: "Language",
+        icon: icons.language,
+    },
+
+];
+
 
 export const cardData = [
     { title: "Works \nperfectly", description: "with both iPhone \nand Android", icon: icons.checkMark,},
