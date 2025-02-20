@@ -13,7 +13,7 @@ export const profile = [
         icon: icons.bell,
     },
     {
-        title: "Help Center",
+        title: "Support",
         icon: icons.info,
     },
     {

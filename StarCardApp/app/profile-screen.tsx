@@ -161,7 +161,7 @@ const ProfileScreen = () => {
 
                     <View className="flex flex-col border-t mt-5 pt-5 border-primary-200">
                         <ProfileItem icon={icons.people} title="Invite Friends"/>
-                        <ProfileItem icon={icons.info} title="Help Center"/>
+                        <ProfileItem icon={icons.info} title="Support" onPress={() => router.push('/support-screen')}/>
                         <ProfileItem
                             icon={icons.logout}
                             title="Logout"
