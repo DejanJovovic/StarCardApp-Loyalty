@@ -1,10 +1,12 @@
-import {View, Text, Image, TextInput, TouchableOpacity, ScrollView, Alert} from 'react-native'
-import React, {useCallback, useEffect, useState} from 'react'
+import {Alert, Image, ScrollView, Text, TextInput, TouchableOpacity, View} from 'react-native'
+import React, {useCallback, useState} from 'react'
 import {router, useFocusEffect} from "expo-router";
 import {LinearGradient} from "expo-linear-gradient";
 import images from "@/constants/images";
 import colors from "@/constants/colors";
 import {useAuth} from "@/components/AuthContext";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+
 
 const SignIn = () => {
 
@@ -17,10 +19,7 @@ const SignIn = () => {
     const isEmailValid = email.includes("@");
     const isPasswordValid = password.length >= 8;
 
-    const { setAuth } = useAuth();
-
-    const handleContinuePress = () => {
-
+    const handleContinuePress = async () => {
         setEmailError(!isEmailValid);
         setPasswordError(!isPasswordValid);
 
@@ -29,24 +28,42 @@ const SignIn = () => {
             return;
         }
 
-        /* if (!isEmailValid) {
-             Alert.alert("Invalid Email", "Please enter a valid email address.");
-             return;
-         }
+        try {
 
-         if (!isPasswordValid) {
-             Alert.alert("Invalid Password", "Password must be at least 8 characters long.");
-             return;
-         }*/
+            const formData = new URLSearchParams();
+            formData.append("email", email);
+            formData.append("pass", password);
 
-        setAuth(email, password);
-        Alert.alert("Success", "Sign in successful.", [
-            {
-                text: "OK",
-                onPress: () => router.push("/home-screen"),
+            const response = await fetch('https://starcardapp.com/loyalty/login', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded',
+                    'User-Agent': ' Mozilla/5.0 (iPhone; CPU iPhone OS 16_0 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/16.0 Mobile/15E148 Safari/604.1',
+                },
+                body: formData.toString(),
+            });
 
-            },
-        ]);
+            const data = await response.json();
+            console.log(data);
+
+            if (response.ok) {
+                const token  = data.jwtoken;
+
+                await AsyncStorage.setItem("auth_token", token);
+
+                Alert.alert("Success", "Sign in successful.", [
+                    {
+                        text: "OK",
+                        onPress: () => router.push("/home-screen"),
+                    },
+                ]);
+            } else {
+                Alert.alert("Error", "Login failed. Please try again.");
+            }
+        } catch (error) {
+            console.error("Error", error);
+            Alert.alert("Error", "Something went wrong. Please try again.");
+        }
     };
 
     useFocusEffect(
@@ -59,6 +76,7 @@ const SignIn = () => {
             };
         }, [])
     );
+
 
     return (
         <LinearGradient colors={[colors.gradientColor1, colors.gradientColor2]} className="flex-1">
