@@ -1,4 +1,4 @@
-import {View, Text, ScrollView, Alert, BackHandler, Image, FlatList, TouchableOpacity} from 'react-native'
+import {View, Text, ScrollView, Alert, BackHandler, Image, FlatList, TouchableOpacity, Platform} from 'react-native'
 import React, {useEffect, useRef} from 'react'
 import {cardData, howItWorksData} from "@/constants/data";
 import images from "@/constants/images";
@@ -6,6 +6,7 @@ import {LinearGradient} from "expo-linear-gradient";
 import colors from "@/constants/colors";
 import icons from "@/constants/icons";
 import {router} from "expo-router";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 
 
@@ -15,29 +16,54 @@ const HomeScreen = () => {
     const scrollViewRef = useRef(null);
 
     // activates when the user tries to leave by swiping on their phone
-    // needs fixing
-    /*useEffect(() => {
-        const handleBackPress = () => {
-            Alert.alert(
-                "",
-                "Are you sure you want to log out?",
-                [
-                    {text: "No", style: "cancel"},
-                    {
-                        text: "Yes",
-                        onPress: () => {
-                            router.push("/sign-in");
-                        }
-                    }
-                ]
-            );
-            return true; // prevents exiting the app
+    const handleLogout = () => {
+        Alert.alert(
+            "",
+            "Are you sure you want to exit?",
+            [
+                {
+                    text: "No",
+                    style: "cancel",
+                },
+                {
+                    text: "Ok",
+                    onPress: async () => {
+                        await AsyncStorage.removeItem("auth_token"); // delete the token
+                        await AsyncStorage.removeItem("email");
+                        await AsyncStorage.removeItem("password");
+
+                        const token = await AsyncStorage.getItem("auth_token"); // check if it's null
+                        console.log("Token after deletion:", token); // should be null if the token is successfully deleted
+
+                        router.replace("/sign-in");
+                    },
+                },
+            ]
+        );
+    };
+
+    // handle back swipe - ONLY WORKS ON ANDROID
+    useEffect(() => {
+        const backAction = () => {
+            handleLogout();
+            return true; // prevents default back behavior
         };
-        const backHandler = BackHandler.addEventListener("hardwareBackPress", handleBackPress);
+
+        const backHandler = BackHandler.addEventListener("hardwareBackPress", backAction);
 
         return () => backHandler.remove();
-    }, []);*/
+    }, []);
 
+
+
+    // Swipe Gesture for iOS - needs fixing probably
+    // const swipeGesture = Gesture.()
+    //     .direction(Gesture.Directions.LEFT)
+    //     .onEnd(() => {
+    //         if (Platform.OS === "ios") {
+    //             handleLogout();
+    //         }
+    //     });
 
     return (
         <LinearGradient colors={[colors.gradientColor1, colors.gradientColor2]} className="flex-1">
@@ -511,7 +537,7 @@ const HomeScreen = () => {
                         <Text className="text-xs"
                               style={{color: colors.primary}}>Dubai (UAE)</Text>
                         {/*can we clickable to open mail app???*/}
-                        <Text className="text-xs mt-4"
+                        <Text className="text-xs mt-4 font-bold"
                               style={{color: colors.primary}}>office@starcardapp.com</Text>
                     </View>
                     <View className="ml-8 mt-2">
