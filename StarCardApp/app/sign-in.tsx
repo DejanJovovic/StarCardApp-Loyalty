@@ -54,7 +54,16 @@ const SignIn = () => {
                 Alert.alert("Success", "Sign in successful.", [
                     {
                         text: "OK",
-                        onPress: () => router.push("/home-screen"),
+                        onPress: async () => {
+                            // Validate token before navigating to the next screen
+                            const isValid = await validateToken(token);
+
+                            if (isValid) {
+                                router.push("/home-screen");
+                            } else {
+                                Alert.alert("Error", "Session expired. Please log in again.");
+                            }
+                        },
                     },
                 ]);
             } else {
@@ -76,6 +85,25 @@ const SignIn = () => {
             };
         }, [])
     );
+
+    // Function that validates the token
+    const validateToken = async (token: string) => {
+        try {
+            const response = await fetch("https://starcardapp.com/loyalty/admin/dashboard", {
+                method: "GET",
+                headers: {
+                    "Authorization": `Bearer ${token}`,
+                    "User-Agent": "Mozilla/5.0 (iPhone; CPU iPhone OS 16_0 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/16.0 Mobile/15E148 Safari/604.1",
+                },
+            });
+
+            console.log("Token Validation Response:", response.status);
+            return response.ok; // If response is OK (200), token is valid
+        } catch (error) {
+            console.error("Token Validation Error:", error);
+            return false;
+        }
+    };
 
 
     return (
