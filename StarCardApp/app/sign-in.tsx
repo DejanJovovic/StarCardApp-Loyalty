@@ -1,4 +1,4 @@
-import {Alert, Image, ScrollView, Text, TextInput, TouchableOpacity, View} from 'react-native'
+import {ActivityIndicator, Alert, Image, ScrollView, Text, TextInput, TouchableOpacity, View} from 'react-native'
 import React, {useCallback, useRef, useState} from 'react'
 import {router, useFocusEffect} from "expo-router";
 import {LinearGradient} from "expo-linear-gradient";
@@ -17,6 +17,8 @@ const SignIn = () => {
     const [passwordError, setPasswordError] = useState(false);
 
     const [isPasswordVisible, setIsPasswordVisible] = useState(false);
+    const [isLoading, setIsLoading] = useState(false);
+
 
     const isEmailValid = email.includes("@");
     const isPasswordValid = password.length >= 8;
@@ -62,7 +64,7 @@ const SignIn = () => {
                     {
                         text: "OK",
                         onPress: async () => {
-
+                            setIsLoading(true);
                             // Validate token before navigating to the next screen
                             const isValid = await validateToken(token);
 
@@ -127,6 +129,9 @@ const SignIn = () => {
             console.error("Token Validation Error:", error);
             return false;
         }
+        finally {
+            setIsLoading(false);
+        }
     };
 
 
@@ -134,6 +139,12 @@ const SignIn = () => {
         <LinearGradient colors={[colors.gradientColor1, colors.gradientColor2]} className="flex-1">
             <ScrollView contentContainerStyle={{flexGrow: 1}}>
 
+                {/*should be more visible on the screen*/}
+                {isLoading && (
+                    <View className="absolute top-0 left-0 right-0 bottom-0 flex justify-center items-center">
+                        <ActivityIndicator size="large" color={colors.secondary} />
+                    </View>
+                )}
                 <View className="relative mx-auto w-[92%] overflow-hidden rounded-bl-[80px] mt-5">
                     <Image
                         source={images.cellPhonesImage}
