@@ -3,6 +3,7 @@ import React, {useRef, useState} from 'react'
 import {router, usePathname, useRouter} from "expo-router";
 import colors from "@/constants/colors";
 import images from "@/constants/images";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 const CustomHeader = () => {
 
@@ -44,7 +45,18 @@ const CustomHeader = () => {
                 {text: "No", style: "cancel"},
                 {
                     text: "Yes",
-                    onPress: () => {
+                    onPress: async () => {
+
+                        await AsyncStorage.removeItem("auth_token"); // delete the token
+                        await AsyncStorage.removeItem("email");
+                        await AsyncStorage.removeItem("password");
+                        const token = await AsyncStorage.getItem("auth_token"); // check if it's null
+                        const emailTest = await AsyncStorage.getItem("email"); // check if it's null
+                        const passwordTest = await AsyncStorage.getItem("password"); // check if it's null
+                        console.log("Token after deletion:", token); // should be null if the token is successfully deleted
+                        console.log("Email after deletion:", emailTest);
+                        console.log("Password after deletion:", passwordTest);
+
                         setMenuVisible(false);
                         // logout logic needs to be implemented, to clear auth state
                         router.replace("/sign-in");
