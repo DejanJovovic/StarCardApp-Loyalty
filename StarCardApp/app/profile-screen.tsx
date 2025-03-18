@@ -16,6 +16,7 @@ import {router} from "expo-router";
 import {LinearGradient} from "expo-linear-gradient";
 import colors from "@/constants/colors";
 import {useAuth} from "@/components/AuthContext";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 const ProfileScreen = () => {
 
@@ -59,9 +60,15 @@ const ProfileScreen = () => {
                 {text: "No", style: "cancel"},
                 {
                     text: "Yes",
-                    onPress: () => {
-                        // logout logic needs to be implemented, to clear auth state
-                        router.push("/sign-in");
+                    onPress: async () => {
+                        await AsyncStorage.removeItem("auth_token"); // delete the token
+                        await AsyncStorage.removeItem("email");
+                        await AsyncStorage.removeItem("password");
+
+                        const token = await AsyncStorage.getItem("auth_token"); // check if it's null
+                        console.log("Token after deletion:", token); // should be null if the token is successfully deleted
+
+                        router.replace("/sign-in");
                     }
                 }
             ]
@@ -102,7 +109,7 @@ const ProfileScreen = () => {
                         <Text className="text-sm"
                               style={{color: colors.primary}}>Email Address</Text>
                         <TextInput
-                            value={email}
+                            value={email ?? ""}
                             editable={false}
                             secureTextEntry={!isEmailVisible}
                             selectTextOnFocus={false}
@@ -123,7 +130,7 @@ const ProfileScreen = () => {
                               style={{color: colors.primary}}>Password</Text>
 
                         <TextInput
-                            value={password}
+                            value={password ?? ""}
                             editable={false}
                             selectTextOnFocus={false}
                             secureTextEntry={!isPasswordVisible}
@@ -153,7 +160,7 @@ const ProfileScreen = () => {
                         >
                             <Text className="text-center font-semibold text-base"
                                   style={{color: colors.secondary}}
-                                  /*should change onPress to go to the change credentials screen*/
+                                /*should change onPress to go to the change credentials screen*/
                                   onPress={() => {
                                   }}>CHANGE</Text>
                         </TouchableOpacity>
