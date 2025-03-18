@@ -1,11 +1,11 @@
 import {Alert, Image, ScrollView, Text, TextInput, TouchableOpacity, View} from 'react-native'
-import React, {useCallback, useState} from 'react'
+import React, {useCallback, useRef, useState} from 'react'
 import {router, useFocusEffect} from "expo-router";
 import {LinearGradient} from "expo-linear-gradient";
 import images from "@/constants/images";
 import colors from "@/constants/colors";
-import {useAuth} from "@/components/AuthContext";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import icons from "@/constants/icons";
 
 
 const SignIn = () => {
@@ -16,8 +16,13 @@ const SignIn = () => {
     const [emailError, setEmailError] = useState(false);
     const [passwordError, setPasswordError] = useState(false);
 
+    const [isPasswordVisible, setIsPasswordVisible] = useState(false);
+
     const isEmailValid = email.includes("@");
     const isPasswordValid = password.length >= 8;
+
+    const passwordInputRef = useRef<TextInput>(null);
+
 
     const handleContinuePress = async () => {
         setEmailError(!isEmailValid);
@@ -47,14 +52,17 @@ const SignIn = () => {
             console.log(data);
 
             if (response.ok) {
-                const token  = data.jwtoken;
+                const token = data.jwtoken;
 
                 await AsyncStorage.setItem("auth_token", token);
+                await AsyncStorage.setItem("email", email);
+                await AsyncStorage.setItem("password", password);
 
                 Alert.alert("Success", "Sign in successful.", [
                     {
                         text: "OK",
                         onPress: async () => {
+
                             // Validate token before navigating to the next screen
                             const isValid = await validateToken(token);
 
@@ -89,6 +97,9 @@ const SignIn = () => {
     // Function that validates the token
     const validateToken = async (token: string) => {
         try {
+
+            const testToken = "test_token";// fake token for testing
+
             const response = await fetch("https://starcardapp.com/loyalty/admin/dashboard", {
                 method: "GET",
                 headers: {
@@ -97,7 +108,20 @@ const SignIn = () => {
                 },
             });
 
-            console.log("Token Validation Response:", response.status);
+            console.log("Token Validation Response:", response.status, token);
+
+            if (response.status === 401 || response.status === 403) {
+                console.log("Token is invalid or expired.");
+                return false; // Token is not valid
+            }
+
+            // In case the server returns a 200 OK, check the response body for further validation
+            // const data = await response.json(); // assuming the server sends JSON data
+            // if (data && data.error && data.error === "Invalid token") {
+            //     console.log("Server rejected token explicitly:", data.error);
+            //     return false;
+            // }
+
             return response.ok; // If response is OK (200), token is valid
         } catch (error) {
             console.error("Token Validation Error:", error);
@@ -145,11 +169,14 @@ const SignIn = () => {
                         <TextInput
                             className={`border ${emailError ? "border-red-500" : "border-[#74747EF3]"} text-black rounded-md p-3 mt-1 h-12 bg-white`}
                             keyboardType="email-address"
+                            autoCapitalize="none"
                             value={email}
                             onChangeText={(text) => {
                                 setEmail(text);
                                 setEmailError(false);
                             }}
+                            onSubmitEditing={() => passwordInputRef.current?.focus()} // Move to the next input
+                            returnKeyType="next"
                         />
 
                         <View className="flex-row justify-between items-center mt-4">
@@ -160,15 +187,29 @@ const SignIn = () => {
                                       style={{color: colors.secondary}}>Forgot your password?</Text>
                             </TouchableOpacity>
                         </View>
-                        <TextInput
-                            className={`border ${passwordError ? "border-red-500" : "border-[#74747EF3]"} text-black rounded-md p-3 mt-1 h-12 bg-white`}
-                            secureTextEntry
-                            value={password}
-                            onChangeText={(text) => {
-                                setPassword(text);
-                                setPasswordError(false);
-                            }}
-                        />
+                        <View className="relative">
+                            <TextInput
+                                className={`border ${passwordError ? "border-red-500" : "border-[#74747EF3]"} text-black rounded-md p-3 mt-1 h-12 bg-white`}
+                                secureTextEntry={!isPasswordVisible}
+                                ref={passwordInputRef}
+                                autoCapitalize="none"
+                                value={password}
+                                onChangeText={(text) => {
+                                    setPassword(text);
+                                    setPasswordError(false);
+                                }}
+                                returnKeyType="done"
+                            />
+                            <TouchableOpacity
+                                onPress={() => setIsPasswordVisible(!isPasswordVisible)}
+                                className="absolute right-4 top-[50%] transform -translate-y-1/2"
+                            >
+                                <Image
+                                    source={isPasswordVisible ? icons.eyeOpen : icons.eyeClosed}
+                                    style={{width: 24, height: 24}}
+                                />
+                            </TouchableOpacity>
+                        </View>
 
 
                         <TouchableOpacity className="bg-white py-4 rounded-md mt-6"

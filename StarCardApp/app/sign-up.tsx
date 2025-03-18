@@ -1,9 +1,10 @@
 import {View, Text, TouchableOpacity, Image, TextInput, ScrollView, Alert} from 'react-native'
-import React, {useCallback, useState} from 'react'
+import React, {useCallback, useRef, useState} from 'react'
 import {router, useFocusEffect} from "expo-router";
 import {LinearGradient} from "expo-linear-gradient";
 import images from "@/constants/images";
 import colors from "@/constants/colors";
+import icons from "@/constants/icons";
 
 const SignUp = () => {
 
@@ -19,11 +20,22 @@ const SignUp = () => {
     const [passwordError, setPasswordError] = useState(false);
     const [confirmPasswordError, setConfirmPasswordError] = useState(false);
 
+    const [isPasswordVisible, setIsPasswordVisible] = useState(false);
+    const [isConfirmPasswordVisible, setIsConfirmPasswordVisible] = useState(false);
+
+
     const isFullNameValid = fullName.trim().length > 0;
     const isPhoneValid = phone.trim().length > 0;
     const isEmailValid = email.includes("@");
     const isPasswordValid = password.length >= 8;
     const isPasswordSame = password === confirmPassword;
+
+
+    const phoneInputRef = useRef<TextInput>(null);
+    const emailInputRef = useRef<TextInput>(null);
+    const passwordInputRef = useRef<TextInput>(null);
+    const confirmPasswordInputRef = useRef<TextInput>(null);
+
 
     const handleContinuePress = () => {
 
@@ -123,10 +135,13 @@ const SignUp = () => {
                                 <TextInput
                                     className={`border ${fullNameError ? "border-red-500" : "border-[#74747EF3]"} text-black rounded-md p-3 mt-1 h-12 bg-white`}
                                     value={fullName}
+                                    autoCapitalize="none"
                                     onChangeText={(text) => {
                                         setFullName(text);
                                         setFullNameError(false);
-                                    }}/>
+                                    }}
+                                    onSubmitEditing={() => phoneInputRef.current?.focus()} // Move to the next input
+                                    returnKeyType="next"/>
                             </View>
 
                             <View className="flex-1 ml-2">
@@ -135,11 +150,14 @@ const SignUp = () => {
                                 <TextInput
                                     className={`border ${phoneError ? "border-red-500" : "border-[#74747EF3]"} text-black rounded-md p-3 mt-1 h-12 bg-white`}
                                     keyboardType="phone-pad"
+                                    ref={phoneInputRef}
                                     value={phone}
                                     onChangeText={(text) => {
                                         setPhone(text);
                                         setPhoneError(false);
                                     }}
+                                    onSubmitEditing={() => emailInputRef.current?.focus()} // Move to the next input
+                                    returnKeyType="next"
                                 />
                             </View>
                         </View>
@@ -149,33 +167,69 @@ const SignUp = () => {
                         <TextInput
                             className={`border ${emailError ? "border-red-500" : "border-[#74747EF3]"} text-black rounded-md p-3 mt-1 h-12 bg-white`}
                             keyboardType="email-address"
+                            ref={emailInputRef}
                             value={email}
+                            autoCapitalize="none"
                             onChangeText={(text) => {
                                 setEmail(text);
                                 setEmailError(false);
-                            }}/>
+                            }}
+                            onSubmitEditing={() => passwordInputRef.current?.focus()} // Move to the next input
+                            returnKeyType="next"/>
 
                         <Text className="text-sm mt-4"
                               style={{color: colors.primary}}>Password</Text>
-                        <TextInput
-                            className={`border ${passwordError ? "border-red-500" : "border-[#74747EF3]"} text-black rounded-md p-3 mt-1 h-12 bg-white`}
-                            secureTextEntry
-                            value={password}
-                            onChangeText={(text) => {
-                                setPassword(text);
-                                setPasswordError(false);
-                            }}/>
+                        <View className="relative">
+                            <TextInput
+                                className={`border ${passwordError ? "border-red-500" : "border-[#74747EF3]"} text-black rounded-md p-3 mt-1 h-12 bg-white`}
+                                secureTextEntry={!isPasswordVisible}
+                                ref={passwordInputRef}
+                                autoCapitalize="none"
+                                value={password}
+                                onChangeText={(text) => {
+                                    setPassword(text);
+                                    setPasswordError(false);
+                                }}
+                                onSubmitEditing={() => confirmPasswordInputRef.current?.focus()} // Move to the next input
+                                returnKeyType="next"/>
+
+                            <TouchableOpacity
+                                onPress={() => setIsPasswordVisible(!isPasswordVisible)}
+                                className="absolute right-4 top-[50%] transform -translate-y-1/2"
+                            >
+                                <Image
+                                    source={isPasswordVisible ? icons.eyeOpen : icons.eyeClosed}
+                                    style={{width: 24, height: 24}}
+                                />
+                            </TouchableOpacity>
+                        </View>
+
 
                         <Text className="text-sm mt-4"
                               style={{color: colors.primary}}>Confirm Password</Text>
-                        <TextInput
-                            className={`border ${confirmPasswordError ? "border-red-500" : "border-[#74747EF3]"} text-black rounded-md p-3 mt-1 h-12 bg-white`}
-                            secureTextEntry
-                            value={confirmPassword}
-                            onChangeText={(text) => {
-                                setConfirmPassword(text);
-                                setConfirmPasswordError(false);
-                            }}/>
+                        <View className="relative">
+                            <TextInput
+                                className={`border ${confirmPasswordError ? "border-red-500" : "border-[#74747EF3]"} text-black rounded-md p-3 mt-1 h-12 bg-white`}
+                                secureTextEntry={!isConfirmPasswordVisible}
+                                ref={confirmPasswordInputRef}
+                                autoCapitalize="none"
+                                value={confirmPassword}
+                                onChangeText={(text) => {
+                                    setConfirmPassword(text);
+                                    setConfirmPasswordError(false);
+                                }}
+                                returnKeyType="done"/>
+
+                            <TouchableOpacity
+                                onPress={() => setIsConfirmPasswordVisible(!isConfirmPasswordVisible)}
+                                className="absolute right-4 top-[50%] transform -translate-y-1/2"
+                            >
+                                <Image
+                                    source={isConfirmPasswordVisible ? icons.eyeOpen : icons.eyeClosed}
+                                    style={{width: 24, height: 24}}
+                                />
+                            </TouchableOpacity>
+                        </View>
 
                         <Text className="text-[10px] mt-2"
                               style={{color: colors.primary}}>
