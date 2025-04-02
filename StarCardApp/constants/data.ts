@@ -1,12 +1,6 @@
 import icons from "./icons";
 import images from "@/constants/images";
 
-export const rootData = [
-    {image: images.rootImage1, description: "Loyalty cards"},
-    {image: images.rootImage2, description: "Innovation"},
-    {image: images.rootImage3, description: "Revolution"},
-]
-
 export const profile = [
     {
         title: "Notifications",

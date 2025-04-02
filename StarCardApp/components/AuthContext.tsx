@@ -11,7 +11,7 @@ interface AuthContextType {
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
-export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
+export const AuthProvider = ({children}: { children: React.ReactNode }) => {
     const [auth_token, setToken] = useState<string | null>(null);
     const [email, setEmail] = useState<string | null>(null);
     const [password, setPassword] = useState<string | null>(null);
@@ -62,7 +62,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
     if (loading) return null; // Prevent rendering before data is loaded
 
     return (
-        <AuthContext.Provider value={{ auth_token, email, password, setAuth, logout }}>
+        <AuthContext.Provider value={{auth_token, email, password, setAuth, logout}}>
             {children}
         </AuthContext.Provider>
     );

@@ -19,6 +19,9 @@ import avatar from "../assets/images/avatar.png";
 import starIcon from "../assets/icons/star-icon.png";
 import eyeOpen from "../assets/icons/eye-open.png";
 import eyeClosed from "../assets/icons/eye-closed.png";
+import home from "../assets/icons/home.png";
+import scan from "../assets/icons/scan.png";
+import wallet_new from "../assets/icons/wallet_new.png";
 
 export default {
     google,
@@ -41,5 +44,8 @@ export default {
     avatar,
     starIcon,
     eyeOpen,
-    eyeClosed
+    eyeClosed,
+    home,
+    scan,
+    wallet_new
 };

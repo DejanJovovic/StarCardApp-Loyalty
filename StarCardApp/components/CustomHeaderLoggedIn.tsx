@@ -1,13 +1,16 @@
-import {View, Text, Image, TouchableOpacity, Animated} from 'react-native'
+import {View, Text, Image, TouchableOpacity, Animated, Alert, BackHandler, ActivityIndicator} from 'react-native'
 import React, {useRef, useState} from 'react'
 import {useRouter} from "expo-router";
 import colors from "@/constants/colors";
 import images from "@/constants/images";
+import {useAuth} from "@/components/AuthContext";
 
-const CustomHeader = () => {
+const CustomHeaderLoggedIn = () => {
 
     const router = useRouter();
+    const {logout} = useAuth();
 
+    const [isLoggingOut, setIsLoggingOut] = useState(false); // State for loading indicator
     const [menuVisible, setMenuVisible] = useState(false);
     const fadeAnim = useRef(new Animated.Value(1)).current; // Opacity for open menu icon
     const rotateAnim = useRef(new Animated.Value(0)).current; // Rotation animation
@@ -33,22 +36,31 @@ const CustomHeader = () => {
         ]).start();
     };
 
-    // const handleLogout = () => {
-    //     Alert.alert(
-    //         "",
-    //         "Are you sure you want to exit?",
-    //         [
-    //             {text: "No", style: "cancel"},
-    //             {
-    //                 text: "Yes",
-    //                 onPress: () => {
-    //                     setMenuVisible(false);
-    //                     BackHandler.exitApp();
-    //                 }
-    //             }
-    //         ]
-    //     );
-    // };
+    const handleLogout = () => {
+        Alert.alert(
+            "",
+            "Are you sure you want to exit?",
+            [
+                {text: "No", style: "cancel"},
+                {
+                    text: "Yes",
+                    onPress: async () => {
+                        setIsLoggingOut(true);
+
+                        try {
+                            logout(); //  Clears auth_token, email, and password globally
+
+                            router.replace("/");
+                        } catch (error) {
+                            console.log("Logout error: ", error);
+                        } finally {
+                            setIsLoggingOut(false); // Hide loading indicator after logout
+                        }
+                    }
+                }
+            ]
+        );
+    };
 
     return (
         <View
@@ -59,7 +71,7 @@ const CustomHeader = () => {
                     style={{tintColor: "black", width: 40, height: 40, resizeMode: "contain", marginRight: 10}}
                 />
             </View>
-            <Text className="text-2xl font-bold"
+            <Text className="text-2xl font-semibold"
                   style={{color: colors.primary}}>STARCARD</Text>
 
             <TouchableOpacity onPress={toggleMenu} style={{position: "relative", width: 50, height: 50}}>
@@ -126,13 +138,10 @@ const CustomHeader = () => {
                                       onPress={() => router.push("/settings")}>
                         <Text className="text-gray-700">Settings</Text>
                     </TouchableOpacity>
-                    {/*<TouchableOpacity className="p-3" onPress={handleLogout}>*/}
-                    {/*    <Text className="text-red-500">Logout</Text>*/}
-                    {/*</TouchableOpacity>*/}
                 </View>
             )}
         </View>
 
     )
 }
-export default CustomHeader
+export default CustomHeaderLoggedIn
