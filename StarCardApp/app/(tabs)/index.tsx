@@ -527,7 +527,9 @@ const Index = () => {
             </View>
             <ScrollView contentContainerStyle={{flexGrow: 1, paddingTop: 50}}
                         ref={scrollViewRef}>
-                <Text className="mt-10">TEEEST</Text>
+                <View className="mt-10 items-center justify-center">
+                    <Text className="text-2xl font-bold">TEEEST</Text>
+                </View>
             </ScrollView>
         </LinearGradient>
     )
