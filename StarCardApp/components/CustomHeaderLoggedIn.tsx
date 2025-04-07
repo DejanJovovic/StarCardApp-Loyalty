@@ -12,6 +12,7 @@ const CustomHeaderLoggedIn = () => {
 
     const [isLoggingOut, setIsLoggingOut] = useState(false); // State for loading indicator
     const [menuVisible, setMenuVisible] = useState(false);
+
     const fadeAnim = useRef(new Animated.Value(1)).current; // Opacity for open menu icon
     const rotateAnim = useRef(new Animated.Value(0)).current; // Rotation animation
 
@@ -130,10 +131,6 @@ const CustomHeaderLoggedIn = () => {
 
             {menuVisible && (
                 <View className="absolute right-4 top-16 bg-white shadow-lg rounded-md w-40">
-                    {/*<TouchableOpacity className="p-3 border-b border-gray-200"*/}
-                    {/*                  onPress={() => router.push("/profile")}>*/}
-                    {/*    <Text className="text-gray-700">Profile</Text>*/}
-                    {/*</TouchableOpacity>*/}
                     <TouchableOpacity className="p-3 border-b border-gray-200"
                                       onPress={() => router.push("/settings")}>
                         <Text className="text-gray-700">Settings</Text>

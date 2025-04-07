@@ -14,7 +14,16 @@ import {useAuth} from "@/components/AuthContext";
 const Index = () => {
 
     const scrollViewRef = useRef(null);
-    const {auth_token} = useAuth();
+
+    const { auth_token } = useAuth();
+
+    if (auth_token === undefined) {
+        return (
+            <View className="flex-1 items-center justify-center">
+                <ActivityIndicator size="large" />
+            </View>
+        );
+    }
 
     if (!auth_token) {
         return (
@@ -472,8 +481,8 @@ const Index = () => {
                     </View>
 
                     <View className="flex-row mt-10 mb-10">
-                        {/*when clicked scroll to the top of the current screen*/}
                         <TouchableOpacity onPress={() =>
+                        /*when clicked scroll to the top of the current screen*/
                             scrollViewRef.current?.scrollTo({y: 0, animated: true})}>
                             <Image
                                 source={images.logo}
@@ -500,12 +509,10 @@ const Index = () => {
                                   style={{color: colors.primary}}>Belgrade (Serbia) and</Text>
                             <Text className="text-xs"
                                   style={{color: colors.primary}}>Dubai (UAE)</Text>
-                            {/*can we clickable to open mail app???*/}
                             <Text className="text-xs mt-4 font-bold"
                                   style={{color: colors.primary}}>office@starcardapp.com</Text>
                         </View>
                         <View className="ml-8 mt-2">
-                            {/*should be changed to display a real qr code!!*/}
                             <Image
                                 source={images.qrCodeTest}
                                 style={{width: 75, height: 75, resizeMode: "contain"}}

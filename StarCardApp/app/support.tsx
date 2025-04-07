@@ -87,7 +87,6 @@ const Support = () => {
                               style={{color: colors.primary}}>office@starcardapp.com</Text>
                     </View>
                     <View className="ml-4 mt-2">
-                        {/*should be changed to display a real qr code!!*/}
                         <Image
                             source={images.qrCodeTest}
                             style={{width: 75, height: 75, resizeMode: "contain"}}

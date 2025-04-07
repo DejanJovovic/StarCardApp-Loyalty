@@ -1,39 +1,63 @@
-import {Stack} from "expo-router";
-import "./globals.css"
-import {AuthProvider} from "@/components/AuthContext";
+import { enableScreens } from 'react-native-screens';
+enableScreens();
+
+import {SplashScreen, Stack} from "expo-router";
+import "./globals.css";
+import { AuthProvider } from "@/components/AuthContext";
+import {useFonts} from "expo-font";
+import {useEffect} from "react";
+
+SplashScreen.preventAutoHideAsync();
+
 
 export default function RootLayout() {
+
+    const [loaded] = useFonts({
+        SpaceMono: require('../assets/fonts/SpaceMono-Regular.ttf'),
+    });
+
+    useEffect(() => {
+        if (loaded) {
+            SplashScreen.hideAsync();
+        }
+    }, [loaded]);
+
+    if (!loaded) {
+        return null;
+    }
+
     return (
         <AuthProvider>
             <Stack>
                 <Stack.Screen
                     name="(tabs)"
-                    options={{headerShown: false}}/>
-                <Stack.Screen
-                    name="(auth)/sign-up"
-                    options={{title: ""}}
+                    options={{ headerShown: false }}
                 />
                 <Stack.Screen
-                    name="(auth)/verify-account"
-                    options={{title: ""}}
+                    name="sign-up"
+                    options={{ title: "" }}
                 />
                 <Stack.Screen
-                    name="(auth)/new-password"
-                    options={{title: ""}}
+                    name="verify-account"
+                    options={{ title: "" }}
                 />
                 <Stack.Screen
-                    name="(other)/buy-now"
-                    options={{title: ""}}
+                    name="new-password"
+                    options={{ title: "" }}
                 />
                 <Stack.Screen
-                    name="(other)/settings"
-                    options={{title: ""}}
+                    name="buy-now"
+                    options={{ title: "" }}
                 />
                 <Stack.Screen
-                    name="(other)/support"
-                    options={{title: ""}}
+                    name="settings"
+                    options={{ title: "" }}
+                />
+                <Stack.Screen
+                    name="support"
+                    options={{ title: "" }}
                 />
             </Stack>
-        </AuthProvider>)
+        </AuthProvider>
+    );
 }
-

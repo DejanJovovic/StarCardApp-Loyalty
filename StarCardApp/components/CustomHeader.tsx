@@ -1,16 +1,15 @@
 import {View, Text, Image, TouchableOpacity, Animated} from 'react-native'
 import React, {useRef, useState} from 'react'
-import {useRouter} from "expo-router";
+import {router, useRouter} from "expo-router";
 import colors from "@/constants/colors";
 import images from "@/constants/images";
 
 const CustomHeader = () => {
 
-    const router = useRouter();
-
     const [menuVisible, setMenuVisible] = useState(false);
-    const fadeAnim = useRef(new Animated.Value(1)).current; // Opacity for open menu icon
-    const rotateAnim = useRef(new Animated.Value(0)).current; // Rotation animation
+
+    const fadeAnim = useRef(new Animated.Value(1)).current;
+    const rotateAnim = useRef(new Animated.Value(0)).current;
 
 
     const toggleMenu = () => {
@@ -33,32 +32,11 @@ const CustomHeader = () => {
         ]).start();
     };
 
-    // const handleLogout = () => {
-    //     Alert.alert(
-    //         "",
-    //         "Are you sure you want to exit?",
-    //         [
-    //             {text: "No", style: "cancel"},
-    //             {
-    //                 text: "Yes",
-    //                 onPress: () => {
-    //                     setMenuVisible(false);
-    //                     BackHandler.exitApp();
-    //                 }
-    //             }
-    //         ]
-    //     );
-    // };
-
     return (
-        <View
-            className="relative bg-white p-3 shadow-md flex-row items-center justify-between">
-            <View>
-                <Image
-                    source={images.logo}
-                    style={{tintColor: "black", width: 40, height: 40, resizeMode: "contain", marginRight: 10}}
-                />
-            </View>
+        <View className="relative bg-white p-3 shadow-md flex-row items-center justify-between">
+            <Image
+                source={images.logo}
+                style={{tintColor: "black", width: 40, height: 40, resizeMode: "contain", marginRight: 10}}/>
             <Text className="text-2xl font-bold"
                   style={{color: colors.primary}}>STARCARD</Text>
 
@@ -114,7 +92,6 @@ const CustomHeader = () => {
                     }}
                 />
             </TouchableOpacity>
-            )
 
             {menuVisible && (
                 <View className="absolute right-4 top-16 bg-white shadow-lg rounded-md w-40">
