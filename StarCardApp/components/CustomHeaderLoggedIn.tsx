@@ -37,32 +37,6 @@ const CustomHeaderLoggedIn = () => {
         ]).start();
     };
 
-    const handleLogout = () => {
-        Alert.alert(
-            "",
-            "Are you sure you want to exit?",
-            [
-                {text: "No", style: "cancel"},
-                {
-                    text: "Yes",
-                    onPress: async () => {
-                        setIsLoggingOut(true);
-
-                        try {
-                            logout(); //  Clears auth_token, email, and password globally
-
-                            router.replace("/");
-                        } catch (error) {
-                            console.log("Logout error: ", error);
-                        } finally {
-                            setIsLoggingOut(false); // Hide loading indicator after logout
-                        }
-                    }
-                }
-            ]
-        );
-    };
-
     return (
         <View
             className="relative bg-white p-3 shadow-md flex-row items-center justify-between">
@@ -127,7 +101,6 @@ const CustomHeaderLoggedIn = () => {
                     }}
                 />
             </TouchableOpacity>
-            )
 
             {menuVisible && (
                 <View className="absolute right-4 top-16 bg-white shadow-lg rounded-md w-40">

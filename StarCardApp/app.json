@@ -22,6 +22,7 @@
         "android.permission.WRITE_EXTERNAL_STORAGE",
         "android.permission.RECORD_AUDIO"
       ],
+      "softwareKeyboardLayoutMode": "pan",
       "package": "com.deks123.StarCardApp"
     },
     "web": {

@@ -40,16 +40,14 @@ export default function TabsLayout() {
                 },
                 tabBarStyle: {
                     backgroundColor: "white",
-                    borderRadius: 0,
+                    borderRadius: 20,
                     width: "100%",
-                    height: 60,
+                    height: 56,
                     position: "absolute",
                     bottom: 0,
                     left: 0,
                     right: 0,
-                    overflow: "hidden",
-                    borderTopWidth: 1,
-                    borderColor: "black",
+                    overflow: "hidden"
                 },
             }}
         >

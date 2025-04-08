@@ -1,8 +1,11 @@
 import {View, Text, TouchableOpacity} from "react-native";
-import {useState, useCallback} from "react";
+import {useState, useCallback, useRef} from "react";
 import {Camera, CameraView} from "expo-camera";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import {useFocusEffect} from "expo-router";
+import * as Haptics from 'expo-haptics';
+import colors from "@/constants/colors";
+
 
 
 export function Scan() {
@@ -10,35 +13,57 @@ export function Scan() {
     const [scanned, setScanned] = useState(false);
     const [torch, setTorch] = useState(false);
     const [authToken, setAuthToken] = useState<string | null>(null);
+    const lastScannedData = useRef(null);
 
 
     useFocusEffect(
         useCallback(() => {
-            checkPermissionsAndAuth();
-        }, []) // Empty dependency array to run only on screen focus
+            checkPermissions();
+            checkAuth();
+        }, [])
     );
 
-    const checkPermissionsAndAuth = async () => {
-        const token = await AsyncStorage.getItem("auth_token");
-        setAuthToken(token);
-
-        const {status} = await Camera.requestCameraPermissionsAsync();
+    const checkPermissions = async () => {
+        const { status } = await Camera.requestCameraPermissionsAsync();
         setHasPermission(status === "granted");
     };
 
+    const checkAuth = async () => {
+        const token = await AsyncStorage.getItem("auth_token");
+        setAuthToken(token);
+    };
+
     const handleScanResult = async (result: any) => {
-        setScanned(true);
         const data = result?.data;
+
+        // Prevent processing the same data multiple times in quick succession
+        if (data === lastScannedData.current) {
+            return;
+        }
+        lastScannedData.current = data;
+
+        setScanned(true);
         console.log("Scanned QR Code:", data);
+
+        // the app vibrates when the qr code is successfully scanned
+        await Haptics.notificationAsync(Haptics.NotificationFeedbackType.Success);
+
 
         try {
             const storedData = await AsyncStorage.getItem("scannedCodes");
             const codes = storedData ? JSON.parse(storedData) : [];
-            codes.push(data);
-            await AsyncStorage.setItem("scannedCodes", JSON.stringify(codes));
+            if (!codes.includes(data)) {
+                codes.push(data);
+                await AsyncStorage.setItem("scannedCodes", JSON.stringify(codes));
+            }
         } catch (error) {
             console.error("Failed to save scan data", error);
         }
+
+        // Reset lastScannedData after a short delay to allow new scans
+        setTimeout(() => {
+            lastScannedData.current = null;
+        }, 2000); // 2-second cooldown
     };
 
     if (!authToken) {
@@ -91,6 +116,14 @@ export function Scan() {
                     </Text>
                 </TouchableOpacity>
             )}
+
+            {/*optional, torch might not be needed at all*/}
+            <TouchableOpacity onPress={() => setTorch(prev => !prev)} className="mt-4">
+                <Text className="font-semibold text-xl"
+                style={{color: colors.secondary}}>
+                    {torch ? 'Turn Off Flashlight' : 'Turn On Flashlight'}
+                </Text>
+            </TouchableOpacity>
         </View>
     );
 }
