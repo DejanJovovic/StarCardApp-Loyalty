@@ -13,8 +13,7 @@
     },
     "android": {
       "adaptiveIcon": {
-        "foregroundImage": "./assets/images/logo.png",
-        "backgroundColor": "#ffffff"
+        "foregroundImage": "./assets/images/logo.png"
       },
       "permissions": [
         "android.permission.CAMERA",
@@ -35,6 +34,7 @@
       [
         "expo-splash-screen",
         {
+          "image": "./assets/images/logo.png",
           "resizeMode": "contain",
           "backgroundColor": "#ffffff"
         }
@@ -48,7 +48,7 @@
         "origin": false
       },
       "eas": {
-        "projectId": "cc945c09-7235-457b-bf29-9f2124116dc0"
+        "projectId": "4a2d4090-a363-42cd-8f20-22772af420b1"
       }
     }
   }
