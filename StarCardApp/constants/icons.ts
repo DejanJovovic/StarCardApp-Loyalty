@@ -22,6 +22,8 @@ import eyeClosed from "../assets/icons/eye-closed.png";
 import home from "../assets/icons/home.png";
 import scan from "../assets/icons/scan.png";
 import wallet_new from "../assets/icons/wallet_new.png";
+import qr_scanner from "../assets/icons/qr-scanner.png";
+import flashlight from "../assets/icons/flashlight.png";
 
 export default {
     google,
@@ -47,5 +49,7 @@ export default {
     eyeClosed,
     home,
     scan,
-    wallet_new
+    wallet_new,
+    qr_scanner,
+    flashlight
 };

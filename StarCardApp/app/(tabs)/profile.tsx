@@ -172,7 +172,7 @@ const Profile = () => {
             }
         } catch (error) {
             console.error("Error", error);
-            Alert.alert("Error", "Something went wrong. Please try again.");
+            Alert.alert("Login failed", "Please enter valid email and password.");
         }
     };
 

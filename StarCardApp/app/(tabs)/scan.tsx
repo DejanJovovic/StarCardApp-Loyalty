@@ -1,12 +1,11 @@
-import {View, Text, TouchableOpacity} from "react-native";
+import {View, TouchableOpacity, StyleSheet, Text, Image, Alert} from "react-native";
 import {useState, useCallback, useRef} from "react";
 import {Camera, CameraView} from "expo-camera";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import {useFocusEffect} from "expo-router";
-import * as Haptics from 'expo-haptics';
+import * as Haptics from "expo-haptics";
 import colors from "@/constants/colors";
-
-
+import icons from "@/constants/icons";
 
 export function Scan() {
     const [hasPermission, setHasPermission] = useState(null);
@@ -14,7 +13,6 @@ export function Scan() {
     const [torch, setTorch] = useState(false);
     const [authToken, setAuthToken] = useState<string | null>(null);
     const lastScannedData = useRef(null);
-
 
     useFocusEffect(
         useCallback(() => {
@@ -24,7 +22,7 @@ export function Scan() {
     );
 
     const checkPermissions = async () => {
-        const { status } = await Camera.requestCameraPermissionsAsync();
+        const {status} = await Camera.requestCameraPermissionsAsync();
         setHasPermission(status === "granted");
     };
 
@@ -35,51 +33,73 @@ export function Scan() {
 
     const handleScanResult = async (result: any) => {
         const data = result?.data;
+        if (data === lastScannedData.current) return;
 
-        // Prevent processing the same data multiple times in quick succession
-        if (data === lastScannedData.current) {
-            return;
-        }
         lastScannedData.current = data;
-
         setScanned(true);
-        console.log("Scanned QR Code:", data);
-
-        // the app vibrates when the qr code is successfully scanned
         await Haptics.notificationAsync(Haptics.NotificationFeedbackType.Success);
 
-
         try {
+            // Retrieve the stored scanned codes from AsyncStorage
             const storedData = await AsyncStorage.getItem("scannedCodes");
             const codes = storedData ? JSON.parse(storedData) : [];
-            if (!codes.includes(data)) {
-                codes.push(data);
-                await AsyncStorage.setItem("scannedCodes", JSON.stringify(codes));
+
+            // Check if the QR code has already been scanned
+            if (codes.includes(data)) {
+                // Show alert if the QR code was already scanned
+                Alert.alert(
+                    "QR Code Already Scanned",
+                    "Please try to scan a different QR code.",
+                    [
+                        {text: "OK", onPress: () => console.log("Duplicate scan attempt")},
+                    ]
+                );
+                return; // Stop further processing if it's a duplicate
             }
+
+            // Show the alert with Yes/No options if the QR code is new
+            Alert.alert(
+                "QR Code Scanned",
+                `Add ${data} to your wallet?`,
+                [
+                    {
+                        text: "No", // When "No" is pressed, just close the alert and do nothing
+                        onPress: () => {
+                            console.log("Scan discarded");
+                        },
+                        style: "cancel",
+                    },
+                    {
+                        text: "Yes", // When "Yes" is pressed, process the scanned data
+                        onPress: async () => {
+                            // Save the scanned data to AsyncStorage
+                            codes.push(data);
+                            await AsyncStorage.setItem("scannedCodes", JSON.stringify(codes));
+
+                            // Optionally, show another confirmation or success message
+                            console.log("Scanned data saved:", data);
+                        },
+                    },
+                ],
+                {cancelable: false} // Make sure the alert cannot be dismissed by tapping outside
+            );
         } catch (error) {
-            console.error("Failed to save scan data", error);
+            console.error("Failed to process scan data", error);
         }
 
-        // Reset lastScannedData after a short delay to allow new scans
+        // Reset lastScannedData after a short delay to prevent multiple quick scans
         setTimeout(() => {
             lastScannedData.current = null;
-        }, 2000); // 2-second cooldown
+        }, 2000);
     };
+
 
     if (!authToken) {
         return (
-            <View className="flex-1 justify-center items-center bg-[#f0f0f0] pb-10">
-                <Text className="text-2xl text-center font-bold">
+            <View className="flex-1 justify-center items-center bg-[#f0f0f0]">
+                <Text className="text-xl font-semibold text-center px-6">
                     Please log in to scan QR codes
                 </Text>
-            </View>
-        );
-    }
-
-    if (hasPermission === null) {
-        return (
-            <View className="flex-1 justify-center items-center">
-                <Text>Requesting camera permission...</Text>
             </View>
         );
     }
@@ -93,37 +113,50 @@ export function Scan() {
     }
 
     return (
-        <View className="flex-1 justify-center items-center bg-[#f0f0f0] pb-10">
-            <View className="w-52 h-52 rounded-xl border-2 border-white overflow-hidden justify-center items-center">
-                <CameraView
-                    onBarcodeScanned={scanned ? undefined : handleScanResult}
-                    barcodeScannerSettings={{
-                        barcodeTypes: ["qr", "pdf417"],
-                    }}
-                    style={{width: 200, height: 200}}
-                    enableTorch={torch}
-                    zoom={0.7}
-                />
+        <View style={StyleSheet.absoluteFill} className="relative">
+            <CameraView
+                onBarcodeScanned={scanned ? undefined : handleScanResult}
+                barcodeScannerSettings={{
+                    barcodeTypes: ["qr"],
+                }}
+                style={StyleSheet.absoluteFill}
+                enableTorch={torch}
+                zoom={0.2}
+            />
+
+            {/* Overlay */}
+            <View className="absolute inset-0 justify-center items-center">
+                {/* Scanning box */}
+                <View className="w-80 h-80 border-4 border-white rounded-xl"/>
             </View>
 
-            {scanned && (
-                <TouchableOpacity
-                    onPress={() => setScanned(false)}
-                    className="bg-[#92C4CE] px-4 py-3 rounded-lg mt-10"
-                >
-                    <Text className="text-white font-semibold text-base">
-                        Tap to scan again
-                    </Text>
-                </TouchableOpacity>
-            )}
+            <View className="absolute mb-7 bottom-10 left-6 right-6 flex-row justify-between items-center">
+                <View>
+                    {scanned && (
+                        <TouchableOpacity
+                            onPress={() => setScanned(false)}
+                            className="bg-white p-3 rounded-full"
+                        >
+                            <Image
+                                source={icons.qr_scanner}
+                                style={{width: 28, height: 28, tintColor: colors.secondary}}
+                            />
+                        </TouchableOpacity>
+                    )}
+                </View>
 
-            {/*optional, torch might not be needed at all*/}
-            <TouchableOpacity onPress={() => setTorch(prev => !prev)} className="mt-4">
-                <Text className="font-semibold text-xl"
-                style={{color: colors.secondary}}>
-                    {torch ? 'Turn Off Flashlight' : 'Turn On Flashlight'}
-                </Text>
-            </TouchableOpacity>
+                <View>
+                    <TouchableOpacity
+                        onPress={() => setTorch((prev) => !prev)}
+                        className="bg-white p-3 rounded-full"
+                    >
+                        <Image
+                            source={icons.flashlight}
+                            style={{width: 28, height: 28, tintColor: colors.secondary}}
+                        />
+                    </TouchableOpacity>
+                </View>
+            </View>
         </View>
     );
 }
