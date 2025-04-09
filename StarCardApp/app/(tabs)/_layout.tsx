@@ -2,18 +2,43 @@ import {Tabs} from "expo-router";
 import {ImageBackground, Image, Text, View} from "react-native";
 
 import icons from "@/constants/icons";
-import images from "@/constants/images";
 import colors from "@/constants/colors";
 
-function TabIcon({focused, icon, title}: any) {
+function TabIcon({ focused, icon, title, isCenter = false }: any) {
+    if (isCenter) {
+        return (
+            <View
+                className="justify-center items-center"
+                style={{
+                    marginTop: -30, // Pull it above the tab bar
+                    width: 70,
+                    height: 70,
+                    borderRadius: 35,
+                    backgroundColor: 'white',
+                    elevation: 5,
+                    shadowColor: '#000',
+                    shadowOpacity: 0.15,
+                    shadowRadius: 6,
+                    shadowOffset: { width: 0, height: 3 },
+                }}
+            >
+                <Image source={icon} tintColor={focused ? colors.primary : colors.secondary} className="size-6" />
+            </View>
+        );
+    }
+
     if (focused) {
         return (
             <ImageBackground
-                className="flex flex-column bg-[#E8E8EAF2] w-full min-w-[112px] min-h-16 mt-4 justify-center items-center overflow-hidden"
+                className="flex flex-column justify-center items-center mt-4 overflow-hidden rounded-2xl"
+                style={{
+                    width: 90,
+                    height: 56,
+                    backgroundColor: '#E8E8EAF2',
+                }}
             >
-                <Image source={icon} tintColor="black" className="size-6"/>
-                <Text className="font-semibold"
-                      style={{color: colors.primary}}>
+                <Image source={icon} tintColor="black" className="size-6" />
+                <Text className="font-semibold text-xs" style={{ color: colors.primary }}>
                     {title}
                 </Text>
             </ImageBackground>
@@ -22,7 +47,7 @@ function TabIcon({focused, icon, title}: any) {
 
     return (
         <View className="size-full justify-center items-center mt-4 rounded-full">
-            <Image source={icon} tintColor={colors.secondary} className="size-5"/>
+            <Image source={icon} tintColor={colors.secondary} className="size-5" />
         </View>
     );
 }
@@ -33,8 +58,6 @@ export default function TabsLayout() {
             screenOptions={{
                 tabBarShowLabel: false,
                 tabBarItemStyle: {
-                    width: "100%",
-                    height: "100%",
                     justifyContent: "center",
                     alignItems: "center",
                 },
@@ -42,12 +65,14 @@ export default function TabsLayout() {
                     backgroundColor: "white",
                     borderRadius: 20,
                     width: "100%",
-                    height: 56,
+                    height: 55,
                     position: "absolute",
                     bottom: 0,
                     left: 0,
                     right: 0,
-                    overflow: "hidden"
+                    overflow: "visible",
+                    borderTopWidth: 0,
+                    elevation: 10,
                 },
             }}
         >
@@ -78,8 +103,18 @@ export default function TabsLayout() {
                 options={{
                     title: "Wallet",
                     headerShown: false,
+                    tabBarIcon: ({ focused }) => (
+                        <TabIcon focused={focused} icon={icons.wallet_new} title="Wallet" isCenter />
+                    ),
+                }}
+            />
+            <Tabs.Screen
+                name="search"
+                options={{
+                    title: "Search",
+                    headerShown: false,
                     tabBarIcon: ({focused}) => (
-                        <TabIcon focused={focused} icon={icons.wallet_new} title="Wallet"/>
+                        <TabIcon focused={focused} icon={icons.search} title="Search"/>
                     ),
                 }}
             />
