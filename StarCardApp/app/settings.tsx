@@ -13,6 +13,7 @@ import {LinearGradient} from "expo-linear-gradient";
 import colors from "@/constants/colors";
 import icons from "@/constants/icons";
 import {settings} from "@/constants/data";
+import {router} from "expo-router";
 
 interface SettingsItemProp {
     icon: ImageSourcePropType;
@@ -50,15 +51,19 @@ const Settings = () => {
                     showsVerticalScrollIndicator={false}
                     contentContainerClassName="px-7"
                 >
-
-
-                    <View className="flex flex-col mt-15 pt-5">
-                        <SettingsItem icon={icons.wallet} title="Payments"/>
-                        <SettingsItem icon={icons.shield} title="Security"/>
-                        <SettingsItem icon={icons.language} title="Language"/>
+                    <View className="flex flex-col">
+                        <View className="mt-5">
+                            <View className="bg-white rounded-lg pl-4 mb-2">
+                                <SettingsItem icon={icons.wallet} title="Payments"/>
+                            </View>
+                            <View className="bg-white mt-2 rounded-lg pl-4 mb-2">
+                                <SettingsItem icon={icons.shield} title="Security"/>
+                            </View>
+                            <View className="bg-white mt-2 rounded-lg pl-4 mb-2">
+                                <SettingsItem icon={icons.language} title="Language"/>
+                            </View>
+                        </View>
                     </View>
-
-
                 </ScrollView>
             </SafeAreaView>
         </LinearGradient>

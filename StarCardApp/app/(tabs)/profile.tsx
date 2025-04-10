@@ -402,19 +402,19 @@ const Profile = () => {
 
                     <View className="flex flex-col border-t mt-10 pt-5 border-primary-200">
                         <View className="mt-5">
-                            <View className="bg-white">
+                            <View className="bg-white rounded-lg pl-4 mb-2">
                                 <ProfileItem icon={icons.card} title="My Cards"/>
                             </View>
-                            <View className="bg-white mt-2">
+                            <View className="bg-white mt-2 rounded-lg pl-4 mb-2">
                                 <ProfileItem icon={icons.bell} title="Notifications"/>
                             </View>
-                            <View className="bg-white mt-2">
+                            <View className="bg-white mt-2 rounded-lg pl-4 mb-2">
                                 <ProfileItem icon={icons.people} title="Invite Friends"/>
                             </View>
-                            <View className="bg-white mt-2">
+                            <View className="bg-white mt-2 rounded-lg pl-4 mb-2">
                                 <ProfileItem icon={icons.info} title="Support" onPress={() => router.push('/support')}/>
                             </View>
-                            <View className="bg-white mt-2">
+                            <View className="bg-white mt-2 rounded-lg pl-4 mb-2">
                                 <ProfileItem
                                     icon={icons.logout}
                                     title="Logout"

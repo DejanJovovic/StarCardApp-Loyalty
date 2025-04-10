@@ -30,7 +30,7 @@ function TabIcon({ focused, icon, title, isCenter = false }: any) {
     if (focused) {
         return (
             <ImageBackground
-                className="flex flex-column justify-center items-center mt-4 overflow-hidden rounded-2xl"
+                className="flex flex-column justify-center items-center mt-5 overflow-hidden rounded-2xl"
                 style={{
                     width: 90,
                     height: 56,
@@ -63,7 +63,8 @@ export default function TabsLayout() {
                 },
                 tabBarStyle: {
                     backgroundColor: "white",
-                    borderRadius: 20,
+                    borderTopLeftRadius: 20,
+                    borderTopRightRadius: 20,
                     width: "100%",
                     height: 55,
                     position: "absolute",
@@ -73,6 +74,10 @@ export default function TabsLayout() {
                     overflow: "visible",
                     borderTopWidth: 0,
                     elevation: 10,
+                    shadowColor: '#000', // For iOS shadow
+                    shadowOffset: { width: 0, height: 2 },
+                    shadowOpacity: 0.1,
+                    shadowRadius: 4,
                 },
             }}
         >
