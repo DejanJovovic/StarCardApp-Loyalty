@@ -24,6 +24,7 @@ import scan from "../assets/icons/scan.png";
 import wallet_new from "../assets/icons/wallet_new.png";
 import qr_scanner from "../assets/icons/qr-scanner.png";
 import flashlight from "../assets/icons/flashlight.png";
+import favicon from "../assets/icons/favicon.png";
 
 export default {
     google,
@@ -51,5 +52,6 @@ export default {
     scan,
     wallet_new,
     qr_scanner,
-    flashlight
+    flashlight,
+    favicon
 };
