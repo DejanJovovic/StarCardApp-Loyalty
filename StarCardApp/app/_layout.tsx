@@ -9,8 +9,6 @@ import {useFonts} from "expo-font";
 import {useEffect, useState} from "react";
 import SplashScreen from "@/components/SplashScreen";
 
-enableScreens();
-
 export default function RootLayout() {
 
 
