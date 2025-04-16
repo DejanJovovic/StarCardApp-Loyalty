@@ -36,11 +36,9 @@ const CustomHeader = () => {
         <View className="relative bg-white p-3 shadow-md flex-row items-center justify-between">
             <Image
                 source={images.logo}
-                style={{tintColor: "black", width: 40, height: 40, resizeMode: "contain", marginRight: 10}}/>
-            <Text className="text-2xl font-bold"
-                  style={{color: colors.primary}}>STARCARD</Text>
+                style={{width: 180, height: 40, resizeMode: "contain", marginRight: 10}}/>
 
-            <TouchableOpacity onPress={toggleMenu} style={{position: "relative", width: 50, height: 50}}>
+            <TouchableOpacity onPress={toggleMenu} style={{position: "relative", width: 50, height: 40}}>
                 <Animated.Image
                     source={require("../assets/images/drop-down-menu.png")}
                     style={{

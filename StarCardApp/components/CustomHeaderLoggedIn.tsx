@@ -40,16 +40,10 @@ const CustomHeaderLoggedIn = () => {
     return (
         <View
             className="relative bg-white p-3 shadow-md flex-row items-center justify-between">
-            <View>
-                <Image
-                    source={images.logo}
-                    style={{tintColor: "black", width: 40, height: 40, resizeMode: "contain", marginRight: 10}}
-                />
-            </View>
-            <Text className="text-2xl font-semibold"
-                  style={{color: colors.primary}}>STARCARD</Text>
-
-            <TouchableOpacity onPress={toggleMenu} style={{position: "relative", width: 50, height: 50}}>
+            <Image
+                source={images.logo}
+                style={{tintColor: "black", width: 180, height: 40, resizeMode: "contain", marginRight: 10}}/>
+            <TouchableOpacity onPress={toggleMenu} style={{position: "relative", width: 50, height: 40}}>
                 <Animated.Image
                     source={require("../assets/images/drop-down-menu.png")}
                     style={{
