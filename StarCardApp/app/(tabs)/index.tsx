@@ -534,8 +534,35 @@ const Index = () => {
             </View>
             <ScrollView contentContainerStyle={{flexGrow: 1, paddingTop: 50}}
                         ref={scrollViewRef}>
-                <View className="mt-10 items-center justify-center">
-                    <Text className="text-2xl font-bold">TEEEStT</Text>
+                <View className="relative mx-auto w-[92%] overflow-hidden rounded-bl-[80px] mt-5">
+                    <Image
+                        source={images.homeStartImage}
+                        className="w-full h-56"
+                        resizeMode="cover"
+                    />
+                </View>
+
+                <View className="flex flex-col mt-10 items-center justify-center">
+                    <Text className="font-bold text-2xl text-black">WELCOME TO</Text>
+                    <Text className="font-bold text-2xl text-black" >LOYALTY PROGRAMS</Text>
+                    <Text className="font-bold text-2xl text-black">REVOLUTION</Text>
+                </View>
+
+                <View className="flex flex-col mt-5 items-center justify-center">
+                    <Text className="font-bold text-xl"
+                    style={{color: colors.secondary}}>Your Affordable Loyalty Partner</Text>
+                    <Text className="font-bold text-xl"
+                          style={{color: colors.secondary}}>for Small and Medium Businesses</Text>
+                </View>
+
+                <View className="flex flex-col mt-10 items-start justify-center  ml-10">
+                    <Text className="text-black">At StarCard, <Text className="font-bold">we believe that every business</Text></Text>
+                    <Text className="text-black font-bold">- no matter the size - deserves access to</Text>
+                    <Text className="text-black font-bold">powerful, easy-to-use digital loyalty programs.</Text>
+
+                    <Text className="text-black mt-5">Our mission is to <Text className="font-bold">revolutionize the way small</Text></Text>
+                    <Text className="text-black font-bold">businesses connect with their customers -</Text>
+                    <Text className="text-black">turning every visit into a lasting relationship.</Text>
                 </View>
             </ScrollView>
         </LinearGradient>

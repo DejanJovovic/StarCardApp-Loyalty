@@ -6,6 +6,8 @@ import {useFocusEffect} from "expo-router";
 import * as Haptics from "expo-haptics";
 import colors from "@/constants/colors";
 import icons from "@/constants/icons";
+import CustomHeaderLoggedIn from "@/components/CustomHeaderLoggedIn";
+
 
 export function Scan() {
     const [hasPermission, setHasPermission] = useState(null);
@@ -113,24 +115,39 @@ export function Scan() {
     }
 
     return (
-        <View style={StyleSheet.absoluteFill} className="relative">
-            <CameraView
-                onBarcodeScanned={scanned ? undefined : handleScanResult}
-                barcodeScannerSettings={{
-                    barcodeTypes: ["qr"],
-                }}
-                style={StyleSheet.absoluteFill}
-                enableTorch={torch}
-                zoom={0.2}
-            />
+        <View style={StyleSheet.absoluteFill} className="relative bg-white">
+        <CustomHeaderLoggedIn/>
 
-            {/* Overlay */}
-            <View className="absolute inset-0 justify-center items-center">
-                {/* Scanning box */}
-                <View className="w-80 h-80 border-4 border-white rounded-xl"/>
+            <View className="bg-white mt-10 pb-9 px-6">
+                <Text className="text-2xl font-bold text-black">Scan QR Code</Text>
+                <Text className="text-base mt-1"
+                style={{color: colors.secondary}}>Add a new Loyalty Program</Text>
             </View>
 
-            <View className="absolute mb-7 bottom-10 left-6 right-6 flex-row justify-between items-center">
+            <CameraView
+                onBarcodeScanned={scanned ? undefined : handleScanResult}
+                barcodeScannerSettings={{ barcodeTypes: ["qr"] }}
+                style={[StyleSheet.absoluteFill, { top: 180 }]}
+                enableTorch={torch}
+                zoom={0.1}
+            />
+
+            <View className="absolute inset-0" style={{ top: 180 }}>
+                <View className="absolute inset-0 justify-center items-center">
+                    <View
+                        style={{
+                            width: 320,
+                            height: 320,
+                            borderRadius: 20,
+                            borderWidth: 4,
+                            borderColor: "#92C4CE",
+                            backgroundColor: "transparent",
+                        }}
+                    />
+                </View>
+            </View>
+
+            <View className="absolute bottom-32 left-6 right-6 flex-row justify-between items-center">
                 <View>
                     {scanned && (
                         <TouchableOpacity
@@ -139,7 +156,7 @@ export function Scan() {
                         >
                             <Image
                                 source={icons.qr_scanner}
-                                style={{width: 28, height: 28, tintColor: colors.secondary}}
+                                style={{ width: 28, height: 28, tintColor: colors.secondary }}
                             />
                         </TouchableOpacity>
                     )}
@@ -152,7 +169,7 @@ export function Scan() {
                     >
                         <Image
                             source={icons.flashlight}
-                            style={{width: 28, height: 28, tintColor: colors.secondary}}
+                            style={{ width: 28, height: 28, tintColor: colors.secondary }}
                         />
                     </TouchableOpacity>
                 </View>

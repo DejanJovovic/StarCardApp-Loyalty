@@ -17,6 +17,7 @@ import colors from "@/constants/colors";
 import {useAuth} from "@/components/AuthContext";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import images from "@/constants/images";
+import CustomHeaderLoggedIn from "@/components/CustomHeaderLoggedIn";
 
 const Profile = () => {
 
@@ -57,13 +58,13 @@ const Profile = () => {
             className="flex flex-row items-center justify-between py-3"
         >
             <View className="flex flex-row items-center gap-3">
-                <Image source={icon} className="size-6"/>
+                <Image source={icon} tintColor="#92C4CE" className="size-6"/>
                 <Text className="text-lg text-black-300">
                     {title}
                 </Text>
             </View>
 
-            {showArrow && <Image source={icons.rightArrow} className="size-5"/>}
+            {showArrow && <Image source={icons.rightArrow} tintColor="#92C4CE" className="size-5"/>}
         </TouchableOpacity>
     );
 
@@ -337,93 +338,91 @@ const Profile = () => {
     return (
         <LinearGradient colors={[colors.gradientColor1, colors.gradientColor2]}>
             <SafeAreaView className="h-full">
+                <CustomHeaderLoggedIn/>
                 <ScrollView
                     showsVerticalScrollIndicator={false}
                     contentContainerClassName="pb-32 px-7"
                 >
 
-                    <View className="justify-center items-center mt-5">
-                        {/*should be changed to display users real name {username}*/}
-                        <Text className="text-3xl mt-2">Test username</Text>
+                    <View className="justify-start items-start mt-10 flex-col">
+                        <Text className="font-bold text-2xl text-black">Profile</Text>
+                        <Text className="text-xl mt-2"
+                              style={{color: colors.secondary}}>Manage your personal data</Text>
                     </View>
 
-                    <View className="flex flex-col mt-4 border-t pt-5 border-primary-200">
-                        <View className="mt-10">
-                            <Text className="text-sm"
-                                  style={{color: colors.primary}}>Email Address</Text>
-                            <TextInput
-                                value={email ?? ""}
-                                editable={false}
-                                secureTextEntry={!isEmailVisible}
-                                selectTextOnFocus={false}
-                                className="border border-[#74747EF3] text-black rounded-md p-3 mt-1 h-12 bg-white"
+                    <View className="mt-10">
+                        <Text className="text-sm"
+                              style={{color: colors.primary}}>Email</Text>
+                        <TextInput
+                            value={email ?? ""}
+                            editable={false}
+                            secureTextEntry={!isEmailVisible}
+                            selectTextOnFocus={false}
+                            className="text-[#92C4CE] rounded-xl p-3 mt-1 bg-white"
+                        />
+
+                        <TouchableOpacity
+                            onPress={() => setIsEmailVisible(!isEmailVisible)}
+                            className="absolute right-4 top-[19%] transform -translate-y-1/2"
+                        >
+                            <Image
+                                source={isEmailVisible ? icons.eyeOpen : icons.eyeClosed}
+                                style={{width: 24, height: 24}}
                             />
+                        </TouchableOpacity>
 
-                            <TouchableOpacity
-                                onPress={() => setIsEmailVisible(!isEmailVisible)}
-                                className="absolute right-4 top-[19%] transform -translate-y-1/2"
-                            >
-                                <Image
-                                    source={isEmailVisible ? icons.eyeOpen : icons.eyeClosed}
-                                    style={{width: 24, height: 24}}
-                                />
-                            </TouchableOpacity>
+                        <Text className="text-sm mt-5"
+                              style={{color: colors.primary}}>Password</Text>
 
-                            <Text className="text-sm mt-5"
-                                  style={{color: colors.primary}}>Password</Text>
+                        <TextInput
+                            value={password ?? ""}
+                            editable={false}
+                            selectTextOnFocus={false}
+                            secureTextEntry={!isPasswordVisible}
+                            className="text-[#92C4CE] rounded-xl p-3 mt-1  bg-white pr-10"
+                        />
 
-                            <TextInput
-                                value={password ?? ""}
-                                editable={false}
-                                selectTextOnFocus={false}
-                                secureTextEntry={!isPasswordVisible}
-                                className="border border-[#74747EF3] text-black rounded-md p-3 mt-1 h-12 bg-white pr-10"
+                        <TouchableOpacity
+                            onPress={() => setIsPasswordVisible(!isPasswordVisible)}
+                            className="absolute right-4 top-[54%] transform -translate-y-1/2"
+                        >
+                            <Image
+                                source={isPasswordVisible ? icons.eyeOpen : icons.eyeClosed}
+                                style={{width: 24, height: 24}}
                             />
+                        </TouchableOpacity>
 
-                            <TouchableOpacity
-                                onPress={() => setIsPasswordVisible(!isPasswordVisible)}
-                                className="absolute right-4 top-[54%] transform -translate-y-1/2"
-                            >
-                                <Image
-                                    source={isPasswordVisible ? icons.eyeOpen : icons.eyeClosed}
-                                    style={{width: 24, height: 24}}
-                                />
-                            </TouchableOpacity>
+                        <TouchableOpacity className="py-4 rounded-xl mt-10 bg-black"
+                        >
+                            <Text className="text-center font-semibold text-white"
+                                /*should change onPress to go to the change credentials screen*/
+                                  onPress={() => {
+                                  }}>CHANGE</Text>
+                        </TouchableOpacity>
+                    </View>
 
-                            <TouchableOpacity className="py-4 rounded-md mt-10 bg-[#92C4CE]"
-                            >
-                                <Text className="text-center font-semibold text-white"
-                                    /*should change onPress to go to the change credentials screen*/
-                                      onPress={() => {
-                                      }}>CHANGE</Text>
-                            </TouchableOpacity>
+                    <View className="mt-10">
+                        <View className="bg-white rounded-xl pl-4 mb-2">
+                            <ProfileItem icon={icons.card} title="My Cards"/>
+                        </View>
+                        <View className="bg-white mt-2 rounded-xl pl-4 mb-2">
+                            <ProfileItem icon={icons.bell} title="Notifications"/>
+                        </View>
+                        <View className="bg-white mt-2 rounded-xl pl-4 mb-2">
+                            <ProfileItem icon={icons.people} title="Invite Friends"/>
+                        </View>
+                        <View className="bg-white mt-2 rounded-xl pl-4 mb-2">
+                            <ProfileItem icon={icons.info} title="Support" onPress={() => router.push('/support')}/>
+                        </View>
+                        <View className="bg-white mt-2 rounded-xl pl-4 mb-2">
+                            <ProfileItem
+                                icon={icons.logout}
+                                title="Logout"
+                                onPress={handleLogout}
+                            />
                         </View>
                     </View>
 
-                    <View className="flex flex-col border-t mt-10 pt-5 border-primary-200">
-                        <View className="mt-5">
-                            <View className="bg-white rounded-lg pl-4 mb-2">
-                                <ProfileItem icon={icons.card} title="My Cards"/>
-                            </View>
-                            <View className="bg-white mt-2 rounded-lg pl-4 mb-2">
-                                <ProfileItem icon={icons.bell} title="Notifications"/>
-                            </View>
-                            <View className="bg-white mt-2 rounded-lg pl-4 mb-2">
-                                <ProfileItem icon={icons.people} title="Invite Friends"/>
-                            </View>
-                            <View className="bg-white mt-2 rounded-lg pl-4 mb-2">
-                                <ProfileItem icon={icons.info} title="Support" onPress={() => router.push('/support')}/>
-                            </View>
-                            <View className="bg-white mt-2 rounded-lg pl-4 mb-2">
-                                <ProfileItem
-                                    icon={icons.logout}
-                                    title="Logout"
-                                    onPress={handleLogout}
-                                />
-                            </View>
-                        </View>
-
-                    </View>
                 </ScrollView>
             </SafeAreaView>
         </LinearGradient>
