@@ -119,9 +119,10 @@ export function Scan() {
         <CustomHeaderLoggedIn/>
 
             <View className="bg-white mt-10 pb-9 px-6">
-                <Text className="text-2xl font-bold text-black">Scan QR Code</Text>
-                <Text className="text-base mt-1"
-                style={{color: colors.secondary}}>Add a new Loyalty Program</Text>
+                <Text className="text-2xl"
+                style={{fontFamily:'Lexend-Zetta-Bold'}}>Scan QR Code</Text>
+                <Text className=" mt-1"
+                style={{color: colors.secondary, fontFamily: 'Lexend-Deca-Medium'}}>Add a new Loyalty Program</Text>
             </View>
 
             <CameraView

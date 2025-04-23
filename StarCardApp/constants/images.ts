@@ -24,6 +24,8 @@ import brushColor4 from "../assets/images/brush-color4.png";
 import brushColor5 from "../assets/images/brush-color5.png";
 import brushColor6 from "../assets/images/brush-color6.png";
 import highlight from "../assets/images/highlight.png";
+import homeNewImage from "../assets/images/home_new_image.png";
+import rectangleBlue from "../assets/images/rectangle_blue.png";
 
 export default {
     howItWorks1,
@@ -51,6 +53,8 @@ export default {
     brushColor4,
     brushColor5,
     brushColor6,
-    highlight
+    highlight,
+    homeNewImage,
+    rectangleBlue
 
 }

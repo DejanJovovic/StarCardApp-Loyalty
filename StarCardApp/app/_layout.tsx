@@ -11,6 +11,12 @@ import SplashScreen from "@/components/SplashScreen";
 
 export default function RootLayout() {
 
+    const [fontsLoaded] = useFonts({
+        'Lexend-Zetta-Bold': require('../assets/fonts/LexendZetta-Bold.ttf'),
+        'Lexend-Deca-SemiBold': require('../assets/fonts/LexendDeca-SemiBold.ttf'),
+        'Lexend-Deca-Light': require('../assets/fonts/LexendDeca-Light.ttf'),
+        'Lexend-Deca-Medium': require('../assets/fonts/LexendDeca-Medium.ttf'),
+    });
 
     const [showCustomSplash, setShowCustomSplash] = useState(true);
 

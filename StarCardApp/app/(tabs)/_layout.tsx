@@ -18,24 +18,24 @@ function TabIcon({ focused, icon, title, isCenter = false }: any) {
 
     const circleColor = isCenter
         ? focused
-            ? "black"
-            : "#92C4CE"
+            ? "#000000E5"
+            : "#82BCC7"
         : focused
-            ? "black"
+            ? "#000000E5"
             : "white";
 
     const iconTintColor = isCenter
         ? focused
             ? "white"
-            : "black"
+            : "white"
         : focused
             ? "white"
-            : "black";
+            : "#000000E5";
 
     const borderWidth = isCenter ? 0 : focused ? 0 : 1.5;
-    const borderColor = isCenter ? "transparent" : "#92C4CE";
+    const borderColor = isCenter ? "transparent" : "#82BCC7";
 
-    const textColor = focused ? "black" : "#92C4CE";
+    const textColor = focused ? "#000000E5" : "#82BCC7";
 
     return (
         <Animated.View

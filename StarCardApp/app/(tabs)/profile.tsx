@@ -59,7 +59,7 @@ const Profile = () => {
         >
             <View className="flex flex-row items-center gap-3">
                 <Image source={icon} tintColor="#92C4CE" className="size-6"/>
-                <Text className="text-lg text-black-300">
+                <Text style={{fontFamily: 'Lexend-Deca-Light'}}>
                     {title}
                 </Text>
             </View>
@@ -344,15 +344,13 @@ const Profile = () => {
                     contentContainerClassName="pb-32 px-7"
                 >
 
-                    <View className="justify-start items-start mt-10 flex-col">
-                        <Text className="font-bold text-2xl text-black">Profile</Text>
-                        <Text className="text-xl mt-2"
-                              style={{color: colors.secondary}}>Manage your personal data</Text>
-                    </View>
+                    <Text style={{fontFamily: 'Lexend-Zetta-Bold', paddingTop: 42}}>Profile</Text>
+                    <Text className="mb-4"
+                          style={{color: colors.secondary, fontFamily: 'Lexend-Deca-Medium'}}>Manage your personal data</Text>
 
                     <View className="mt-10">
                         <Text className="text-sm"
-                              style={{color: colors.primary}}>Email</Text>
+                              style={{color: colors.primary, fontFamily: 'Lexend-Deca-Light'}}>Email</Text>
                         <TextInput
                             value={email ?? ""}
                             editable={false}
@@ -372,7 +370,7 @@ const Profile = () => {
                         </TouchableOpacity>
 
                         <Text className="text-sm mt-5"
-                              style={{color: colors.primary}}>Password</Text>
+                              style={{color: colors.primary, fontFamily: 'Lexend-Deca-Light'}}>Password</Text>
 
                         <TextInput
                             value={password ?? ""}
@@ -394,10 +392,11 @@ const Profile = () => {
 
                         <TouchableOpacity className="py-4 rounded-xl mt-10 bg-black"
                         >
-                            <Text className="text-center font-semibold text-white"
+                            <Text className="text-center text-white"
+                                  style={{fontFamily: 'Lexend-Deca-SemiBold'}}
                                 /*should change onPress to go to the change credentials screen*/
                                   onPress={() => {
-                                  }}>CHANGE</Text>
+                                  }}>Change</Text>
                         </TouchableOpacity>
                     </View>
 

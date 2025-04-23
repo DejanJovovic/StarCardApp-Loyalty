@@ -38,13 +38,13 @@ const CustomHeader = () => {
                 source={images.logo}
                 style={{width: 180, height: 40, resizeMode: "contain", marginRight: 10}}/>
 
-            <TouchableOpacity onPress={toggleMenu} style={{position: "relative", width: 50, height: 40}}>
+            <TouchableOpacity onPress={toggleMenu} style={{position: "relative", width: 40, height: 29}}>
                 <Animated.Image
-                    source={require("../assets/images/drop-down-menu.png")}
+                    source={require("../assets/icons/menu_icon_new.png")}
                     style={{
                         position: "absolute",
-                        width: 45,
-                        height: 45,
+                        width: 30,
+                        height: 20,
                         opacity: fadeAnim,
                         transform: [
                             {
@@ -64,11 +64,11 @@ const CustomHeader = () => {
                 />
 
                 <Animated.Image
-                    source={require("../assets/images/close-menu.png")}
+                    source={require("../assets/icons/x_icon_new.png")}
                     style={{
                         position: "absolute",
-                        width: 50,
-                        height: 50,
+                        width: 40,
+                        height: 20,
                         opacity: fadeAnim.interpolate({
                             inputRange: [0, 1],
                             outputRange: [1, 0],

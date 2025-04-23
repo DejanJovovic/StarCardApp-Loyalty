@@ -13,14 +13,14 @@ export default function Search() {
             <View style={{position: "absolute", top: 0, left: 0, right: 0, zIndex: 10}}>
                 <CustomHeaderLoggedIn/>
             </View>
-            <View className="flex-1 bg-white p-4 mt-10">
-                <View className="justify-start items-start mt-10 flex-col">
-                    <Text className="font-bold text-2xl text-black">Search</Text>
-                    <Text className="text-xl mt-2"
-                          style={{color: colors.secondary}}>Quickly find your favorite card</Text>
+            <View className="flex-1 bg-white mt-10">
+                <View className="flex-col px-7">
+                    <Text style={{fontFamily: 'Lexend-Zetta-Bold', paddingTop: 62}}>Search</Text>
+                    <Text className="mb-4"
+                          style={{color: colors.secondary, fontFamily: 'Lexend-Deca-Medium'}}>Quickly find your favorite card</Text>
                 </View>
-                <View className="w-[90%] self-center mt-5">
-                    <View className="bg-[#92C4CE] mt-5 rounded-full flex-row items-center h-12 px-3 pr-1">
+                <View className="w-[90%] self-center mt-5 px-4">
+                    <View className="mt-5 rounded-full flex-row items-center h-12 px-3 pr-0" style={{backgroundColor: "#82BCC7"}}>
                         <TextInput
                             value={query}
                             onChangeText={setQuery}
