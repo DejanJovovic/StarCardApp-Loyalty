@@ -174,7 +174,7 @@ const Profile = () => {
                             <ProfileItem icon={icons.people} title="Invite Friends"/>
                         </View>
                         <View className="bg-white mt-2 rounded-xl pl-4 mb-2">
-                            <ProfileItem icon={icons.info} title="Support" onPress={() => router.push('/support')}/>
+                            <ProfileItem icon={icons.info} title="Support" onPress={() => {}}/>
                         </View>
                         <View className="bg-white mt-2 rounded-xl pl-4 mb-2">
                             <ProfileItem
