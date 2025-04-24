@@ -1,5 +1,5 @@
 import {View, TouchableOpacity, StyleSheet, Text, Image, Alert} from "react-native";
-import {useState, useCallback, useRef} from "react";
+import React, {useState, useCallback, useRef} from "react";
 import {Camera, CameraView} from "expo-camera";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import {useFocusEffect} from "expo-router";
@@ -25,6 +25,7 @@ export function Scan() {
 
     const checkPermissions = async () => {
         const {status} = await Camera.requestCameraPermissionsAsync();
+        // has an error for some reason, but it doesnt cause crashes
         setHasPermission(status === "granted");
     };
 
@@ -95,17 +96,6 @@ export function Scan() {
         }, 2000);
     };
 
-
-    if (!authToken) {
-        return (
-            <View className="flex-1 justify-center items-center bg-[#f0f0f0]">
-                <Text className="text-xl font-semibold text-center px-6">
-                    Please log in to scan QR codes
-                </Text>
-            </View>
-        );
-    }
-
     if (hasPermission === false) {
         return (
             <View className="flex-1 justify-center items-center">
@@ -116,24 +106,26 @@ export function Scan() {
 
     return (
         <View style={StyleSheet.absoluteFill} className="relative bg-white">
-        <CustomHeaderLoggedIn/>
+            <View style={{position: "absolute", top: 0, left: 0, right: 0, zIndex: 10}}>
+                <CustomHeaderLoggedIn/>
+            </View>
 
-            <View className="bg-white mt-10 pb-9 px-6">
-                <Text className="text-2xl"
-                style={{fontFamily:'Lexend-Zetta-Bold'}}>Scan QR Code</Text>
-                <Text className=" mt-1"
+            <View className="px-6"
+            style={{marginTop: 96}}>
+                <Text style={{fontFamily:'Lexend-Zetta-Bold'}}>Scan QR Code</Text>
+                <Text className="mt-1"
                 style={{color: colors.secondary, fontFamily: 'Lexend-Deca-Medium'}}>Add a new Loyalty Program</Text>
             </View>
 
             <CameraView
                 onBarcodeScanned={scanned ? undefined : handleScanResult}
                 barcodeScannerSettings={{ barcodeTypes: ["qr"] }}
-                style={[StyleSheet.absoluteFill, { top: 180 }]}
+                style={[StyleSheet.absoluteFill, { top: 160 }]}
                 enableTorch={torch}
                 zoom={0.1}
             />
 
-            <View className="absolute inset-0" style={{ top: 180 }}>
+            <View className="absolute inset-0" style={{ top: 70 }}>
                 <View className="absolute inset-0 justify-center items-center">
                     <View
                         style={{

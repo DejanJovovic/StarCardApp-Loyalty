@@ -4,6 +4,7 @@ import {router, useFocusEffect} from "expo-router";
 import {LinearGradient} from "expo-linear-gradient";
 import images from "@/constants/images";
 import colors from "@/constants/colors";
+import CustomHeader from "@/components/CustomHeader";
 
 const VerifyAccount = () => {
 
@@ -29,6 +30,7 @@ const VerifyAccount = () => {
                 text: "OK",
                 // should be changed
 
+
             },
         ]);
 
@@ -45,66 +47,68 @@ const VerifyAccount = () => {
 
     return (
         <LinearGradient colors={[colors.gradientColor1, colors.gradientColor2]} className="flex-1">
+            <View style={{position: "absolute", top: 0, left: 0, right: 0, zIndex: 10}}>
+                <CustomHeader/>
+            </View>
             <ScrollView contentContainerStyle={{flexGrow: 1}}>
-
-                <View className="relative mx-auto w-[92%] overflow-hidden rounded-bl-[80px] mt-5">
+                <View className="relative mx-auto w-[92%] overflow-hidden rounded-bl-[70px]">
                     <Image
                         source={images.cellPhonesImage}
-                        className="w-full h-56"
+                        style={{width: 370, height: 220, marginTop: 76}}
                         resizeMode="cover"
                     />
                 </View>
 
-                <View className="px-6 py-8">
-                    <Text className="text-lg font-semibold text-start"
-                          style={{color: colors.primary}}>LOYALTY CARDS</Text>
-                    <Text className="text-lg font-semibold text-start"
-                          style={{color: colors.primary}}>REVOLUTION</Text>
+                <View className="px-5 mt-7">
+                    <Text className="text-start"
+                          style={{color: "#000000", fontFamily: "Lexend-Zetta-Bold", fontSize: 19}}>WE MAKE</Text>
+                    <Text className="text-start"
+                          style={{color: "#000000", fontFamily: "Lexend-Zetta-Bold", fontSize: 19}}>GOOD
+                        CONNECTIONS</Text>
 
-                    <Text className="text-2xl mt-10"
-                          style={{color: colors.primary}}>
-                        <Text className="font-bold">VERIFY</Text>
-                        <Text> YOUR ACCOUNT</Text>
-                    </Text>
-                    <View className="border-b border-[#74747EF3] w-full mx-auto my-2"/>
+                    <Text style={{color: "#0C0C0C", fontFamily: "Lexend-Zetta-Medium", marginTop: 60, fontSize: 14}}>
+                        VERIFY YOUR ACCOUNT</Text>
+                    <View className="border-b border-[#0C0C0C] w-full mx-auto my-2"/>
 
                     <View className="mt-5">
-                        <View className="flex-row justify-between">
-                            <Text className="text-sm"
-                                  style={{color: colors.primary}}>Code</Text>
-                            <TouchableOpacity>
-                                {/*send the code again to the email?*/}
-                                <Text className="text-sm font-bold"
-                                      style={{color: colors.secondary}}>Forgot your code?</Text>
-                            </TouchableOpacity>
-                        </View>
+                        <Text style={{color: "#000000", fontFamily: "Lexend-Light", fontSize: 11}}>Code</Text>
+
                         <TextInput
-                            className={`border ${codeError ? "border-red-500" : "border-[#74747EF3]"} text-black rounded-md p-3 mt-1 h-12 bg-white`}
-                            keyboardType="number-pad"
-                            secureTextEntry
+                            className={`border ${codeError ? "border-red-500" : "border-[#A5A5A5]"} rounded-0.5 mt-1`}
+                            style={{
+                                fontFamily: "Lexend-Regular",
+                                fontSize: 15,
+                                width: 375,
+                                height: 40,
+                                paddingHorizontal: 12,
+                                paddingVertical: 8,
+                            }}
+                            keyboardType="phone-pad"
                             value={code}
                             onChangeText={(text) => {
                                 setCode(text);
                                 setCodeError(false);
-
                             }}
-                        />
+                            returnKeyType="done"/>
 
-                        <TouchableOpacity className="bg-white py-4 rounded-md mt-6"
+                        <TouchableOpacity className="rounded-0.5 mt-7"
+                                          style={{
+                                              backgroundColor: "#0C0C0C",
+                                              width: 375,
+                                              height: 60,
+                                              justifyContent: "center",
+                                              alignItems: "center",
+                                          }}
                                           onPress={handleContinuePress}>
-                            <Text className="text-center font-semibold text-base"
-                                  style={{color: colors.secondary}}>CONTINUE</Text>
+                            <Text className=""
+                                  style={{
+                                      fontFamily: "Lexend-Zetta-ExtraBold",
+                                      color: "#82BCC7",
+                                  }}>CONTINUE</Text>
                         </TouchableOpacity>
 
-                        <View className="flex-row justify-end mt-4">
-                            <Text className="text-lg font-bold"
-                                  style={{color: colors.primary}}>Already have an account?</Text>
-                            <TouchableOpacity onPress={() => router.push('/profile')}>
-                                <Text className="text-lg font-semibold ml-1"
-                                      style={{color: colors.secondary}}>Sign in</Text>
-                            </TouchableOpacity>
-                        </View>
                     </View>
+
                 </View>
 
             </ScrollView>
