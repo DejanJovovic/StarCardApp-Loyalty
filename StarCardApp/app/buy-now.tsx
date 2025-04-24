@@ -3,23 +3,38 @@ import React from 'react'
 import colors from "@/constants/colors";
 import {LinearGradient} from "expo-linear-gradient";
 import images from "@/constants/images";
+import CustomHeader from "@/components/CustomHeader";
 
 const BuyNow = () => {
     return (
-        <LinearGradient colors={[colors.gradientColor1, colors.gradientColor2]} className="flex-1">
-            <ScrollView contentContainerStyle={{flexGrow: 1}} className="px-5 pb-15">
-                <Text className="text-2xl font-bold tracking-wider text-center justify-center mt-7"
-                      style={{color: colors.secondary}}>PICK YOUR STYLE CARD</Text>
+        <LinearGradient colors={[colors.gradientColor1, colors.gradientColor2]}>
+            <View style={{position: "absolute", top: 0, left: 0, right: 0, zIndex: 10}}>
+                <CustomHeader/>
+            </View>
+            <ScrollView contentContainerStyle={{flexGrow: 1}} className="px-5 pb-15"
+                        style={{marginTop: 80}}>
+                <Text className="tracking-wider text-center justify-center mt-7"
+                      style={{color: "#82BCC7", fontFamily: "Lexend-Zetta-Bold", fontSize: 19}}>PICK YOUR STYLE
+                    CARD</Text>
 
                 <View className="mt-10 flex flex-row items-center">
-                    <Text className="font-bold text-lg"
-                          style={{color: colors.primary}}>Plasty</Text>
+                    <Text style={{
+                        fontFamily: "Lexend-Regular",
+                        fontSize: 15,
+                    }}>Plasty</Text>
                     <View className="flex-row items-center ml-auto">
-                        <View className="bg-black p-3.5">
-                            <Text className="text-white text-sm">0€</Text>
+                        <View className="p-3.5" style={{backgroundColor: "#0C0C0C"}}>
+                            <Text style={{
+                                fontFamily: "Lexend-Regular",
+                                fontSize: 14, color: "white"
+                            }}>0€</Text>
                         </View>
-                        <TouchableOpacity className="bg-[#92C4CE] p-3">
-                            <Text className="text-center font-semibold text-base text-white">ADD TO CARD</Text>
+                        <TouchableOpacity className="bg-[#82BCC7] p-3">
+                            <Text className="text-center"
+                                  style={{
+                                      fontFamily: "Lexend-SemiBold",
+                                      fontSize: 15, color: "white"
+                                  }}>ADD TO CARD</Text>
                         </TouchableOpacity>
                     </View>
                 </View>
@@ -35,7 +50,10 @@ const BuyNow = () => {
 
 
                 <View className="mt-10 items-center justify-center flex flex-col">
-                    <Text className="text-lg font-bold">Choose color</Text>
+                    <Text style={{
+                        fontFamily: "Lexend-Regular",
+                        fontSize: 15,
+                    }}>Choose color</Text>
                     <View className="flex-row mt-4 gap-x-2">
                         {["#000000", "#F09595", "#93DBD0", "#FDD774", "#EDDCBD", "#132A3D"].map((color, index) => (
                             <TouchableOpacity
@@ -48,18 +66,28 @@ const BuyNow = () => {
                         ))}
                     </View>
                 </View>
-                <View className="border-t border-[#74747EF3] mt-5 "></View>
+                <View className="border-t border-[#0C0C0C] mt-5 "></View>
 
 
                 <View className="mt-10 flex flex-row items-center">
-                    <Text className="font-bold text-lg"
-                          style={{color: colors.primary}}>Metallic</Text>
+                    <Text style={{
+                        fontFamily: "Lexend-Regular",
+                        fontSize: 15,
+                    }}>Metallic</Text>
                     <View className="flex-row items-center ml-auto">
-                        <View className="bg-black p-3.5">
-                            <Text className="text-white text-sm">0€</Text>
+                        <View className="p-3.5"
+                              style={{backgroundColor: "#0C0C0C"}}>
+                            <Text style={{
+                                fontFamily: "Lexend-Regular",
+                                fontSize: 14, color: "white"
+                            }}>0€</Text>
                         </View>
                         <TouchableOpacity className="bg-[#92C4CE] p-3">
-                            <Text className="text-center font-semibold text-base text-white">ADD TO CARD</Text>
+                            <Text className="text-center"
+                                  style={{
+                                      fontFamily: "Lexend-SemiBold",
+                                      fontSize: 15, color: "white"
+                                  }}>ADD TO CARD</Text>
                         </TouchableOpacity>
                     </View>
                 </View>
@@ -75,7 +103,10 @@ const BuyNow = () => {
 
 
                 <View className="mt-10 items-center justify-center flex flex-col">
-                    <Text className="text-lg font-bold">Choose color</Text>
+                    <Text style={{
+                        fontFamily: "Lexend-Regular",
+                        fontSize: 15,
+                    }}>Choose color</Text>
                     <View className="flex-row mt-4 gap-x-2">
                         {[images.brushColor1, images.brushColor2, images.brushColor3, images.brushColor4, images.brushColor5, images.brushColor6].map((image, index) => (
                             <TouchableOpacity
