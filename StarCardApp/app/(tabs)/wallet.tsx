@@ -13,35 +13,45 @@ const Wallet = () => {
     const [authToken, setAuthToken] = useState<string | null>(null);
 
 
-    // const loadScannedCodes = async () => {
-    //     try {
-    //         const stored = await AsyncStorage.getItem("scannedCodes");
-    //         if (stored) {
-    //             setCodes(JSON.parse(stored));
-    //         } else {
-    //             setCodes([]);
-    //         }
-    //     } catch (error) {
-    //         console.error("Failed to load scanned codes", error);
-    //     }
-    // };
+    const loadScannedCodes = async () => {
+        try {
+            const stored = await AsyncStorage.getItem("scannedCodes");
+            if (stored) {
+                setCodes(JSON.parse(stored));
+            } else {
+                setCodes([]);
+            }
+        } catch (error) {
+            console.error("Failed to load scanned codes", error);
+        }
+    };
 
-    // useFocusEffect(
-    //     useCallback(() => {
-    //         const checkAuth = async () => {
-    //             const token = await AsyncStorage.getItem("auth_token");
-    //             setAuthToken(token);
-    //         };
-    //
-    //         checkAuth();
-    //         if (authToken) {
-    //             loadScannedCodes();
-    //         }
-    //     }, [authToken])
-    // );
+    useFocusEffect(
+        useCallback(() => {
+            const checkAuth = async () => {
+                const token = await AsyncStorage.getItem("auth_token");
+                setAuthToken(token);
+            };
+
+            checkAuth();
+            if (authToken) {
+                loadScannedCodes();
+            }
+        }, [authToken])
+    );
+
+    if (!authToken) {
+        return (
+            <View className="flex-1 justify-center items-center bg-[#f0f0f0]">
+                <Text className="text-2xl text-center font-bold">
+                    Please log in to check your scanned QR codes!
+                </Text>
+            </View>
+        );
+    }
 
     return (
-        <LinearGradient colors={[colors.gradientColor1, colors.gradientColor2]}>
+        <LinearGradient colors={[colors.gradientColor1, colors.gradientColor2]} className="flex-1">
             <View style={{position: "absolute", top: 0, left: 0, right: 0, zIndex: 10}}>
                 <CustomHeaderLoggedIn/>
             </View>
@@ -55,11 +65,11 @@ const Wallet = () => {
                             a
                             new one</Text>
                     </View>
-                    <View className="justify-end ml-10">
+                    <View className="justify-end ml-5">
                         <TouchableOpacity className="items-center justify-center">
-                            <Image source={images.rectangleBlue}
-                                   style={{width: 66, height: 50}}
-                                   resizeMode="cover"/>
+                        <Image source={images.rectangleBlue}
+                               style={{width: 66, height: 50}}
+                               resizeMode="cover"/>
                             <Image source={icons.plus_icon}
                                    tintColor="white"
                                    className="absolute"
@@ -67,26 +77,22 @@ const Wallet = () => {
                         </TouchableOpacity>
                     </View>
                 </View>
-                <View className="items-center justify-center px-7">
-                    <Image
-                        source={images.testCards}
-                        style={{width: 450, height: 700, marginTop: 10}}
-                        resizeMode="contain"/>
-                </View>
-                {/*<FlatList*/}
-                {/*    data={codes}*/}
-                {/*    keyExtractor={(item, index) => index.toString()}*/}
-                {/*    renderItem={({item}) => (*/}
-                {/*        <View className="py-3 border-b border-gray-300">*/}
-                {/*            <Text style={{fontFamily: 'Lexend-Zetta-Medium', paddingTop: 32}}>{item}</Text>*/}
-                {/*        </View>*/}
-                {/*    )}*/}
-                {/*    ListEmptyComponent={*/}
-                {/*        <Text className="mt-5 text-center"*/}
-                {/*              style={{fontFamily: 'Lexend-Zetta-Medium'}}>No codes yet</Text>*/}
-                {/*    }*/}
-                {/*/>*/}
+                <FlatList
+                    data={codes}
+                    keyExtractor={(item, index) => index.toString()}
+                    renderItem={({item}) => (
+                        <View className="py-3 border-b border-gray-300">
+                            <Text style={{fontFamily: 'Lexend-Zetta-Medium', paddingTop: 32}}>{item}</Text>
+                        </View>
+                    )}
+                    ListEmptyComponent={
+                        <Text className="mt-5 text-center"
+                              style={{fontFamily: 'Lexend-Zetta-Medium'}}>No codes yet</Text>
+                    }
+                />
             </View>
+
+
         </LinearGradient>
     );
 };

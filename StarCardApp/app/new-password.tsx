@@ -5,40 +5,41 @@ import {LinearGradient} from "expo-linear-gradient";
 import images from "@/constants/images";
 import colors from "@/constants/colors";
 
-const VerifyAccount = () => {
+const NewPassword = () => {
 
-    const [code, setCode] = useState("");
-    const dummyCode = "1234";
+    const [email, setEmail] = useState("");
+    const dummyEmail = "test@gmail.com";
 
-    // should be changed when the code logic is implemented
-    const isCodeValid = code === dummyCode;
-    const [codeError, setCodeError] = useState(false);
-
+    const [emailError, setEmailError] = useState(false);
+    const isEmailValid = email.includes("@");
 
     const handleContinuePress = () => {
 
-        setCodeError(!isCodeValid);
+        setEmailError(!isEmailValid);
 
-        if (code !== dummyCode) {
-            Alert.alert("Invalid code", "Please enter a valid code.")
+        if (!isEmailValid) {
+            Alert.alert("Invalid email", "Please enter a valid email address.")
             return;
         }
 
-        Alert.alert("Success", "Proceed to your account.", [
+        if (email !== dummyEmail) {
+            Alert.alert("Invalid email", "Please check your email address.")
+            return;
+        }
+
+        Alert.alert("Success", "Code successfully sent to your email.", [
             {
                 text: "OK",
-                // should be changed
-
+                // should be changed to navigate to change-password screen
             },
         ]);
-
     }
 
     useFocusEffect(
         useCallback(() => {
             return () => {
-                setCode("");
-                setCodeError(false);
+                setEmail("");
+                setEmailError(false);
             };
         }, [])
     );
@@ -50,45 +51,40 @@ const VerifyAccount = () => {
                 <View className="relative mx-auto w-[92%] overflow-hidden rounded-bl-[80px] mt-5">
                     <Image
                         source={images.cellPhonesImage}
-                        className="w-full h-56"
+                        className=" w-full h-56"
                         resizeMode="cover"
                     />
                 </View>
 
-                <View className="px-6 py-8">
-                    <Text className="text-lg font-semibold text-start"
+                <View className=" px-6 py-8">
+                    <Text className=" text-lg font-semibold text-start"
                           style={{color: colors.primary}}>LOYALTY CARDS</Text>
-                    <Text className="text-lg font-semibold text-start"
+                    <Text className=" text-lg font-semibold text-start"
                           style={{color: colors.primary}}>REVOLUTION</Text>
 
-                    <Text className="text-2xl mt-10"
+                    <Text className=" text-2xl mt-10"
                           style={{color: colors.primary}}>
-                        <Text className="font-bold">VERIFY</Text>
-                        <Text> YOUR ACCOUNT</Text>
+                        <Text className=" font-bold">NEW</Text>
+                        <Text> PASSWORD</Text>
                     </Text>
-                    <View className="border-b border-[#74747EF3] w-full mx-auto my-2"/>
+                    <View className=" border-b border-[#74747EF3] w-full mx-auto my-2"/>
 
-                    <View className="mt-5">
-                        <View className="flex-row justify-between">
-                            <Text className="text-sm"
-                                  style={{color: colors.primary}}>Code</Text>
-                            <TouchableOpacity>
-                                {/*send the code again to the email?*/}
-                                <Text className="text-sm font-bold"
-                                      style={{color: colors.secondary}}>Forgot your code?</Text>
-                            </TouchableOpacity>
-                        </View>
+                    <View className=" mt-5">
+                        <Text className=" text-sm mt-4"
+                              style={{color: colors.primary}}>Email address</Text>
                         <TextInput
-                            className={`border ${codeError ? "border-red-500" : "border-[#74747EF3]"} text-black rounded-md p-3 mt-1 h-12 bg-white`}
-                            keyboardType="number-pad"
-                            secureTextEntry
-                            value={code}
+                            className={`border ${emailError ? "border-red-500" : "border-[#74747EF3]"} text-black rounded-md p-3 mt-1 h-12 bg-white`}
+                            keyboardType="email-address"
+                            value={email}
                             onChangeText={(text) => {
-                                setCode(text);
-                                setCodeError(false);
-
+                                setEmail(text);
+                                setEmailError(false);
                             }}
                         />
+                        <Text
+                            className=" text-[10px] mt-2"
+                            style={{color: colors.primary}}>If you don't have your account password, send a
+                            request for a new one</Text>
 
                         <TouchableOpacity className="bg-white py-4 rounded-md mt-6"
                                           onPress={handleContinuePress}>
@@ -100,7 +96,7 @@ const VerifyAccount = () => {
                             <Text className="text-lg font-bold"
                                   style={{color: colors.primary}}>Already have an account?</Text>
                             <TouchableOpacity onPress={() => router.push('/profile')}>
-                                <Text className="text-lg font-semibold ml-1"
+                                <Text className="text-lg font-semibold ml-2"
                                       style={{color: colors.secondary}}>Sign in</Text>
                             </TouchableOpacity>
                         </View>
@@ -109,6 +105,7 @@ const VerifyAccount = () => {
 
             </ScrollView>
         </LinearGradient>
+
     )
 }
-export default VerifyAccount
+export default NewPassword

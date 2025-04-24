@@ -1,56 +1,87 @@
 import {View, Text, TouchableOpacity, Image, TextInput, ScrollView, Alert} from 'react-native'
 import React, {useCallback, useRef, useState} from 'react'
 import {router, useFocusEffect} from "expo-router";
+import {LinearGradient} from "expo-linear-gradient";
 import images from "@/constants/images";
-import icons from "@/constants/icons";
-import CustomHeader from "@/components/CustomHeader";
 import colors from "@/constants/colors";
-import { LinearGradient } from 'expo-linear-gradient';
+import icons from "@/constants/icons";
 
 const SignUp = () => {
 
 
-    const [firstName, setFirstName] = useState("");
-    const [lastName, setLastName] = useState("");
+    const [fullName, setFullName] = useState("");
+    const [phone, setPhone] = useState("");
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
-    const [firstNameError, setFirstNameError] = useState(false);
-    const [lastNameError, setLastNameError] = useState(false);
+    const [confirmPassword, setConfirmPassword] = useState("");
+    const [fullNameError, setFullNameError] = useState(false);
+    const [phoneError, setPhoneError] = useState(false);
     const [emailError, setEmailError] = useState(false);
     const [passwordError, setPasswordError] = useState(false);
+    const [confirmPasswordError, setConfirmPasswordError] = useState(false);
 
     const [isPasswordVisible, setIsPasswordVisible] = useState(false);
+    const [isConfirmPasswordVisible, setIsConfirmPasswordVisible] = useState(false);
 
-    const isFirstNameValid = firstName.trim().length > 2;
-    const isLastNameValid = lastName.trim().length > 2;
+
+    const isFullNameValid = fullName.trim().length > 0;
+    const isPhoneValid = phone.trim().length > 0;
     const isEmailValid = email.includes("@");
-    // checks that the password has at least 8 characters, contains one digit (0-9) and one special character (#?!@$%^&*-)
-    const isPasswordValid = /^(?=.*\d)(?=.*[#?!@$%^&*-]).{8,}$/.test(password);
+    const isPasswordValid = password.length >= 8;
+    const isPasswordSame = password === confirmPassword;
 
-    const lastNameInputRef = useRef<TextInput>(null);
+
+    const phoneInputRef = useRef<TextInput>(null);
     const emailInputRef = useRef<TextInput>(null);
     const passwordInputRef = useRef<TextInput>(null);
+    const confirmPasswordInputRef = useRef<TextInput>(null);
 
 
     const handleContinuePress = () => {
 
 
-        setFirstNameError(!isFirstNameValid);
-        setLastNameError(!isLastNameValid);
+        setFullNameError(!isFullNameValid);
+        setPhoneError(!isPhoneValid);
         setEmailError(!isEmailValid);
         setPasswordError(!isPasswordValid);
+        setConfirmPasswordError(!isPasswordSame);
 
-        if (!isFirstNameValid || !isLastNameValid  || !isEmailValid || !isPasswordValid ) {
+        if (!isFullNameValid || !isPhoneValid || !isEmailValid || !isPasswordValid || !isPasswordSame) {
             Alert.alert("Invalid Input", "Please fill all the fields correctly.");
             return;
         }
+
+        /*if(!isFullNameValid) {
+            Alert.alert("Invalid Full name", "Please enter a valid full name.");
+            return;
+        }
+
+        if(!isPhoneValid) {
+            Alert.alert("Invalid phone number", "Please enter a valid phone number.");
+            return;
+        }
+
+        if (!isEmailValid) {
+            Alert.alert("Invalid Email", "Please enter a valid email address.");
+            return;
+        }
+
+        if (!isPasswordValid) {
+            Alert.alert("Invalid Password", "Password must be at least 8 characters long.");
+            return;
+        }
+
+        if(!isPasswordSame) {
+            Alert.alert("Invalid Password", "Please enter the same password twice.");
+            return;
+        }*/
 
         Alert.alert("Success", "Sign up successful.", [
             {
                 // code should be sent to the email and then let the user verify it later after signin occurs?
                 // Or don't allow the user to sign-in unless the code is verified
                 text: "OK",
-                onPress: () => router.replace("/sign-in"),
+                onPress: () => router.replace("/profile"),
             },
         ]);
     };
@@ -58,107 +89,83 @@ const SignUp = () => {
     useFocusEffect(
         useCallback(() => {
             return () => {
-                setFirstName("");
-                setLastName("");
+                setFullName("");
+                setPhone("");
                 setEmail("");
                 setPassword("");
-                setFirstNameError(false);
-                setLastNameError(false);
+                setConfirmPassword("");
+                setFullNameError(false);
+                setPhoneError(false);
                 setEmailError(false);
                 setPasswordError(false);
+                setConfirmPasswordError(false);
             };
         }, [])
     );
 
     return (
-        <LinearGradient colors={[colors.gradientColor1, colors.gradientColor2]}>
-                <View style={{position: "absolute", top: 0, left: 0, right: 0, zIndex: 10}}>
-                    <CustomHeader/>
-                </View>
-
+        <LinearGradient colors={[colors.gradientColor1, colors.gradientColor2]} className="flex-1">
             <ScrollView contentContainerStyle={{flexGrow: 1}}>
-                <View className="relative mx-auto w-[92%] overflow-hidden rounded-bl-[70px]">
+                <View className="relative mx-auto w-[92%] overflow-hidden rounded-bl-[80px] mt-5">
                     <Image
                         source={images.cellPhonesImage}
-                        style={{width: 370, height: 220, marginTop: 76}}
+                        className="w-full h-56"
                         resizeMode="cover"
                     />
                 </View>
 
-                <View className="px-5 mt-7">
-                    <Text className="text-start"
-                          style={{color: "#000000", fontFamily: "Lexend-Zetta-Bold", fontSize: 19}}>WE MAKE</Text>
-                    <Text className="text-start"
-                          style={{color: "#000000", fontFamily: "Lexend-Zetta-Bold", fontSize: 19}}>GOOD
-                        CONNECTIONS</Text>
+                <View className="px-6 py-8">
+                    <Text className="text-lg font-semibold text-start"
+                          style={{color: colors.primary}}>LOYALTY CARDS</Text>
+                    <Text className="text-lg font-semibold text-start"
+                          style={{color: colors.primary}}>REVOLUTION</Text>
 
-                    <Text style={{color: "#0C0C0C", fontFamily: "Lexend-Zetta-Medium", marginTop: 60, fontSize: 14}}>
-                        CREATE AN ACCOUNT</Text>
-                    <View className="border-b border-[#0C0C0C] w-full mx-auto my-2"/>
+                    <Text className="text-2xl mt-6"
+                          style={{color: colors.primary}}>
+                        <Text className="font-bold">CREATE</Text>
+                        <Text> AN ACCOUNT</Text>
+                    </Text>
+                    <View className="border-b border-[#74747EF3] w-full mx-auto my-2"/>
 
                     <View className="mt-5">
-                        <View className="flex-row">
+                        <View className="flex-row justify-between">
                             <View className="flex-1 mr-2">
-                                <Text style={{color: "#000000", fontFamily: "Lexend-Light", fontSize: 11}}>First
-                                    Name</Text>
+                                <Text className="text-sm"
+                                      style={{color: colors.primary}}>Full Name</Text>
                                 <TextInput
-                                    className={`border ${firstNameError ? "border-red-500" : "border-[#A5A5A5]"} rounded-0.5 mt-1`}
-                                    style={{
-                                        fontFamily: "Lexend-Regular",
-                                        fontSize: 15,
-                                        width: 180,
-                                        height: 40,
-                                        paddingHorizontal: 12,
-                                        paddingVertical: 8,
-                                    }}
-                                    value={firstName}
-                                    autoCapitalize="words"
+                                    className={`border ${fullNameError ? "border-red-500" : "border-[#74747EF3]"} text-black rounded-md p-3 mt-1 h-12 bg-white`}
+                                    value={fullName}
+                                    autoCapitalize="none"
                                     onChangeText={(text) => {
-                                        setFirstName(text);
-                                        setFirstNameError(false);
+                                        setFullName(text);
+                                        setFullNameError(false);
                                     }}
-                                    onSubmitEditing={() => lastNameInputRef.current?.focus()} // Move to the next input
+                                    onSubmitEditing={() => phoneInputRef.current?.focus()} // Move to the next input
                                     returnKeyType="next"/>
                             </View>
 
                             <View className="flex-1 ml-2">
-                                <Text style={{color: "#000000", fontFamily: "Lexend-Light", fontSize: 11}}>Last
-                                    Name</Text>
+                                <Text className="text-sm"
+                                      style={{color: colors.primary}}>Phone number</Text>
                                 <TextInput
-                                    className={`border ${lastNameError ? "border-red-500" : "border-[#A5A5A5]"} rounded-0.5 mt-1`}
-                                    style={{
-                                        fontFamily: "Lexend-Regular",
-                                        fontSize: 15,
-                                        width: 180,
-                                        height: 40,
-                                        paddingHorizontal: 12,
-                                        paddingVertical: 8
-                                    }}
-                                    value={lastName}
-                                    ref={lastNameInputRef}
-                                    autoCapitalize="words"
+                                    className={`border ${phoneError ? "border-red-500" : "border-[#74747EF3]"} text-black rounded-md p-3 mt-1 h-12 bg-white`}
+                                    keyboardType="phone-pad"
+                                    ref={phoneInputRef}
+                                    value={phone}
                                     onChangeText={(text) => {
-                                        setLastName(text);
-                                        setLastNameError(false);
+                                        setPhone(text);
+                                        setPhoneError(false);
                                     }}
                                     onSubmitEditing={() => emailInputRef.current?.focus()} // Move to the next input
-                                    returnKeyType="next"/>
+                                    returnKeyType="next"
+                                />
                             </View>
                         </View>
 
-                        <Text className="mt-4"
-                              style={{color: "#000000", fontFamily: "Lexend-Light", fontSize: 11}}>Email</Text>
-
+                        <Text className="text-sm mt-4"
+                              style={{color: colors.primary}}>Email Address</Text>
                         <TextInput
-                            className={`border ${emailError ? "border-red-500" : "border-[#A5A5A5]"} rounded-0.5 mt-1`}
-                            style={{
-                                fontFamily: "Lexend-Regular",
-                                fontSize: 15,
-                                width: 375,
-                                height: 40,
-                                paddingHorizontal: 12,
-                                paddingVertical: 8,
-                            }}
+                            className={`border ${emailError ? "border-red-500" : "border-[#74747EF3]"} text-black rounded-md p-3 mt-1 h-12 bg-white`}
                             keyboardType="email-address"
                             ref={emailInputRef}
                             value={email}
@@ -170,20 +177,11 @@ const SignUp = () => {
                             onSubmitEditing={() => passwordInputRef.current?.focus()} // Move to the next input
                             returnKeyType="next"/>
 
-                        <Text className="mt-4"
-                              style={{color: "#000000", fontFamily: "Lexend-Light", fontSize: 11}}>Password</Text>
-
+                        <Text className="text-sm mt-4"
+                              style={{color: colors.primary}}>Password</Text>
                         <View className="relative">
                             <TextInput
-                                className={`border ${passwordError ? "border-red-500" : "border-[#A5A5A5]"} rounded-0.5 mt-1`}
-                                style={{
-                                    fontFamily: "Lexend-Regular",
-                                    fontSize: 15,
-                                    width: 375,
-                                    height: 40,
-                                    paddingHorizontal: 12,
-                                    paddingVertical: 8
-                                }}
+                                className={`border ${passwordError ? "border-red-500" : "border-[#74747EF3]"} text-black rounded-md p-3 mt-1 h-12 bg-white`}
                                 secureTextEntry={!isPasswordVisible}
                                 ref={passwordInputRef}
                                 autoCapitalize="none"
@@ -192,7 +190,8 @@ const SignUp = () => {
                                     setPassword(text);
                                     setPasswordError(false);
                                 }}
-                                returnKeyType="done"/>
+                                onSubmitEditing={() => confirmPasswordInputRef.current?.focus()} // Move to the next input
+                                returnKeyType="next"/>
 
                             <TouchableOpacity
                                 onPress={() => setIsPasswordVisible(!isPasswordVisible)}
@@ -200,62 +199,49 @@ const SignUp = () => {
                             >
                                 <Image
                                     source={isPasswordVisible ? icons.eyeOpen : icons.eyeClosed}
-                                    tintColor="#A5A5A5"
                                     style={{width: 24, height: 24}}
                                 />
                             </TouchableOpacity>
                         </View>
 
-                        <Text className="mt-4"
-                              style={{
-                                  fontFamily: "Lexend-Light",
-                                  fontSize: 9,
-                                  width: 272,
-                                  height: 40,
-                                  lineHeight: 9 * 1.2,
-                                  letterSpacing: 9 * 0.025,
-                              }}>
-                            The password must be at least 8 characters long and contain
-                            one digit (0-9) and one special character (#?!@$%^&*-)
+
+                        <Text className="text-sm mt-4"
+                              style={{color: colors.primary}}>Confirm Password</Text>
+                        <View className="relative">
+                            <TextInput
+                                className={`border ${confirmPasswordError ? "border-red-500" : "border-[#74747EF3]"} text-black rounded-md p-3 mt-1 h-12 bg-white`}
+                                secureTextEntry={!isConfirmPasswordVisible}
+                                ref={confirmPasswordInputRef}
+                                autoCapitalize="none"
+                                value={confirmPassword}
+                                onChangeText={(text) => {
+                                    setConfirmPassword(text);
+                                    setConfirmPasswordError(false);
+                                }}
+                                returnKeyType="done"/>
+
+                            <TouchableOpacity
+                                onPress={() => setIsConfirmPasswordVisible(!isConfirmPasswordVisible)}
+                                className="absolute right-4 top-[50%] transform -translate-y-1/2"
+                            >
+                                <Image
+                                    source={isConfirmPasswordVisible ? icons.eyeOpen : icons.eyeClosed}
+                                    style={{width: 24, height: 24}}
+                                />
+                            </TouchableOpacity>
+                        </View>
+
+                        <Text className="text-[10px] mt-2"
+                              style={{color: colors.primary}}>
+                            The password must be at least 8 characters long
                         </Text>
 
-
-                        <TouchableOpacity className="rounded-0.5 mt-7"
-                                          style={{
-                                              backgroundColor: "#0C0C0C",
-                                              width: 375,
-                                              height: 60,
-                                              justifyContent: "center",
-                                              alignItems: "center",
-                                          }}
+                        <TouchableOpacity className="bg-white py-4 rounded-md mt-6"
                                           onPress={handleContinuePress}>
-                            <Text className=""
-                                  style={{
-                                      fontFamily: "Lexend-Zetta-ExtraBold",
-                                      color: "#82BCC7",
-                                  }}>CONTINUE</Text>
+                            <Text className="text-center font-semibold text-base"
+                                  style={{color: colors.secondary}}>CONTINUE</Text>
                         </TouchableOpacity>
 
-                    </View>
-
-                    <View className="flex flex-row justify-end mt-10"
-                    style={{paddingBottom: 50}}>
-                        <Text style={{
-                            fontFamily: "Lexend-SemiBold",
-                            fontSize: 11,
-                            lineHeight: 9 * 1.2,
-                            letterSpacing: 9 * 0.025,
-                        }}>Already have an account?</Text>
-                        <TouchableOpacity className="ml-2"
-                                          onPress={() => router.push("/sign-in")}>
-                            <Text style={{
-                                fontFamily: "Lexend-SemiBold",
-                                color: "#82BCC7",
-                                fontSize: 11,
-                                lineHeight: 9 * 1.2,
-                                letterSpacing: 9 * 0.025,
-                            }}>Sign In</Text>
-                        </TouchableOpacity>
                     </View>
                 </View>
             </ScrollView>
