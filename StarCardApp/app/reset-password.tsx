@@ -47,7 +47,7 @@ const ResetPassword = () => {
     );
 
     return (
-        <LinearGradient colors={[colors.gradientColor1, colors.gradientColor2]}>
+        <LinearGradient colors={[colors.gradientColor1, colors.gradientColor2]} className="h-full">
             <View style={{position: "absolute", top: 0, left: 0, right: 0, zIndex: 10}}>
                 <CustomHeader/>
             </View>
