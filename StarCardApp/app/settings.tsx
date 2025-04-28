@@ -46,29 +46,31 @@ const SettingsItem = ({
 
 const Settings = () => {
     return (
-        <LinearGradient colors={[colors.gradientColor1, colors.gradientColor2]} className="h-full">
-            <View style={{position: "absolute", top: 0, left: 0, right: 0, zIndex: 10}}>
-                <CustomHeaderLoggedIn/>
-            </View>
-            <ScrollView
-                showsVerticalScrollIndicator={false}
-                contentContainerClassName="px-7"
-            >
-                <View className="flex flex-col">
-                    <View style={{marginTop: 76}}>
-                        <View className="bg-white rounded-lg pl-4 mb-2">
-                            <SettingsItem icon={icons.wallet} title="Payments"/>
-                        </View>
-                        <View className="bg-white mt-2 rounded-lg pl-4 mb-2">
-                            <SettingsItem icon={icons.shield} title="Security"/>
-                        </View>
-                        <View className="bg-white mt-2 rounded-lg pl-4 mb-2">
-                            <SettingsItem icon={icons.language} title="Language"/>
+        <SafeAreaView>
+            <LinearGradient colors={[colors.gradientColor1, colors.gradientColor2]} className="h-full">
+                <View style={{position: "absolute", top: 0, left: 0, right: 0, zIndex: 10}}>
+                    <CustomHeaderLoggedIn/>
+                </View>
+                <ScrollView
+                    showsVerticalScrollIndicator={false}
+                    contentContainerClassName="px-7"
+                >
+                    <View className="flex flex-col">
+                        <View style={{marginTop: 76}}>
+                            <View className="bg-white rounded-lg pl-4 mb-2">
+                                <SettingsItem icon={icons.wallet} title="Payments"/>
+                            </View>
+                            <View className="bg-white mt-2 rounded-lg pl-4 mb-2">
+                                <SettingsItem icon={icons.shield} title="Security"/>
+                            </View>
+                            <View className="bg-white mt-2 rounded-lg pl-4 mb-2">
+                                <SettingsItem icon={icons.language} title="Language"/>
+                            </View>
                         </View>
                     </View>
-                </View>
-            </ScrollView>
-        </LinearGradient>
+                </ScrollView>
+            </LinearGradient>
+        </SafeAreaView>
     )
 }
 export default Settings

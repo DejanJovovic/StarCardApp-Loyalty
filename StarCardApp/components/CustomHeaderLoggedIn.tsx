@@ -11,7 +11,7 @@ const CustomHeaderLoggedIn = () => {
     const router = useRouter();
     const [menuVisible, setMenuVisible] = useState(false);
 
-    const fadeAnim = useRef(new Animated.Value(1)).current; // Opacity for open menu icon
+    const fadeAnim = useRef(new Animated.Value(0)).current; // Opacity for open menu icon
     const rotateAnim = useRef(new Animated.Value(0)).current; // Rotation animation
 
 

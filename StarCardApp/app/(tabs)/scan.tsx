@@ -1,4 +1,4 @@
-import {View, TouchableOpacity, StyleSheet, Text, Image, Alert} from "react-native";
+import {View, TouchableOpacity, StyleSheet, Text, Image, Alert, SafeAreaView} from "react-native";
 import React, {useState, useCallback, useRef} from "react";
 import {Camera, CameraView} from "expo-camera";
 import AsyncStorage from "@react-native-async-storage/async-storage";
@@ -105,69 +105,75 @@ export function Scan() {
     }
 
     return (
-        <View style={StyleSheet.absoluteFill} className="relative bg-white">
-            <View style={{position: "absolute", top: 0, left: 0, right: 0, zIndex: 10}}>
-                <CustomHeaderLoggedIn/>
-            </View>
-
-            <View className="px-6"
-            style={{marginTop: 96}}>
-                <Text style={{fontFamily:'Lexend-Zetta-Bold'}}>Scan QR Code</Text>
-                <Text className="mt-1"
-                style={{color: colors.secondary, fontFamily: 'Lexend-Deca-Medium'}}>Add a new Loyalty Program</Text>
-            </View>
-
-            <CameraView
-                onBarcodeScanned={scanned ? undefined : handleScanResult}
-                barcodeScannerSettings={{ barcodeTypes: ["qr"] }}
-                style={[StyleSheet.absoluteFill, { top: 160 }]}
-                enableTorch={torch}
-                zoom={0.1}
-            />
-
-            <View className="absolute inset-0" style={{ top: 70 }}>
-                <View className="absolute inset-0 justify-center items-center">
-                    <View
-                        style={{
-                            width: 320,
-                            height: 320,
-                            borderRadius: 20,
-                            borderWidth: 4,
-                            borderColor: "#92C4CE",
-                            backgroundColor: "transparent",
-                        }}
-                    />
+        <SafeAreaView className="flex-1 bg-white">
+            <View className="flex-1 relative">
+                <View style={{ position: "absolute", top: 0, left: 0, right: 0, zIndex: 10 }}>
+                    <CustomHeaderLoggedIn />
                 </View>
-            </View>
 
-            <View className="absolute bottom-32 left-6 right-6 flex-row justify-between items-center">
-                <View>
-                    {scanned && (
+                <View className="px-6 mt-24">
+                    <Text style={{ fontFamily: 'Lexend-Zetta-Bold' }}>Scan QR Code</Text>
+                    <Text className="mt-1" style={{ color: colors.secondary, fontFamily: 'Lexend-Deca-Medium' }}>
+                        Add a new Loyalty Program
+                    </Text>
+                </View>
+
+                {/* Camera View */}
+                <CameraView
+                    onBarcodeScanned={scanned ? undefined : handleScanResult}
+                    barcodeScannerSettings={{ barcodeTypes: ["qr"] }}
+                    style={[StyleSheet.absoluteFill, { top: 160 }]} // Only Camera fills full area starting lower
+                    enableTorch={torch}
+                    zoom={0.1}
+                />
+
+                {/* QR Scan Box */}
+                <View className="absolute inset-0" style={{ top: 70 }}>
+                    <View className="absolute inset-0 justify-center items-center">
+                        <View
+                            style={{
+                                width: 320,
+                                height: 320,
+                                borderRadius: 20,
+                                borderWidth: 4,
+                                borderColor: "#92C4CE",
+                                backgroundColor: "transparent",
+                            }}
+                        />
+                    </View>
+                </View>
+
+                {/* Bottom Buttons */}
+                <View className="absolute bottom-32 left-6 right-6 flex-row justify-between items-center">
+                    <View>
+                        {scanned && (
+                            <TouchableOpacity
+                                onPress={() => setScanned(false)}
+                                className="bg-white p-3 rounded-full"
+                            >
+                                <Image
+                                    source={icons.qr_scanner}
+                                    style={{ width: 28, height: 28, tintColor: colors.secondary }}
+                                />
+                            </TouchableOpacity>
+                        )}
+                    </View>
+
+                    <View>
                         <TouchableOpacity
-                            onPress={() => setScanned(false)}
+                            onPress={() => setTorch((prev) => !prev)}
                             className="bg-white p-3 rounded-full"
                         >
                             <Image
-                                source={icons.qr_scanner}
+                                source={icons.flashlight}
                                 style={{ width: 28, height: 28, tintColor: colors.secondary }}
                             />
                         </TouchableOpacity>
-                    )}
+                    </View>
                 </View>
 
-                <View>
-                    <TouchableOpacity
-                        onPress={() => setTorch((prev) => !prev)}
-                        className="bg-white p-3 rounded-full"
-                    >
-                        <Image
-                            source={icons.flashlight}
-                            style={{ width: 28, height: 28, tintColor: colors.secondary }}
-                        />
-                    </TouchableOpacity>
-                </View>
             </View>
-        </View>
+        </SafeAreaView>
     );
 }
 

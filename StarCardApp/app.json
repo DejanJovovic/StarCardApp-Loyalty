@@ -4,7 +4,7 @@
     "slug": "StarCardApp",
     "version": "1.0.0",
     "orientation": "portrait",
-    "icon": "./assets/icons/favicon.png",
+    "icon": "./assets/icons/favicon_new.png",
     "scheme": "starcard",
     "userInterfaceStyle": "automatic",
     "newArchEnabled": true,
@@ -18,7 +18,7 @@
     },
     "android": {
       "adaptiveIcon": {
-        "foregroundImage": "./assets/icons/favicon2.png"
+        "foregroundImage": "./assets/icons/favicon_new.png"
       },
       "permissions": [
         "android.permission.CAMERA",
@@ -32,14 +32,14 @@
     "web": {
       "bundler": "metro",
       "output": "static",
-      "favicon": "./assets/icons/favicon.png"
+      "favicon": "./assets/icons/favicon_new.png"
     },
     "plugins": [
       "expo-router",
       [
         "expo-splash-screen",
         {
-          "image": "./assets/icons/favicon.png",
+          "image": "./assets/icons/favicon_new.png",
           "resizeMode": "contain",
           "backgroundColor": "#ffffff"
         }

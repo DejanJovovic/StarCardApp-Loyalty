@@ -98,10 +98,11 @@ const Profile = () => {
     };
 
     return (
-        <LinearGradient colors={[colors.gradientColor1, colors.gradientColor2]}>
-            <View style={{position: "absolute", top: 0, left: 0, right: 0, zIndex: 10}}>
-                <CustomHeaderLoggedIn/>
-            </View>
+        <SafeAreaView>
+            <LinearGradient colors={[colors.gradientColor1, colors.gradientColor2]}>
+                <View style={{position: "absolute", top: 0, left: 0, right: 0, zIndex: 10}}>
+                    <CustomHeaderLoggedIn/>
+                </View>
                 <ScrollView
                     showsVerticalScrollIndicator={false}
                     contentContainerClassName="pb-32 px-7"
@@ -109,7 +110,8 @@ const Profile = () => {
 
                     <Text style={{fontFamily: 'Lexend-Zetta-Bold', marginTop: 92}}>Profile</Text>
                     <Text className="mb-4"
-                          style={{color: colors.secondary, fontFamily: 'Lexend-Deca-Medium'}}>Manage your personal data</Text>
+                          style={{color: colors.secondary, fontFamily: 'Lexend-Deca-Medium'}}>Manage your personal
+                        data</Text>
 
                     <View className="mt-10">
                         <Text className="text-sm"
@@ -174,7 +176,8 @@ const Profile = () => {
                             <ProfileItem icon={icons.people} title="Invite Friends"/>
                         </View>
                         <View className="bg-white mt-2 rounded-xl pl-4 mb-2">
-                            <ProfileItem icon={icons.info} title="Support" onPress={() => {}}/>
+                            <ProfileItem icon={icons.info} title="Support" onPress={() => {
+                            }}/>
                         </View>
                         <View className="bg-white mt-2 rounded-xl pl-4 mb-2">
                             <ProfileItem
@@ -186,7 +189,8 @@ const Profile = () => {
                     </View>
 
                 </ScrollView>
-        </LinearGradient>
+            </LinearGradient>
+        </SafeAreaView>
     )
 }
 export default Profile
