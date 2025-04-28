@@ -80,7 +80,6 @@ const VerifyAccount = () => {
                                 style={{
                                     fontFamily: "Lexend-Regular",
                                     fontSize: 15,
-                                    width: 375,
                                     height: 40,
                                     paddingHorizontal: 12,
                                     paddingVertical: 8,
@@ -96,7 +95,6 @@ const VerifyAccount = () => {
                             <TouchableOpacity className="rounded-0.5 mt-7"
                                               style={{
                                                   backgroundColor: "#0C0C0C",
-                                                  width: 375,
                                                   height: 60,
                                                   justifyContent: "center",
                                                   alignItems: "center",

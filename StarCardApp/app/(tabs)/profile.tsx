@@ -28,17 +28,8 @@ const Profile = () => {
     const [userEmail, setUserEmail] = useState("");
     const [userPassword, setUserPassword] = useState("");
 
-    const [emailError, setEmailError] = useState(false);
-    const [passwordError, setPasswordError] = useState(false);
     const [isEmailVisible, setIsEmailVisible] = useState(false);
     const [isPasswordVisible, setIsPasswordVisible] = useState(false);
-
-    const [loading, setLoading] = useState(false);
-
-    const isEmailValid = userEmail.includes("@");
-    const isPasswordValid = userPassword.length >= 8;
-
-    const passwordInputRef = useRef<TextInput>(null);
 
     interface ProfileItemProp {
         icon: ImageSourcePropType;

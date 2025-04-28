@@ -108,7 +108,6 @@ const SignUp = () => {
                                         style={{
                                             fontFamily: "Lexend-Regular",
                                             fontSize: 15,
-                                            width: 180,
                                             height: 40,
                                             paddingHorizontal: 12,
                                             paddingVertical: 8,
@@ -131,7 +130,6 @@ const SignUp = () => {
                                         style={{
                                             fontFamily: "Lexend-Regular",
                                             fontSize: 15,
-                                            width: 180,
                                             height: 40,
                                             paddingHorizontal: 12,
                                             paddingVertical: 8
@@ -156,7 +154,6 @@ const SignUp = () => {
                                 style={{
                                     fontFamily: "Lexend-Regular",
                                     fontSize: 15,
-                                    width: 375,
                                     height: 40,
                                     paddingHorizontal: 12,
                                     paddingVertical: 8,
@@ -181,7 +178,6 @@ const SignUp = () => {
                                     style={{
                                         fontFamily: "Lexend-Regular",
                                         fontSize: 15,
-                                        width: 375,
                                         height: 40,
                                         paddingHorizontal: 12,
                                         paddingVertical: 8
@@ -212,7 +208,6 @@ const SignUp = () => {
                                   style={{
                                       fontFamily: "Lexend-Light",
                                       fontSize: 9,
-                                      width: 272,
                                       height: 40,
                                       lineHeight: 9 * 1.2,
                                       letterSpacing: 9 * 0.025,
@@ -225,7 +220,6 @@ const SignUp = () => {
                             <TouchableOpacity className="rounded-0.5 mt-7"
                                               style={{
                                                   backgroundColor: "#0C0C0C",
-                                                  width: 375,
                                                   height: 60,
                                                   justifyContent: "center",
                                                   alignItems: "center",
