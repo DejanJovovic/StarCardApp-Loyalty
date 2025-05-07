@@ -106,7 +106,7 @@ export function Scan() {
 
     return (
         <SafeAreaView className="flex-1 bg-white">
-            <View className="flex-1 relative">
+            <View className="flex-1">
                 <View style={{ position: "absolute", top: 0, left: 0, right: 0, zIndex: 10 }}>
                     <CustomHeaderLoggedIn />
                 </View>

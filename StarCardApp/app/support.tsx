@@ -66,7 +66,7 @@ const Support = () => {
 
 
     return (
-        <SafeAreaView>
+        <SafeAreaView className="h-full">
             <LinearGradient colors={[colors.gradientColor1, colors.gradientColor2]}>
                 <View style={{position: "absolute", top: 0, left: 0, right: 0, zIndex: 10}}>
                     <CustomHeader/>
@@ -75,7 +75,7 @@ const Support = () => {
                             style={{marginTop: 80}}>
                     <View className="flex flex-col mt-10 items-center justify-center">
                         <Text style={{color: "#82BCC7", fontFamily: "Lexend-Zetta-Bold", fontSize: 19}}>SUPPORT</Text>
-                        <Text className="mt-3"
+                        <Text className="mt-3 w-full"
                               style={{
                                   fontFamily: "Lexend-Light",
                                   fontSize: 14,
@@ -83,8 +83,8 @@ const Support = () => {
                             asap.</Text>
                     </View>
 
-                    <View className="flex-row justify-between mt-10">
-                        <View className="flex-1 mr-2">
+                    <View className="flex flex-row justify-between mt-10">
+                        <View className="flex-1 w-full">
                             <Text style={{
                                 color: "#000000", fontFamily: "Lexend-Light", fontSize: 11
                             }}>Full Name</Text>
@@ -107,7 +107,7 @@ const Support = () => {
                                 returnKeyType="next"/>
                         </View>
 
-                        <View className="flex-1 ml-2">
+                        <View className="flex-1 pl-2 w-full">
                             <Text style={{
                                 color: "#000000", fontFamily: "Lexend-Light", fontSize: 11
                             }}>Phone</Text>
@@ -136,7 +136,7 @@ const Support = () => {
                         color: "#000000", fontFamily: "Lexend-Light", fontSize: 11, marginTop: 10
                     }}>Email</Text>
                     <TextInput
-                        className={`border ${emailError ? "border-red-500" : "border-[#A5A5A5]"} rounded-0.5 mt-1`}
+                        className={`border ${emailError ? "border-red-500" : "border-[#A5A5A5]"} rounded-0.5 mt-1 w-full`}
                         style={{
                             fontFamily: "Lexend-Regular",
                             fontSize: 15,
@@ -154,11 +154,12 @@ const Support = () => {
                         onSubmitEditing={() => questionInputRef.current?.focus()} // Move to the next input
                         returnKeyType="next"/>
 
+
                     <Text style={{
                         color: "#000000", fontFamily: "Lexend-Light", fontSize: 11, marginTop: 10
                     }}>Question</Text>
                     <TextInput
-                        className={`border ${questionError ? "border-red-500" : "border-[#A5A5A5]"} rounded-0.5 mt-1`}
+                        className={`border ${questionError ? "border-red-500" : "border-[#A5A5A5]"} rounded-0.5 mt-1 w-full`}
                         style={{
                             fontFamily: "Lexend-Regular",
                             fontSize: 15,
@@ -175,7 +176,7 @@ const Support = () => {
                         }}
                         returnKeyType="done"/>
 
-                    <TouchableOpacity className="rounded-0.5 mt-7"
+                    <TouchableOpacity className="rounded-0.5 mt-7 w-full"
                                       style={{
                                           backgroundColor: "#0C0C0C",
                                           height: 60,
@@ -197,7 +198,7 @@ const Support = () => {
                         />
                     </View>
 
-                    <View className="flex-row mt-10 mb-10">
+                    <View className="flex-row mt-10 mb-10 w-full justify-between">
                         <TouchableOpacity>
                             <Image
                                 source={images.logo}
@@ -226,7 +227,7 @@ const Support = () => {
                                 color: "#000000", fontFamily: "Lexend-SemiBold", fontSize: 11, marginTop: 10
                             }}>office@starcardapp.com</Text>
                         </View>
-                        <View className="ml-2 mt-2">
+                        <View className="mt-2">
                             <Image
                                 source={images.qrCodeTest}
                                 style={{width: 75, height: 75, resizeMode: "contain"}}

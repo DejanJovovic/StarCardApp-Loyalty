@@ -138,22 +138,25 @@ const SignIn = () => {
     };
 
     return (
-        <SafeAreaView>
+        // trebalo bi ovako dodati svuda h-full da se ne vidi dole rupa ??
+        <SafeAreaView className="h-full">
             <LinearGradient colors={[colors.gradientColor1, colors.gradientColor2]}>
                 <View style={{position: "absolute", top: 0, left: 0, right: 0, zIndex: 10}}>
                     <CustomHeader/>
                 </View>
 
                 <ScrollView contentContainerStyle={{flexGrow: 1}}>
-                    <View className="relative mx-auto w-[92%] overflow-hidden rounded-bl-[70px]">
+                    <View className="mx-auto w-[100%] overflow-hidden">
                         <Image
                             source={images.cellPhonesImage}
-                            style={{width: 370, height: 220, marginTop: 76}}
+                            className="w-full rounded-bl-[80px]"
+                            style={{height: 220, marginTop: 61}}
                             resizeMode="cover"
                         />
                     </View>
 
-                    <View className="px-5 mt-7">
+
+                    <View className="px-5 mt-7 w-full">
                         <Text className="text-start"
                               style={{color: "#000000", fontFamily: "Lexend-Zetta-Bold", fontSize: 19}}>WE MAKE</Text>
                         <Text className="text-start"
@@ -170,7 +173,7 @@ const SignIn = () => {
                             <Text style={{color: "#000000", fontFamily: "Lexend-Light", fontSize: 11}}>Email</Text>
 
                             <TextInput
-                                className={`border ${emailError ? "border-red-500" : "border-[#A5A5A5]"} rounded-0.5 mt-1`}
+                                className={`border ${emailError ? "border-red-500" : "border-[#A5A5A5]"} rounded-0.5 mt-1 w-full`}
                                 style={{
                                     fontFamily: "Lexend-Regular",
                                     fontSize: 15,
@@ -202,7 +205,7 @@ const SignIn = () => {
 
                             <View className="relative">
                                 <TextInput
-                                    className={`border ${passwordError ? "border-red-500" : "border-[#A5A5A5]"} rounded-0.5 mt-1`}
+                                    className={`border ${passwordError ? "border-red-500" : "border-[#A5A5A5]"} rounded-0.5 mt-1 w-full`}
                                     style={{
                                         fontFamily: "Lexend-Regular",
                                         fontSize: 15,
@@ -277,7 +280,7 @@ const SignIn = () => {
                             </View>
 
 
-                            <TouchableOpacity className="rounded-0.5 mt-7"
+                            <TouchableOpacity className="rounded-0.5 mt-7 w-full"
                                               style={{
                                                   backgroundColor: "#0C0C0C",
                                                   height: 60,

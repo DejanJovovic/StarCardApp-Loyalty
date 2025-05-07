@@ -47,7 +47,7 @@ const Wallet = () => {
                     <CustomHeaderLoggedIn/>
                 </View>
                 <View className="mt-10 px-7">
-                    <View className="flex flex-row">
+                    <View className="flex flex-row justify-between">
                         <View className="flex-column">
 
                             <Text style={{fontFamily: 'Lexend-Zetta-Bold', paddingTop: 62}}>Your Wallet</Text>
@@ -57,7 +57,7 @@ const Wallet = () => {
                                 a
                                 new one</Text>
                         </View>
-                        <View className="justify-end ml-10">
+                        <View className="justify-end">
                             <TouchableOpacity className="items-center justify-center">
                                 <Image source={images.rectangleBlue}
                                        style={{width: 66, height: 50}}

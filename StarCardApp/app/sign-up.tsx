@@ -71,22 +71,23 @@ const SignUp = () => {
     );
 
     return (
-        <SafeAreaView>
+        <SafeAreaView className="h-full">
             <LinearGradient colors={[colors.gradientColor1, colors.gradientColor2]}>
                 <View style={{position: "absolute", top: 0, left: 0, right: 0, zIndex: 10}}>
                     <CustomHeader/>
                 </View>
 
                 <ScrollView contentContainerStyle={{flexGrow: 1}}>
-                    <View className="relative mx-auto w-[92%] overflow-hidden rounded-bl-[70px]">
+                    <View className="mx-auto w-[100%] overflow-hidden">
                         <Image
                             source={images.cellPhonesImage}
-                            style={{width: 370, height: 220, marginTop: 76}}
+                            className="w-full rounded-bl-[80px]"
+                            style={{height: 220, marginTop: 61}}
                             resizeMode="cover"
                         />
                     </View>
 
-                    <View className="px-5 mt-7">
+                    <View className="px-5 mt-7 w-full">
                         <Text className="text-start"
                               style={{color: "#000000", fontFamily: "Lexend-Zetta-Bold", fontSize: 19}}>WE MAKE</Text>
                         <Text className="text-start"
@@ -98,83 +99,34 @@ const SignUp = () => {
                             CREATE AN ACCOUNT</Text>
                         <View className="border-b border-[#0C0C0C] w-full mx-auto my-2"/>
 
-                        <View className="mt-5">
-                            <View className="flex-row">
-                                <View className="flex-1 mr-2">
-                                    <Text style={{color: "#000000", fontFamily: "Lexend-Light", fontSize: 11}}>First
-                                        Name</Text>
-                                    <TextInput
-                                        className={`border ${firstNameError ? "border-red-500" : "border-[#A5A5A5]"} rounded-0.5 mt-1`}
-                                        style={{
-                                            fontFamily: "Lexend-Regular",
-                                            fontSize: 15,
-                                            height: 40,
-                                            paddingHorizontal: 12,
-                                            paddingVertical: 8,
-                                        }}
-                                        value={firstName}
-                                        autoCapitalize="words"
-                                        onChangeText={(text) => {
-                                            setFirstName(text);
-                                            setFirstNameError(false);
-                                        }}
-                                        onSubmitEditing={() => lastNameInputRef.current?.focus()} // Move to the next input
-                                        returnKeyType="next"/>
-                                </View>
-
-                                <View className="flex-1 ml-2">
-                                    <Text style={{color: "#000000", fontFamily: "Lexend-Light", fontSize: 11}}>Last
-                                        Name</Text>
-                                    <TextInput
-                                        className={`border ${lastNameError ? "border-red-500" : "border-[#A5A5A5]"} rounded-0.5 mt-1`}
-                                        style={{
-                                            fontFamily: "Lexend-Regular",
-                                            fontSize: 15,
-                                            height: 40,
-                                            paddingHorizontal: 12,
-                                            paddingVertical: 8
-                                        }}
-                                        value={lastName}
-                                        ref={lastNameInputRef}
-                                        autoCapitalize="words"
-                                        onChangeText={(text) => {
-                                            setLastName(text);
-                                            setLastNameError(false);
-                                        }}
-                                        onSubmitEditing={() => emailInputRef.current?.focus()} // Move to the next input
-                                        returnKeyType="next"/>
-                                </View>
+                        <View className="flex flex-row justify-between mt-5">
+                            <View className="flex-1 w-full">
+                                <Text style={{color: "#000000", fontFamily: "Lexend-Light", fontSize: 11}}>First
+                                    Name</Text>
+                                <TextInput
+                                    className={`border ${firstNameError ? "border-red-500" : "border-[#A5A5A5]"} rounded-0.5 mt-1`}
+                                    style={{
+                                        fontFamily: "Lexend-Regular",
+                                        fontSize: 15,
+                                        height: 40,
+                                        paddingHorizontal: 12,
+                                        paddingVertical: 8,
+                                    }}
+                                    value={firstName}
+                                    autoCapitalize="words"
+                                    onChangeText={(text) => {
+                                        setFirstName(text);
+                                        setFirstNameError(false);
+                                    }}
+                                    onSubmitEditing={() => lastNameInputRef.current?.focus()} // Move to the next input
+                                    returnKeyType="next"/>
                             </View>
 
-                            <Text className="mt-4"
-                                  style={{color: "#000000", fontFamily: "Lexend-Light", fontSize: 11}}>Email</Text>
-
-                            <TextInput
-                                className={`border ${emailError ? "border-red-500" : "border-[#A5A5A5]"} rounded-0.5 mt-1`}
-                                style={{
-                                    fontFamily: "Lexend-Regular",
-                                    fontSize: 15,
-                                    height: 40,
-                                    paddingHorizontal: 12,
-                                    paddingVertical: 8,
-                                }}
-                                keyboardType="email-address"
-                                ref={emailInputRef}
-                                value={email}
-                                autoCapitalize="none"
-                                onChangeText={(text) => {
-                                    setEmail(text);
-                                    setEmailError(false);
-                                }}
-                                onSubmitEditing={() => passwordInputRef.current?.focus()} // Move to the next input
-                                returnKeyType="next"/>
-
-                            <Text className="mt-4"
-                                  style={{color: "#000000", fontFamily: "Lexend-Light", fontSize: 11}}>Password</Text>
-
-                            <View className="relative">
+                            <View className="flex-1 pl-2 w-full">
+                                <Text style={{color: "#000000", fontFamily: "Lexend-Light", fontSize: 11}}>Last
+                                    Name</Text>
                                 <TextInput
-                                    className={`border ${passwordError ? "border-red-500" : "border-[#A5A5A5]"} rounded-0.5 mt-1`}
+                                    className={`border ${lastNameError ? "border-red-500" : "border-[#A5A5A5]"} rounded-0.5 mt-1`}
                                     style={{
                                         fontFamily: "Lexend-Regular",
                                         fontSize: 15,
@@ -182,77 +134,123 @@ const SignUp = () => {
                                         paddingHorizontal: 12,
                                         paddingVertical: 8
                                     }}
-                                    secureTextEntry={!isPasswordVisible}
-                                    ref={passwordInputRef}
-                                    autoCapitalize="none"
-                                    value={password}
+                                    value={lastName}
+                                    ref={lastNameInputRef}
+                                    autoCapitalize="words"
                                     onChangeText={(text) => {
-                                        setPassword(text);
-                                        setPasswordError(false);
+                                        setLastName(text);
+                                        setLastNameError(false);
                                     }}
-                                    returnKeyType="done"/>
-
-                                <TouchableOpacity
-                                    onPress={() => setIsPasswordVisible(!isPasswordVisible)}
-                                    className="absolute right-4 top-[50%] transform -translate-y-1/2"
-                                >
-                                    <Image
-                                        source={isPasswordVisible ? icons.eyeOpen : icons.eyeClosed}
-                                        tintColor="#A5A5A5"
-                                        style={{width: 24, height: 24}}
-                                    />
-                                </TouchableOpacity>
+                                    onSubmitEditing={() => emailInputRef.current?.focus()} // Move to the next input
+                                    returnKeyType="next"/>
                             </View>
-
-                            <Text className="mt-4"
-                                  style={{
-                                      fontFamily: "Lexend-Light",
-                                      fontSize: 9,
-                                      height: 40,
-                                      lineHeight: 9 * 1.2,
-                                      letterSpacing: 9 * 0.025,
-                                  }}>
-                                The password must be at least 8 characters long and contain
-                                one digit (0-9) and one special character (#?!@$%^&*-)
-                            </Text>
-
-
-                            <TouchableOpacity className="rounded-0.5 mt-7"
-                                              style={{
-                                                  backgroundColor: "#0C0C0C",
-                                                  height: 60,
-                                                  justifyContent: "center",
-                                                  alignItems: "center",
-                                              }}
-                                              onPress={handleContinuePress}>
-                                <Text className=""
-                                      style={{
-                                          fontFamily: "Lexend-Zetta-ExtraBold",
-                                          color: "#82BCC7",
-                                      }}>CONTINUE</Text>
-                            </TouchableOpacity>
-
                         </View>
 
-                        <View className="flex flex-row justify-end mt-10"
-                              style={{paddingBottom: 50}}>
+                        <Text className="mt-4"
+                              style={{color: "#000000", fontFamily: "Lexend-Light", fontSize: 11}}>Email</Text>
+
+                        <TextInput
+                            className={`border ${emailError ? "border-red-500" : "border-[#A5A5A5]"} rounded-0.5 mt-1 w-full`}
+                            style={{
+                                fontFamily: "Lexend-Regular",
+                                fontSize: 15,
+                                height: 40,
+                                paddingHorizontal: 12,
+                                paddingVertical: 8,
+                            }}
+                            keyboardType="email-address"
+                            ref={emailInputRef}
+                            value={email}
+                            autoCapitalize="none"
+                            onChangeText={(text) => {
+                                setEmail(text);
+                                setEmailError(false);
+                            }}
+                            onSubmitEditing={() => passwordInputRef.current?.focus()} // Move to the next input
+                            returnKeyType="next"/>
+
+                        <Text className="mt-4"
+                              style={{color: "#000000", fontFamily: "Lexend-Light", fontSize: 11}}>Password</Text>
+
+                        <View className="relative">
+                            <TextInput
+                                className={`border ${passwordError ? "border-red-500" : "border-[#A5A5A5]"} rounded-0.5 mt-1 w-full`}
+                                style={{
+                                    fontFamily: "Lexend-Regular",
+                                    fontSize: 15,
+                                    height: 40,
+                                    paddingHorizontal: 12,
+                                    paddingVertical: 8
+                                }}
+                                secureTextEntry={!isPasswordVisible}
+                                ref={passwordInputRef}
+                                autoCapitalize="none"
+                                value={password}
+                                onChangeText={(text) => {
+                                    setPassword(text);
+                                    setPasswordError(false);
+                                }}
+                                returnKeyType="done"/>
+
+                            <TouchableOpacity
+                                onPress={() => setIsPasswordVisible(!isPasswordVisible)}
+                                className="absolute right-4 top-[50%] transform -translate-y-1/2"
+                            >
+                                <Image
+                                    source={isPasswordVisible ? icons.eyeOpen : icons.eyeClosed}
+                                    tintColor="#A5A5A5"
+                                    style={{width: 24, height: 24}}
+                                />
+                            </TouchableOpacity>
+                        </View>
+
+                        <Text className="mt-4 w-full"
+                              style={{
+                                  fontFamily: "Lexend-Light",
+                                  fontSize: 9,
+                                  height: 40,
+                                  lineHeight: 9 * 1.2,
+                                  letterSpacing: 9 * 0.025,
+                              }}>
+                            The password must be at least 8 characters long and contain
+                            one digit (0-9) and one special character (#?!@$%^&*-)
+                        </Text>
+
+
+                        <TouchableOpacity className="rounded-0.5 mt-7 w-full"
+                                          style={{
+                                              backgroundColor: "#0C0C0C",
+                                              height: 60,
+                                              justifyContent: "center",
+                                              alignItems: "center",
+                                          }}
+                                          onPress={handleContinuePress}>
+                            <Text className=""
+                                  style={{
+                                      fontFamily: "Lexend-Zetta-ExtraBold",
+                                      color: "#82BCC7",
+                                  }}>CONTINUE</Text>
+                        </TouchableOpacity>
+
+                    <View className="flex flex-row justify-end mt-10"
+                          style={{paddingBottom: 50}}>
+                        <Text style={{
+                            fontFamily: "Lexend-SemiBold",
+                            fontSize: 11,
+                            lineHeight: 9 * 1.2,
+                            letterSpacing: 9 * 0.025,
+                        }}>Already have an account?</Text>
+                        <TouchableOpacity className="ml-2"
+                                          onPress={() => router.push("/sign-in")}>
                             <Text style={{
                                 fontFamily: "Lexend-SemiBold",
+                                color: "#82BCC7",
                                 fontSize: 11,
                                 lineHeight: 9 * 1.2,
                                 letterSpacing: 9 * 0.025,
-                            }}>Already have an account?</Text>
-                            <TouchableOpacity className="ml-2"
-                                              onPress={() => router.push("/sign-in")}>
-                                <Text style={{
-                                    fontFamily: "Lexend-SemiBold",
-                                    color: "#82BCC7",
-                                    fontSize: 11,
-                                    lineHeight: 9 * 1.2,
-                                    letterSpacing: 9 * 0.025,
-                                }}>Sign In</Text>
-                            </TouchableOpacity>
-                        </View>
+                            }}>Sign In</Text>
+                        </TouchableOpacity>
+                    </View>
                     </View>
                 </ScrollView>
             </LinearGradient>

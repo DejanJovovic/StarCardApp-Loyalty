@@ -9,13 +9,13 @@ import CustomHeader from "@/components/CustomHeader";
 const Index = () => {
 
     return (
-        <SafeAreaView>
+        <SafeAreaView className="h-full">
             <LinearGradient colors={[colors.gradientColor1, colors.gradientColor2]}>
                 <View style={{position: "absolute", top: 0, left: 0, right: 0, zIndex: 10}}>
                     <CustomHeader/>
                 </View>
                 <ScrollView contentContainerStyle={{flexGrow: 1, paddingTop: 30, paddingBottom: 150}}>
-                    <View className="relative mx-auto w-[100%] overflow-hidden">
+                    <View className="mx-auto w-[100%] overflow-hidden">
                         <Image
                             source={images.homeNewImage}
                             className="w-full rounded-bl-[80px]"

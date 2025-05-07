@@ -46,7 +46,7 @@ const SettingsItem = ({
 
 const Settings = () => {
     return (
-        <SafeAreaView>
+        <SafeAreaView className="h-full">
             <LinearGradient colors={[colors.gradientColor1, colors.gradientColor2]} className="h-full">
                 <View style={{position: "absolute", top: 0, left: 0, right: 0, zIndex: 10}}>
                     <CustomHeaderLoggedIn/>

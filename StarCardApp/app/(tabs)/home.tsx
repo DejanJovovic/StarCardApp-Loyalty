@@ -26,7 +26,7 @@ const Home = () => {
                         <CustomHeaderLoggedIn/>
                     </View>
                     <ScrollView contentContainerStyle={{flexGrow: 1, paddingTop: 30, paddingBottom: 150}}>
-                        <View className="relative mx-auto w-[100%] overflow-hidden">
+                        <View className="mx-auto w-[100%] overflow-hidden">
                             <Image
                                 source={images.homeNewImage}
                                 className="w-full rounded-bl-[80px]"
