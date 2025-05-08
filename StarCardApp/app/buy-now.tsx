@@ -1,5 +1,6 @@
-import {View, Text, ScrollView, TouchableOpacity, Image, SafeAreaView} from 'react-native'
+import {View, Text, ScrollView, TouchableOpacity, Image, StatusBar} from 'react-native'
 import React from 'react'
+import {SafeAreaView} from 'react-native-safe-area-context';
 import colors from "@/constants/colors";
 import {LinearGradient} from "expo-linear-gradient";
 import images from "@/constants/images";
@@ -9,7 +10,7 @@ const BuyNow = () => {
     return (
         <SafeAreaView className="h-full">
             <LinearGradient colors={[colors.gradientColor1, colors.gradientColor2]}>
-                <View style={{position: "absolute", top: 0, left: 0, right: 0, zIndex: 10}}>
+                <View style={{position: "absolute", top: 0, left: 0, right: 0, zIndex: 1000}}>
                     <CustomHeader/>
                 </View>
                 <ScrollView contentContainerStyle={{flexGrow: 1}} className="px-5 pb-15"

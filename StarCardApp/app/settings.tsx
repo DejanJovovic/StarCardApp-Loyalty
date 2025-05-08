@@ -1,15 +1,15 @@
 import {
     View,
     Text,
-    SafeAreaView,
     ScrollView,
     Image,
     TouchableOpacity,
     TextInput,
-    ImageSourcePropType
+    ImageSourcePropType, StatusBar
 } from 'react-native'
 import React from 'react'
 import {LinearGradient} from "expo-linear-gradient";
+import { SafeAreaView } from 'react-native-safe-area-context';
 import colors from "@/constants/colors";
 import icons from "@/constants/icons";
 import {settings} from "@/constants/data";
@@ -48,7 +48,7 @@ const Settings = () => {
     return (
         <SafeAreaView className="h-full">
             <LinearGradient colors={[colors.gradientColor1, colors.gradientColor2]} className="h-full">
-                <View style={{position: "absolute", top: 0, left: 0, right: 0, zIndex: 10}}>
+                <View style={{position: "absolute", top: 0, left: 0, right: 0, zIndex: 1000}}>
                     <CustomHeaderLoggedIn/>
                 </View>
                 <ScrollView

@@ -1,6 +1,7 @@
-import {View, Text, ScrollView, TextInput, TouchableOpacity, Image, Alert, SafeAreaView} from 'react-native'
+import {View, Text, ScrollView, TextInput, TouchableOpacity, Image, Alert, StatusBar} from 'react-native'
 import React, {useCallback, useRef, useState} from 'react'
 import colors from "@/constants/colors";
+import { SafeAreaView } from 'react-native-safe-area-context';
 import {LinearGradient} from "expo-linear-gradient";
 import images from "@/constants/images";
 import CustomHeader from "@/components/CustomHeader";
@@ -68,7 +69,7 @@ const Support = () => {
     return (
         <SafeAreaView className="h-full">
             <LinearGradient colors={[colors.gradientColor1, colors.gradientColor2]}>
-                <View style={{position: "absolute", top: 0, left: 0, right: 0, zIndex: 10}}>
+                <View style={{position: "absolute", top: 0, left: 0, right: 0, zIndex: 1000}}>
                     <CustomHeader/>
                 </View>
                 <ScrollView contentContainerStyle={{flexGrow: 1,}} className="px-5 pb-15"

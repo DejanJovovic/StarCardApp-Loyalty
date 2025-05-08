@@ -92,6 +92,8 @@ const CustomHeaderLoggedIn = () => {
                         alignItems: 'flex-end',
                         opacity: fadeAnim,
                         transform: [{scale: fadeAnim}],
+                        zIndex: 9999,             // <-- Important
+                        elevation: 20,
                     }}
                 >
                     <Image

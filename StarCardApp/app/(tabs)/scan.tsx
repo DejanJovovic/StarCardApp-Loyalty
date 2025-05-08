@@ -1,6 +1,7 @@
-import {View, TouchableOpacity, StyleSheet, Text, Image, Alert, SafeAreaView} from "react-native";
+import {View, TouchableOpacity, StyleSheet, Text, Image, Alert, StatusBar} from "react-native";
 import React, {useState, useCallback, useRef} from "react";
 import {Camera, CameraView} from "expo-camera";
+import { SafeAreaView } from 'react-native-safe-area-context';
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import {useFocusEffect} from "expo-router";
 import * as Haptics from "expo-haptics";
@@ -107,7 +108,7 @@ export function Scan() {
     return (
         <SafeAreaView className="flex-1 bg-white">
             <View className="flex-1">
-                <View style={{ position: "absolute", top: 0, left: 0, right: 0, zIndex: 10 }}>
+                <View style={{ position: "absolute", top: 0, left: 0, right: 0, zIndex: 1000 }}>
                     <CustomHeaderLoggedIn />
                 </View>
 

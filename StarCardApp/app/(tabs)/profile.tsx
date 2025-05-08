@@ -1,18 +1,18 @@
 import {
     View,
     Text,
-    SafeAreaView,
     ScrollView,
     Image,
     TouchableOpacity,
     ImageSourcePropType,
     Alert,
-    TextInput, ActivityIndicator
+    TextInput, ActivityIndicator, StatusBar
 } from 'react-native'
 import React, {useEffect, useRef, useState} from 'react'
 import icons from "@/constants/icons";
 import {router} from "expo-router";
 import {LinearGradient} from "expo-linear-gradient";
+import { SafeAreaView } from 'react-native-safe-area-context';
 import colors from "@/constants/colors";
 import {useAuth} from "@/components/AuthContext";
 import AsyncStorage from "@react-native-async-storage/async-storage";
@@ -91,7 +91,7 @@ const Profile = () => {
     return (
         <SafeAreaView>
             <LinearGradient colors={[colors.gradientColor1, colors.gradientColor2]}>
-                <View style={{position: "absolute", top: 0, left: 0, right: 0, zIndex: 10}}>
+                <View style={{position: "absolute", top: 0, left: 0, right: 0, zIndex: 1000}}>
                     <CustomHeaderLoggedIn/>
                 </View>
                 <ScrollView

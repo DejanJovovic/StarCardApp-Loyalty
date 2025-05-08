@@ -1,6 +1,7 @@
-import {View, Text, TouchableOpacity, Image, TextInput, ScrollView, Alert, SafeAreaView} from 'react-native'
+import {View, Text, TouchableOpacity, Image, TextInput, ScrollView, Alert, StatusBar} from 'react-native'
 import React, {useCallback, useRef, useState} from 'react'
 import {router, useFocusEffect} from "expo-router";
+import { SafeAreaView } from 'react-native-safe-area-context';
 import images from "@/constants/images";
 import icons from "@/constants/icons";
 import CustomHeader from "@/components/CustomHeader";
@@ -73,12 +74,12 @@ const SignUp = () => {
     return (
         <SafeAreaView className="h-full">
             <LinearGradient colors={[colors.gradientColor1, colors.gradientColor2]}>
-                <View style={{position: "absolute", top: 0, left: 0, right: 0, zIndex: 10}}>
+                <View style={{position: "absolute", top: 0, left: 0, right: 0, zIndex: 1000}}>
                     <CustomHeader/>
                 </View>
 
                 <ScrollView contentContainerStyle={{flexGrow: 1}}>
-                    <View className="mx-auto w-[100%] overflow-hidden">
+                    <View className="mx-auto w-[100%] overflow-hidden" style={{ zIndex: 0 }}>
                         <Image
                             source={images.cellPhonesImage}
                             className="w-full rounded-bl-[80px]"

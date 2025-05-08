@@ -1,5 +1,6 @@
-import {View, Text, FlatList, ScrollView, Image, TouchableOpacity, SafeAreaView} from "react-native";
+import {View, Text, FlatList, ScrollView, Image, TouchableOpacity, StatusBar} from "react-native";
 import React, {useCallback, useState} from "react";
+import { SafeAreaView } from 'react-native-safe-area-context';
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import {useFocusEffect} from "expo-router";
 import CustomHeaderLoggedIn from "@/components/CustomHeaderLoggedIn";
@@ -43,7 +44,7 @@ const Wallet = () => {
     return (
         <SafeAreaView>
             <LinearGradient colors={[colors.gradientColor1, colors.gradientColor2]}>
-                <View style={{position: "absolute", top: 0, left: 0, right: 0, zIndex: 10}}>
+                <View style={{position: "absolute", top: 0, left: 0, right: 0, zIndex: 1000}}>
                     <CustomHeaderLoggedIn/>
                 </View>
                 <View className="mt-10 px-7">

@@ -6,8 +6,9 @@ import {SplashScreen as ExpoSplashScreen, Stack} from 'expo-router';
 import "./globals.css";
 import {AuthProvider} from "@/components/AuthContext";
 import {useFonts} from "expo-font";
-import {useEffect, useState} from "react";
+import React, {useEffect, useState} from "react";
 import SplashScreen from "@/components/SplashScreen";
+import {StatusBar} from "react-native";
 
 export default function RootLayout() {
 
@@ -40,9 +41,10 @@ export default function RootLayout() {
 
     return (
         <AuthProvider>
+            <StatusBar barStyle="dark-content" backgroundColor="transparent" translucent={true} animated={true}/>
             <Stack>
+                <Stack.Screen name="index" options={{ headerShown: false }} />
                 <Stack.Screen name="(tabs)" options={{headerShown: false}}/>
-                <Stack.Screen name="index" options={{headerShown: false}}/>
                 <Stack.Screen name="sign-up" options={{headerShown: false}}/>
                 <Stack.Screen name="sign-in" options={{headerShown: false}}/>
                 <Stack.Screen name="verify-account" options={{headerShown: false}}/>

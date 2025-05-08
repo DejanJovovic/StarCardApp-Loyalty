@@ -1,6 +1,7 @@
-import {View, TextInput, Image, Text, TouchableOpacity, SafeAreaView} from "react-native";
+import {View, TextInput, Image, Text, TouchableOpacity, StatusBar} from "react-native";
 import React, {useState} from "react";
 import icons from "@/constants/icons";
+import { SafeAreaView } from 'react-native-safe-area-context';
 import {LinearGradient} from "expo-linear-gradient";
 import colors from "@/constants/colors";
 import CustomHeaderLoggedIn from "@/components/CustomHeaderLoggedIn";
@@ -12,7 +13,7 @@ export default function Search() {
     return (
         <SafeAreaView>
             <LinearGradient colors={[colors.gradientColor1, colors.gradientColor2]}>
-                <View style={{position: "absolute", top: 0, left: 0, right: 0, zIndex: 10}}>
+                <View style={{position: "absolute", top: 0, left: 0, right: 0, zIndex: 1000}}>
                     <CustomHeaderLoggedIn/>
                 </View>
                 <View className="flex-col px-7 mt-10">

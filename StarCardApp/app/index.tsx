@@ -1,5 +1,6 @@
-import {View, Text, ScrollView, Image, SafeAreaView} from 'react-native'
+import {View, Text, ScrollView, Image, StatusBar} from 'react-native'
 import React, {useEffect} from 'react'
+import { SafeAreaView } from 'react-native-safe-area-context';
 import images from "@/constants/images";
 import {LinearGradient} from "expo-linear-gradient";
 import colors from "@/constants/colors";
@@ -11,11 +12,11 @@ const Index = () => {
     return (
         <SafeAreaView className="h-full">
             <LinearGradient colors={[colors.gradientColor1, colors.gradientColor2]}>
-                <View style={{position: "absolute", top: 0, left: 0, right: 0, zIndex: 10}}>
+                <View style={{position: "absolute", top: 0, left: 0, right: 0, zIndex: 1000}}>
                     <CustomHeader/>
                 </View>
                 <ScrollView contentContainerStyle={{flexGrow: 1, paddingTop: 30, paddingBottom: 150}}>
-                    <View className="mx-auto w-[100%] overflow-hidden">
+                    <View className="mx-auto w-[100%] overflow-hidden" style={{ zIndex: 0 }}>
                         <Image
                             source={images.homeNewImage}
                             className="w-full rounded-bl-[80px]"
