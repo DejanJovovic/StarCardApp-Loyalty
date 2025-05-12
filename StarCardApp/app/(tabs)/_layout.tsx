@@ -112,7 +112,7 @@ export default function TabsLayout() {
                     shadowOffset: { width: 0, height: 2 },
                     shadowOpacity: 0.1,
                     shadowRadius: 4,
-                    paddingBottom: 10,
+                    paddingBottom: 42,
                 },
             }}
         >
@@ -124,14 +124,11 @@ export default function TabsLayout() {
                     tabBarIcon: ({ focused }) => (
                         <TabIcon focused={focused} icon={icons.home} title="Home" />
                     ),
-                    tabBarButton: (props) => (
-                        <Pressable
-                            {...props}
-                            android_ripple={{ color: "transparent" }}
-                        >
-                            {props.children}
+                    tabBarButton: ({ children, onPress }) => (
+                        <Pressable onPress={onPress} android_ripple={{ color: "transparent" }}>
+                            {children}
                         </Pressable>
-                    ),
+                    )
                 }}
             />
             <Tabs.Screen
@@ -142,14 +139,11 @@ export default function TabsLayout() {
                     tabBarIcon: ({ focused }) => (
                         <TabIcon focused={focused} icon={icons.scan} title="Scan" />
                     ),
-                    tabBarButton: (props) => (
-                        <Pressable
-                            {...props}
-                            android_ripple={{ color: "transparent" }}
-                        >
-                            {props.children}
+                    tabBarButton: ({ children, onPress }) => (
+                        <Pressable onPress={onPress} android_ripple={{ color: "transparent" }}>
+                            {children}
                         </Pressable>
-                    ),
+                    )
                 }}
             />
             <Tabs.Screen
@@ -160,14 +154,11 @@ export default function TabsLayout() {
                     tabBarIcon: ({ focused }) => (
                         <TabIcon focused={focused} icon={icons.wallet_new} title="Wallet" isCenter />
                     ),
-                    tabBarButton: (props) => (
-                        <Pressable
-                            {...props}
-                            android_ripple={{ color: "transparent" }}
-                        >
-                            {props.children}
+                    tabBarButton: ({ children, onPress }) => (
+                        <Pressable onPress={onPress} android_ripple={{ color: "transparent" }}>
+                            {children}
                         </Pressable>
-                    ),
+                    )
                 }}
             />
             <Tabs.Screen
@@ -178,14 +169,11 @@ export default function TabsLayout() {
                     tabBarIcon: ({ focused }) => (
                         <TabIcon focused={focused} icon={icons.search} title="Search" />
                     ),
-                    tabBarButton: (props) => (
-                        <Pressable
-                            {...props}
-                            android_ripple={{ color: "transparent" }}
-                        >
-                            {props.children}
+                    tabBarButton: ({ children, onPress }) => (
+                        <Pressable onPress={onPress} android_ripple={{ color: "transparent" }}>
+                            {children}
                         </Pressable>
-                    ),
+                    )
                 }}
             />
             <Tabs.Screen
@@ -196,12 +184,9 @@ export default function TabsLayout() {
                     tabBarIcon: ({ focused }) => (
                         <TabIcon focused={focused} icon={icons.person} title="Profile" />
                     ),
-                    tabBarButton: (props) => (
-                        <Pressable
-                            {...props}
-                            android_ripple={{ color: "transparent" }}
-                        >
-                            {props.children}
+                    tabBarButton: ({ children, onPress }) => (
+                        <Pressable onPress={onPress} android_ripple={{ color: "transparent" }}>
+                            {children}
                         </Pressable>
                     ),
                 }}

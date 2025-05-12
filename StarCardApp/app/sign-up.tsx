@@ -181,7 +181,8 @@ const SignUp = () => {
                                     fontSize: 15,
                                     height: 40,
                                     paddingHorizontal: 12,
-                                    paddingVertical: 8
+                                    paddingVertical: 8,
+                                    color: "#000000"
                                 }}
                                 secureTextEntry={!isPasswordVisible}
                                 ref={passwordInputRef}

@@ -210,7 +210,8 @@ const SignIn = () => {
                                         fontFamily: "Lexend-Regular",
                                         fontSize: 15,
                                         paddingHorizontal: 12,
-                                        paddingVertical: 8
+                                        paddingVertical: 8,
+                                        color: "#000000"
                                     }}
                                     secureTextEntry={!isPasswordVisible}
                                     ref={passwordInputRef}
