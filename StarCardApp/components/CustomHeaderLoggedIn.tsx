@@ -35,10 +35,12 @@ const CustomHeaderLoggedIn = () => {
 
     return (
         <View className="relative bg-white p-3 flex-row items-center justify-between">
-            <Image
-                source={images.logo}
-                style={{width: 180, height: 40, resizeMode: "contain"}}
-            />
+            <TouchableOpacity onPress={() => router.replace("/home")}>
+                <Image
+                    source={images.logo}
+                    style={{width: 180, height: 40, resizeMode: "contain"}}
+                />
+            </TouchableOpacity>
 
             <TouchableOpacity onPress={toggleMenu} style={{position: "relative", width: 40, height: 29}}>
                 <Animated.Image
