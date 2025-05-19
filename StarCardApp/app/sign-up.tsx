@@ -1,49 +1,94 @@
-import {View, Text, TouchableOpacity, Image, TextInput, ScrollView, Alert, StatusBar} from 'react-native'
+import {
+    View,
+    Text,
+    TouchableOpacity,
+    Image,
+    TextInput,
+    ScrollView,
+    Alert,
+    StatusBar,
+    Platform,
+    Modal,
+    Pressable
+} from 'react-native'
 import React, {useCallback, useRef, useState} from 'react'
 import {router, useFocusEffect} from "expo-router";
-import { SafeAreaView } from 'react-native-safe-area-context';
+import {SafeAreaView} from 'react-native-safe-area-context';
 import images from "@/constants/images";
 import icons from "@/constants/icons";
 import CustomHeader from "@/components/CustomHeader";
 import colors from "@/constants/colors";
 import {LinearGradient} from 'expo-linear-gradient';
+import DateTimePicker from "@react-native-community/datetimepicker";
+
 
 const SignUp = () => {
 
 
-    const [firstName, setFirstName] = useState("");
-    const [lastName, setLastName] = useState("");
+    const [name, setName] = useState("");
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
-    const [firstNameError, setFirstNameError] = useState(false);
-    const [lastNameError, setLastNameError] = useState(false);
+    const [confirmPassword, setConfirmPassword] = useState("");
+    const [date, setDate] = useState("");
+    const [phone, setPhone] = useState("");
+    const [location, setLocation] = useState("");
+    const [acceptTerms, setAcceptedTerms] = useState(false);
+
+    const [showPicker, setShowPicker] = useState(false);
+    const [selectedDate, setSelectedDate] = useState<Date | undefined>(undefined);
+
+    const [nameError, setNameError] = useState(false);
     const [emailError, setEmailError] = useState(false);
     const [passwordError, setPasswordError] = useState(false);
+    const [confirmPasswordError, setConfirmPasswordError] = useState(false);
+    const [dateError, setDateError] = useState(false);
 
     const [isPasswordVisible, setIsPasswordVisible] = useState(false);
+    const [isConfirmPasswordVisible, setIsConfirmPasswordVisible] = useState(false);
 
-    const isFirstNameValid = firstName.trim().length > 2;
-    const isLastNameValid = lastName.trim().length > 2;
+    const isNameValid = name.trim().length > 2;
     const isEmailValid = email.includes("@");
     // checks that the password has at least 8 characters, contains one digit (0-9) and one special character (#?!@$%^&*-)
     const isPasswordValid = /^(?=.*\d)(?=.*[#?!@$%^&*-]).{8,}$/.test(password);
+    const isConfirmPasswordValid = /^(?=.*\d)(?=.*[#?!@$%^&*-]).{8,}$/.test(password);
+    const isDateValid = date.trim().length > 2;
 
-    const lastNameInputRef = useRef<TextInput>(null);
     const emailInputRef = useRef<TextInput>(null);
     const passwordInputRef = useRef<TextInput>(null);
-
+    const confirmPasswordInputRef = useRef<TextInput>(null);
+    const phoneInputRef = useRef<TextInput>(null);
+    const locationInputRef = useRef<TextInput>(null);
 
     const handleContinuePress = () => {
 
-
-        setFirstNameError(!isFirstNameValid);
-        setLastNameError(!isLastNameValid);
+        setNameError(!isNameValid);
         setEmailError(!isEmailValid);
         setPasswordError(!isPasswordValid);
+        setConfirmPasswordError(!isConfirmPasswordValid);
+        setDateError(!isDateValid);
 
-        if (!isFirstNameValid || !isLastNameValid || !isEmailValid || !isPasswordValid) {
-            Alert.alert("Invalid Input", "Please fill all the fields correctly.");
+        if (!isNameValid) {
+            Alert.alert("Invalid Input", "Please check your name.");
             return;
+        }
+        if (!isEmailValid) {
+            Alert.alert("Invalid Input", "Please check your email adress.");
+            return;
+        }
+        if (!isPasswordValid) {
+            Alert.alert("Invalid Input", "Please check that your password has at least 8 characters(one digit and one special character)");
+            return;
+        }
+
+        if (!isConfirmPasswordValid) {
+            Alert.alert("Invalid Input", "Please check your confirm password.");
+        }
+
+        if (password !== confirmPassword) {
+            Alert.alert("Invalid Input", "Please make sure that your passwords match.");
+        }
+        if (!isDateValid) {
+            Alert.alert("Invalid Input", "Please set your date of birth.");
         }
 
         Alert.alert("Success", "Sign up successful.", [
@@ -56,113 +101,90 @@ const SignUp = () => {
         ]);
     };
 
+    const handleDateChange = (event: any, chosenDate?: Date) => {
+        setShowPicker(Platform.OS === "ios"); // keep picker open on iOS
+        if (chosenDate) {
+            setSelectedDate(chosenDate);
+            const formatted = chosenDate.toLocaleDateString("en-GB"); // Format as DD/MM/YYYY
+            setDate(formatted);
+            setDateError(false);
+        }
+    };
+
     useFocusEffect(
         useCallback(() => {
             return () => {
-                setFirstName("");
-                setLastName("");
+                setName("");
                 setEmail("");
                 setPassword("");
-                setFirstNameError(false);
-                setLastNameError(false);
+                setConfirmPassword("");
+                setDate("");
+                setPhone("");
+                setLocation("");
+                setNameError(false);
                 setEmailError(false);
                 setPasswordError(false);
+                setConfirmPasswordError(false);
+                setDateError(false);
             };
         }, [])
     );
 
     return (
         <SafeAreaView className="h-full">
-            <LinearGradient colors={[colors.gradientColor1, colors.gradientColor2]}>
+            <LinearGradient colors={[colors.gradientColor1, colors.gradientColor2]} className="h-full">
                 <View style={{position: "absolute", top: 0, left: 0, right: 0, zIndex: 1000}}>
                     <CustomHeader/>
                 </View>
+                <ScrollView contentContainerStyle={{flexGrow: 1, paddingBottom: 80}}>
 
-                <ScrollView contentContainerStyle={{flexGrow: 1}}>
-                    <View className="mx-auto w-[100%] overflow-hidden" style={{ zIndex: 0 }}>
-                        <Image
-                            source={images.cellPhonesImage}
-                            className="w-full rounded-bl-[80px]"
-                            style={{height: 220, marginTop: 61}}
-                            resizeMode="cover"
-                        />
+                    <View className="px-6" style={{marginTop: 100}}>
+                        <Text style={{fontFamily: 'Lexend-Zetta-Bold'}}>Create your account</Text>
+                        <Text className="mt-1" style={{color: colors.secondary, fontFamily: 'Lexend-Deca-Medium'}}>
+                            Manage your personal data
+                        </Text>
                     </View>
 
-                    <View className="px-5 mt-7 w-full">
-                        <Text className="text-start"
-                              style={{color: "#000000", fontFamily: "Lexend-Zetta-Bold", fontSize: 19}}>WE MAKE</Text>
-                        <Text className="text-start"
-                              style={{color: "#000000", fontFamily: "Lexend-Zetta-Bold", fontSize: 19}}>GOOD
-                            CONNECTIONS</Text>
-
-                        <Text
-                            style={{color: "#0C0C0C", fontFamily: "Lexend-Zetta-Medium", marginTop: 60, fontSize: 14}}>
-                            CREATE AN ACCOUNT</Text>
-                        <View className="border-b border-[#0C0C0C] w-full mx-auto my-2"/>
-
-                        <View className="flex flex-row justify-between mt-5">
-                            <View className="flex-1 w-full">
-                                <Text style={{color: "#000000", fontFamily: "Lexend-Light", fontSize: 11}}>First
-                                    Name</Text>
-                                <TextInput
-                                    className={`border ${firstNameError ? "border-red-500" : "border-[#A5A5A5]"} rounded-0.5 mt-1`}
-                                    style={{
-                                        fontFamily: "Lexend-Regular",
-                                        fontSize: 15,
-                                        height: 40,
-                                        paddingHorizontal: 12,
-                                        paddingVertical: 8,
-                                    }}
-                                    value={firstName}
-                                    autoCapitalize="words"
-                                    onChangeText={(text) => {
-                                        setFirstName(text);
-                                        setFirstNameError(false);
-                                    }}
-                                    onSubmitEditing={() => lastNameInputRef.current?.focus()} // Move to the next input
-                                    returnKeyType="next"/>
-                            </View>
-
-                            <View className="flex-1 pl-2 w-full">
-                                <Text style={{color: "#000000", fontFamily: "Lexend-Light", fontSize: 11}}>Last
-                                    Name</Text>
-                                <TextInput
-                                    className={`border ${lastNameError ? "border-red-500" : "border-[#A5A5A5]"} rounded-0.5 mt-1`}
-                                    style={{
-                                        fontFamily: "Lexend-Regular",
-                                        fontSize: 15,
-                                        height: 40,
-                                        paddingHorizontal: 12,
-                                        paddingVertical: 8
-                                    }}
-                                    value={lastName}
-                                    ref={lastNameInputRef}
-                                    autoCapitalize="words"
-                                    onChangeText={(text) => {
-                                        setLastName(text);
-                                        setLastNameError(false);
-                                    }}
-                                    onSubmitEditing={() => emailInputRef.current?.focus()} // Move to the next input
-                                    returnKeyType="next"/>
-                            </View>
-                        </View>
-
-                        <Text className="mt-4"
-                              style={{color: "#000000", fontFamily: "Lexend-Light", fontSize: 11}}>Email</Text>
-
+                    <View className="mt-10 px-6">
                         <TextInput
-                            className={`border ${emailError ? "border-red-500" : "border-[#A5A5A5]"} rounded-0.5 mt-1 w-full`}
+                            className={`rounded-full w-full bg-white ${nameError ? "border border-red-500" : ""}`}
                             style={{
                                 fontFamily: "Lexend-Regular",
                                 fontSize: 15,
-                                height: 40,
                                 paddingHorizontal: 12,
                                 paddingVertical: 8,
+                                color: "#000000",
+                                height: 60
                             }}
-                            keyboardType="email-address"
+                            placeholder="* Name"
+                            placeholderTextColor="#82BCC7"
+                            value={name}
+                            autoCapitalize="words"
+                            onChangeText={(text) => {
+                                setName(text);
+                                setNameError(false);
+                            }}
+                            onSubmitEditing={() => emailInputRef.current?.focus()} // Move to the next input
+                            returnKeyType="next"/>
+                    </View>
+
+                    <View className="mt-5 px-6">
+                        <TextInput
+                            className={`rounded-full w-full bg-white ${emailError ? "border border-red-500" : ""}`}
+                            style={{
+                                fontFamily: "Lexend-Regular",
+                                fontSize: 15,
+                                paddingHorizontal: 12,
+                                paddingVertical: 8,
+                                color: "#000000",
+                                height: 60
+                            }}
                             ref={emailInputRef}
-                            value={email}
                             autoCapitalize="none"
+                            value={email}
+                            keyboardType="email-address"
+                            placeholder="* Email"
+                            placeholderTextColor="#82BCC7"
                             onChangeText={(text) => {
                                 setEmail(text);
                                 setEmailError(false);
@@ -170,90 +192,320 @@ const SignUp = () => {
                             onSubmitEditing={() => passwordInputRef.current?.focus()} // Move to the next input
                             returnKeyType="next"/>
 
-                        <Text className="mt-4"
-                              style={{color: "#000000", fontFamily: "Lexend-Light", fontSize: 11}}>Password</Text>
-
-                        <View className="relative">
+                    </View>
+                    <View className="mt-5 px-6">
+                        <View style={{position: "relative", justifyContent: "center"}}>
                             <TextInput
-                                className={`border ${passwordError ? "border-red-500" : "border-[#A5A5A5]"} rounded-0.5 mt-1 w-full`}
+                                className={`rounded-full w-full bg-white pr-12 ${
+                                    passwordError ? "border border-red-500" : ""
+                                }`}
                                 style={{
                                     fontFamily: "Lexend-Regular",
                                     fontSize: 15,
-                                    height: 40,
                                     paddingHorizontal: 12,
                                     paddingVertical: 8,
-                                    color: "#000000"
+                                    color: "#000000",
+                                    height: 60,
                                 }}
-                                secureTextEntry={!isPasswordVisible}
                                 ref={passwordInputRef}
                                 autoCapitalize="none"
                                 value={password}
+                                secureTextEntry={!isPasswordVisible}
+                                placeholder="* Password"
+                                placeholderTextColor="#82BCC7"
                                 onChangeText={(text) => {
                                     setPassword(text);
                                     setPasswordError(false);
                                 }}
-                                returnKeyType="done"/>
+                                onSubmitEditing={() => confirmPasswordInputRef.current?.focus()}
+                                returnKeyType="next"
+                            />
+
+                            {password.length > 0 && (
+                                <TouchableOpacity
+                                    onPress={() => setIsPasswordVisible(!isPasswordVisible)}
+                                    style={{
+                                        position: "absolute",
+                                        right: 15,
+                                        top: "50%",
+                                        transform: [{translateY: -12}],
+                                    }}
+                                >
+                                    <Image
+                                        source={isPasswordVisible ? icons.eyeOpen : icons.eyeClosed}
+                                        tintColor={colors.secondary}
+                                        style={{width: 24, height: 24}}
+                                    />
+                                </TouchableOpacity>
+                            )}
+                        </View>
+                    </View>
+                    <View className="mt-5 px-6">
+                        <View style={{position: "relative", justifyContent: "center"}}>
+                            <TextInput
+                                className={`rounded-full w-full bg-white ${confirmPasswordError ? "border border-red-500" : ""}`}
+                                style={{
+                                    fontFamily: "Lexend-Regular",
+                                    fontSize: 15,
+                                    paddingHorizontal: 12,
+                                    paddingVertical: 8,
+                                    color: "#000000",
+                                    height: 60
+                                }}
+                                ref={confirmPasswordInputRef}
+                                autoCapitalize="none"
+                                value={confirmPassword}
+                                secureTextEntry={!isConfirmPasswordVisible}
+                                placeholder="* Confirm password"
+                                placeholderTextColor="#82BCC7"
+                                onChangeText={(text) => {
+                                    setConfirmPassword(text);
+                                    setConfirmPasswordError(false);
+                                }}
+                                onSubmitEditing={() => phoneInputRef.current?.focus()} // Move to the next input
+                                returnKeyType="next"/>
+
+                            {confirmPassword.length > 0 && (
+                                <TouchableOpacity
+                                    onPress={() => setIsConfirmPasswordVisible(!isConfirmPasswordVisible)}
+                                    style={{
+                                        position: "absolute",
+                                        right: 15,
+                                        top: "50%",
+                                        transform: [{translateY: -12}],
+                                    }}
+                                >
+                                    <Image
+                                        source={isConfirmPasswordVisible ? icons.eyeOpen : icons.eyeClosed}
+                                        tintColor={colors.secondary}
+                                        style={{width: 24, height: 24}}
+                                    />
+                                </TouchableOpacity>
+                            )}
+                        </View>
+
+                    </View>
+                    <View className="mt-5 px-6">
+                        <View style={{position: "relative", justifyContent: "center"}}>
+                            <TextInput
+                                className={`rounded-full w-full bg-white pr-12 ${dateError ? "border border-red-500" : ""}`}
+                                style={{
+                                    fontFamily: "Lexend-Regular",
+                                    fontSize: 15,
+                                    paddingHorizontal: 12,
+                                    paddingVertical: 8,
+                                    color: "#000000",
+                                    height: 60,
+                                }}
+                                value={date}
+                                placeholder="* Date of birth"
+                                placeholderTextColor="#82BCC7"
+                                editable={false}
+                                pointerEvents="none"
+                                onChangeText={(text) => {
+                                    setDate(text);
+                                    setDateError(false);
+                                }}
+                            />
 
                             <TouchableOpacity
-                                onPress={() => setIsPasswordVisible(!isPasswordVisible)}
-                                className="absolute right-4 top-[50%] transform -translate-y-1/2"
+                                onPress={() => setShowPicker(true)}
+                                style={{
+                                    position: "absolute",
+                                    right: 15,
+                                    padding: 6,
+                                }}
                             >
                                 <Image
-                                    source={isPasswordVisible ? icons.eyeOpen : icons.eyeClosed}
-                                    tintColor="#A5A5A5"
-                                    style={{width: 24, height: 24}}
+                                    source={icons.datePicker}
+                                    style={{width: 25, height: 25, tintColor: "#82BCC7"}}
                                 />
                             </TouchableOpacity>
                         </View>
 
-                        <Text className="mt-4 w-full"
-                              style={{
-                                  fontFamily: "Lexend-Light",
-                                  fontSize: 9,
-                                  height: 40,
-                                  lineHeight: 9 * 1.2,
-                                  letterSpacing: 9 * 0.025,
-                              }}>
-                            The password must be at least 8 characters long and contain
-                            one digit (0-9) and one special character (#?!@$%^&*-)
+                        {/* Android picker */}
+                        {showPicker && Platform.OS === "android" && (
+                            <DateTimePicker
+                                value={selectedDate || new Date()}
+                                mode="date"
+                                display="default"
+                                maximumDate={new Date()}
+                                onChange={handleDateChange}
+                            />
+                        )}
+
+                        {/* iOS modal picker */}
+                        {Platform.OS === "ios" && (
+                            <Modal visible={showPicker} transparent animationType="slide">
+                                <View
+                                    style={{
+                                        flex: 1,
+                                        justifyContent: "flex-end",
+                                        backgroundColor: "rgba(0,0,0,0.5)",
+                                    }}
+                                >
+                                    <View style={{backgroundColor: "white", padding: 20}}>
+                                        <DateTimePicker
+                                            value={selectedDate || new Date()}
+                                            mode="date"
+                                            display="spinner"
+                                            maximumDate={new Date()}
+                                            onChange={handleDateChange}
+                                        />
+                                        <TouchableOpacity
+                                            onPress={() => setShowPicker(false)}
+                                            className="mt-3 bg-[#82BCC7] p-3 rounded-full"
+                                        >
+                                            <Text
+                                                style={{
+                                                    color: "white",
+                                                    fontFamily: "Lexend-Regular",
+                                                    textAlign: "center",
+                                                }}
+                                            >
+                                                Done
+                                            </Text>
+                                        </TouchableOpacity>
+                                    </View>
+                                </View>
+                            </Modal>
+                        )}
+                    </View>
+                    <View className="mt-5 px-6">
+                        <TextInput
+                            className="rounded-full w-full bg-white"
+                            style={{
+                                fontFamily: "Lexend-Regular",
+                                fontSize: 15,
+                                paddingHorizontal: 12,
+                                paddingVertical: 8,
+                                color: "#000000",
+                                height: 60
+                            }}
+                            ref={phoneInputRef}
+                            value={phone}
+                            keyboardType="phone-pad"
+                            autoCapitalize="none"
+                            autoCorrect={false}
+                            textContentType="telephoneNumber"
+                            placeholder="Phone number"
+                            placeholderTextColor="#82BCC7"
+                            onChangeText={(text) => {
+                                setPhone(text);
+                            }}
+                            onSubmitEditing={() => locationInputRef.current?.focus()} // Move to the next input
+                            returnKeyType="next"/>
+
+                    </View>
+                    <View className="mt-5 px-6">
+                        <TextInput
+                            className="rounded-full w-full bg-white"
+                            style={{
+                                fontFamily: "Lexend-Regular",
+                                fontSize: 15,
+                                paddingHorizontal: 12,
+                                paddingVertical: 8,
+                                color: "#000000",
+                                height: 60
+                            }}
+                            ref={locationInputRef}
+                            value={location}
+                            placeholder="Location"
+                            placeholderTextColor="#82BCC7"
+                            onChangeText={(text) => {
+                                setLocation(text);
+                            }}
+                            returnKeyType="done"/>
+                    </View>
+                    <View className="flex-row items-center mt-5 px-6">
+                        <TouchableOpacity
+                            onPress={() => setAcceptedTerms(!acceptTerms)}
+                            style={{
+                                width: 20,
+                                height: 20,
+                                justifyContent: "center",
+                                alignItems: "center",
+                                position: "relative",
+                            }}
+                        >
+                            <Image
+                                source={icons.checkForTerms}
+                                style={{
+                                    width: 20,
+                                    height: 20,
+                                }}
+                            />
+                            {acceptTerms && (
+                                <Image
+                                    source={icons.checkedTerms}
+                                    style={{
+                                        position: "absolute",
+                                        width: 12,
+                                        height: 12,
+                                        tintColor: "#0C0C0C",
+                                    }}
+                                />
+                            )}
+                        </TouchableOpacity>
+                        <Text
+                            style={{
+                                marginLeft: 10,
+                                marginBottom: 2,
+                                color: colors.secondary,
+                                fontFamily: "Lexend-Deca-Medium",
+                                fontSize: 11,
+                            }}
+                        >I understand the
+                            <Text style={{color: colors.primary}}> terms & policy</Text>
                         </Text>
-
-
-                        <TouchableOpacity className="rounded-0.5 mt-7 w-full"
+                    </View>
+                    <View className="mt-10 px-6">
+                        <TouchableOpacity className="rounded-full w-full"
                                           style={{
-                                              backgroundColor: "#0C0C0C",
+                                              backgroundColor: "#000000",
                                               height: 60,
                                               justifyContent: "center",
                                               alignItems: "center",
                                           }}
                                           onPress={handleContinuePress}>
-                            <Text className=""
-                                  style={{
-                                      fontFamily: "Lexend-Zetta-ExtraBold",
-                                      color: "#82BCC7",
-                                  }}>CONTINUE</Text>
+                            <Text style={{
+                                fontFamily: 'Lexend-Deca-Medium',
+                                color: "white",
+                            }}>Sign up</Text>
                         </TouchableOpacity>
+                    </View>
 
-                    <View className="flex flex-row justify-end mt-10"
-                          style={{paddingBottom: 50}}>
+                    <View className="flex flex-row justify-start mt-5 px-6">
                         <Text style={{
                             fontFamily: "Lexend-SemiBold",
                             fontSize: 11,
-                            lineHeight: 9 * 1.2,
-                            letterSpacing: 9 * 0.025,
-                        }}>Already have an account?</Text>
+                            color: "#82BCC7"
+                        }}>Have an account?</Text>
                         <TouchableOpacity className="ml-2"
                                           onPress={() => router.push("/sign-in")}>
                             <Text style={{
                                 fontFamily: "Lexend-SemiBold",
-                                color: "#82BCC7",
+                                color: "black",
                                 fontSize: 11,
-                                lineHeight: 9 * 1.2,
-                                letterSpacing: 9 * 0.025,
-                            }}>Sign In</Text>
+                            }}>SIGN IN</Text>
                         </TouchableOpacity>
                     </View>
+
+                    <View style={{
+                        position: 'absolute',
+                        bottom: 20,
+                        left: 0,
+                        right: 0,
+                        alignItems: 'center',
+                    }}>
+                        <Text style={{
+                            color: "#82BCC7",
+                            fontFamily: "Lexend-Deca-Light"
+                        }}>
+                            © Copyright 2025 Starcard App.
+                        </Text>
                     </View>
+
                 </ScrollView>
             </LinearGradient>
         </SafeAreaView>

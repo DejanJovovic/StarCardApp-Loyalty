@@ -29,6 +29,7 @@ import rectangleBlue from "../assets/images/rectangle_blue.png";
 import staySignedInRectangle from "../assets/images/stay_signedIn_rectangle.png";
 import staySignedInBox from "../assets/images/stay_signedIn_box.png";
 import testCards from "../assets/images/test_cards.png";
+import homeNew from "../assets/images/home_new.png";
 
 export default {
     howItWorks1,
@@ -61,5 +62,6 @@ export default {
     rectangleBlue,
     staySignedInRectangle,
     staySignedInBox,
-    testCards
+    testCards,
+    homeNew
 }

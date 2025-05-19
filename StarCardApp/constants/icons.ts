@@ -28,6 +28,10 @@ import menuIconNew from "../assets/icons/menu_icon_new.png";
 import homeButton from "../assets/icons/home_button.png";
 import plus_icon from "../assets/icons/plus_icon.png";
 import x_icon from "../assets/icons/x_icon_new.png";
+import settingsButton from "../assets/icons/settings_button.png";
+import checkedTerms from "../assets/icons/checkedTerms.png";
+import checkForTerms from "../assets/icons/checkForTerms.png";
+import datePicker from "../assets/icons/datePicker.png";
 
 export default {
     google,
@@ -59,5 +63,9 @@ export default {
     menuIconNew,
     homeButton,
     plus_icon,
-    x_icon
+    x_icon,
+    settingsButton,
+    checkForTerms,
+    checkedTerms,
+    datePicker
 };

@@ -1,7 +1,7 @@
 import {View, Text, TouchableOpacity, Image, TextInput, ScrollView, Alert, StatusBar} from 'react-native'
 import React, {useCallback, useRef, useState} from 'react'
 import {router, useFocusEffect} from "expo-router";
-import { SafeAreaView } from 'react-native-safe-area-context';
+import {SafeAreaView} from 'react-native-safe-area-context';
 import images from "@/constants/images";
 import icons from "@/constants/icons";
 import CustomHeader from "@/components/CustomHeader";
@@ -21,7 +21,6 @@ const SignIn = () => {
     const [userEmail, setUserEmail] = useState("");
     const [userPassword, setUserPassword] = useState("");
 
-    const [staySignedIn, setStaySignedIn] = useState(false);
     const [loading, setLoading] = useState(false);
 
     const [emailError, setEmailError] = useState(false);
@@ -140,47 +139,42 @@ const SignIn = () => {
 
     return (
         <SafeAreaView className="h-full">
-            <LinearGradient colors={[colors.gradientColor1, colors.gradientColor2]}>
+            <LinearGradient colors={[colors.gradientColor1, colors.gradientColor2]} className="h-full">
                 <View style={{position: "absolute", top: 0, left: 0, right: 0, zIndex: 1000}}>
                     <CustomHeader/>
                 </View>
+                <ScrollView contentContainerStyle={{flexGrow: 1, paddingBottom: 80}}>
 
-                <ScrollView contentContainerStyle={{flexGrow: 1}}>
-                    <View className="mx-auto w-[100%] overflow-hidden" style={{ zIndex: 0 }}>
+                    <View className="mx-auto w-[100%] overflow-hidden" style={{marginTop: 80}}>
                         <Image
-                            source={images.cellPhonesImage}
+                            source={images.homeNew}
                             className="w-full rounded-bl-[80px]"
-                            style={{height: 220, marginTop: 61}}
+                            style={{height: 320}}
                             resizeMode="cover"
                         />
                     </View>
-
-
-                    <View className="px-5 mt-7 w-full">
-                        <Text className="text-start"
-                              style={{color: "#000000", fontFamily: "Lexend-Zetta-Bold", fontSize: 19}}>WE MAKE</Text>
-                        <Text className="text-start"
-                              style={{color: "#000000", fontFamily: "Lexend-Zetta-Bold", fontSize: 19}}>GOOD
-                            CONNECTIONS</Text>
-
-                        <Text style={{color: "#0C0C0C", marginTop: 120}}>
-                            <Text style={{fontFamily: "Lexend-Zetta-Medium", fontSize: 14}}>SIGN IN</Text>
-                            <Text style={{fontFamily: "Lexend-Zetta-Light", fontSize: 14}}> TO YOUR ACCOUNT</Text>
+                    <View className="px-6 mt-10">
+                        <Text style={{fontFamily: 'Lexend-Zetta-Bold'}}>Welcome</Text>
+                        <Text className="mt-1" style={{color: colors.secondary, fontFamily: 'Lexend-Deca-Medium'}}>
+                            Sign in to your account
                         </Text>
-                        <View className="border-b border-[#0C0C0C] w-full mx-auto my-2"/>
+                    </View>
 
-                        <View className="mt-5">
-                            <Text style={{color: "#000000", fontFamily: "Lexend-Light", fontSize: 11}}>Email</Text>
-
+                    <View>
+                        <View className="mt-10 px-6">
                             <TextInput
-                                className={`border ${emailError ? "border-red-500" : "border-[#A5A5A5]"} rounded-0.5 mt-1 w-full`}
+                                className={`rounded-full w-full bg-white ${emailError ? "border border-red-500" : ""}`}
                                 style={{
                                     fontFamily: "Lexend-Regular",
                                     fontSize: 15,
                                     paddingHorizontal: 12,
                                     paddingVertical: 8,
+                                    color: "#000000",
+                                    height: 60
                                 }}
                                 keyboardType="email-address"
+                                placeholder="Email"
+                                placeholderTextColor="#82BCC7"
                                 value={userEmail}
                                 autoCapitalize="none"
                                 onChangeText={(text) => {
@@ -189,133 +183,99 @@ const SignIn = () => {
                                 }}
                                 onSubmitEditing={() => passwordInputRef.current?.focus()} // Move to the next input
                                 returnKeyType="next"/>
+                        </View>
 
-                            <View className="flex flex-row justify-between mt-4">
-                                <Text
-                                    style={{color: "#000000", fontFamily: "Lexend-Light", fontSize: 11}}>Password</Text>
-                                <TouchableOpacity onPress={() => router.push("/reset-password")}>
-                                    <Text style={{
-                                        color: "#82BCC7",
-                                        fontFamily: "Lexend-SemiBold",
-                                        fontSize: 11
-                                    }}>Forgot your password?</Text>
-                                </TouchableOpacity>
-
-                            </View>
-
-                            <View className="relative">
+                        <View className="mt-5 px-6">
+                            <View style={{position: "relative", justifyContent: "center"}}>
                                 <TextInput
-                                    className={`border ${passwordError ? "border-red-500" : "border-[#A5A5A5]"} rounded-0.5 mt-1 w-full`}
+                                    className={`rounded-full w-full bg-white pr-12 ${
+                                        passwordError ? "border border-red-500" : ""
+                                    }`}
                                     style={{
                                         fontFamily: "Lexend-Regular",
                                         fontSize: 15,
                                         paddingHorizontal: 12,
                                         paddingVertical: 8,
-                                        color: "#000000"
+                                        color: "#000000",
+                                        height: 60,
                                     }}
-                                    secureTextEntry={!isPasswordVisible}
                                     ref={passwordInputRef}
                                     autoCapitalize="none"
                                     value={userPassword}
+                                    secureTextEntry={!isPasswordVisible}
+                                    placeholder="Password"
+                                    placeholderTextColor="#82BCC7"
                                     onChangeText={(text) => {
                                         setUserPassword(text);
                                         setPasswordError(false);
                                     }}
-                                    returnKeyType="done"/>
+                                    returnKeyType="done"
+                                />
 
-                                <TouchableOpacity
-                                    onPress={() => setIsPasswordVisible(!isPasswordVisible)}
-                                    className="absolute right-4 top-[50%] transform -translate-y-1/2"
-                                >
-                                    <Image
-                                        source={isPasswordVisible ? icons.eyeOpen : icons.eyeClosed}
-                                        style={{width: 24, height: 24}}
-                                    />
-                                </TouchableOpacity>
-                            </View>
-
-                            <View className="flex-row items-center mt-5">
-                                {/*should be implemented to do something*/}
-                                <TouchableOpacity
-                                    onPress={() => setStaySignedIn(!staySignedIn)}
-                                    style={{position: "relative", width: 24, height: 24}}
-                                >
-                                    {/* Rectangle box image (border only) */}
-                                    <Image
-                                        source={images.staySignedInRectangle}
+                                {userPassword.length > 0 && (
+                                    <TouchableOpacity
+                                        onPress={() => setIsPasswordVisible(!isPasswordVisible)}
                                         style={{
-                                            width: 24,
-                                            height: 24,
-                                            borderWidth: 1,
-                                            borderColor: "#0C0C0C",
+                                            position: "absolute",
+                                            right: 15,
+                                            top: "50%",
+                                            transform: [{translateY: -12}],
                                         }}
-                                    />
-
-                                    {/* Inner box, only shown when selected */}
-                                    {staySignedIn && (
+                                    >
                                         <Image
-                                            source={images.staySignedInBox}
-                                            style={{
-                                                position: "absolute",
-                                                top: 0,
-                                                left: 0,
-                                                width: 24,
-                                                height: 24,
-                                                tintColor: "#0C0C0C",
-                                            }}
+                                            source={isPasswordVisible ? icons.eyeOpen : icons.eyeClosed}
+                                            tintColor={colors.secondary}
+                                            style={{width: 24, height: 24}}
                                         />
-                                    )}
-                                </TouchableOpacity>
-
-
-                                <Text
-                                    style={{
-                                        marginLeft: 10,
-                                        color: "#000000",
-                                        fontFamily: "Lexend-SemiBold",
-                                        fontSize: 11,
-                                    }}
-                                >
-                                    Stay signed in
-                                </Text>
+                                    </TouchableOpacity>
+                                )}
                             </View>
-
-
-                            <TouchableOpacity className="rounded-0.5 mt-7 w-full"
+                        </View>
+                        <View className="mt-5 px-6">
+                            <TouchableOpacity className="rounded-full w-full"
                                               style={{
-                                                  backgroundColor: "#0C0C0C",
+                                                  backgroundColor: "#000000",
                                                   height: 60,
                                                   justifyContent: "center",
                                                   alignItems: "center",
                                               }}
                                               onPress={handleContinuePress}>
                                 <Text style={{
-                                    fontFamily: "Lexend-Zetta-ExtraBold",
-                                    color: "#82BCC7",
-                                }}>CONTINUE</Text>
+                                    fontFamily: 'Lexend-Deca-Medium',
+                                    color: "white",
+                                }}>Sign in</Text>
                             </TouchableOpacity>
-
                         </View>
+                    </View>
 
-                        <View className="flex flex-row justify-end mt-10"
-                              style={{paddingBottom: 50}}>
+                    <View className="flex flex-row justify-start mt-5 px-6">
+                        <Text style={{
+                            fontFamily: "Lexend-SemiBold",
+                            fontSize: 11,
+                            color: "#82BCC7"
+                        }}>Don't have an account?</Text>
+                        <TouchableOpacity className="ml-2"
+                                          onPress={() => router.push("/sign-up")}>
                             <Text style={{
                                 fontFamily: "Lexend-SemiBold",
+                                color: "black",
                                 fontSize: 11,
-                                lineHeight: 9 * 1.2,
-                                letterSpacing: 9 * 0.025,
-                            }}>Don't have an account?</Text>
-                            <TouchableOpacity className="ml-2"
-                                              onPress={() => router.push("/sign-up")}>
-                                <Text style={{
-                                    fontFamily: "Lexend-SemiBold",
-                                    color: "#82BCC7",
-                                    fontSize: 11,
-                                    lineHeight: 9 * 1.2,
-                                    letterSpacing: 9 * 0.025,
-                                }}>Sign Up</Text>
-                            </TouchableOpacity>
-                        </View>
+                            }}>SIGN UP</Text>
+                        </TouchableOpacity>
+                    </View>
+                    <View style={{
+                        position: 'absolute',
+                        bottom: 20,
+                        left: 0,
+                        right: 0,
+                        alignItems: 'center',
+                    }}>
+                        <Text style={{
+                            color: "#82BCC7",
+                            fontFamily: "Lexend-Deca-Light"
+                        }}>
+                            © Copyright 2025 Starcard App.
+                        </Text>
                     </View>
                 </ScrollView>
             </LinearGradient>
