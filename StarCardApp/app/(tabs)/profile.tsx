@@ -12,7 +12,7 @@ import React, {useEffect, useRef, useState} from 'react'
 import icons from "@/constants/icons";
 import {router} from "expo-router";
 import {LinearGradient} from "expo-linear-gradient";
-import { SafeAreaView } from 'react-native-safe-area-context';
+import {SafeAreaView} from 'react-native-safe-area-context';
 import colors from "@/constants/colors";
 import {useAuth} from "@/components/AuthContext";
 import AsyncStorage from "@react-native-async-storage/async-storage";
@@ -42,20 +42,26 @@ const Profile = () => {
                              icon,
                              title,
                              onPress,
-                             showArrow = true,
                          }: ProfileItemProp) => (
         <TouchableOpacity
             onPress={onPress}
             className="flex flex-row items-center justify-between py-3"
         >
-            <View className="flex flex-row items-center gap-3">
+            <View className="flex flex-row items-center gap-4">
                 <Image source={icon} tintColor="#92C4CE" className="size-6"/>
-                <Text style={{fontFamily: 'Lexend-Deca-Light'}}>
+                <Text style={{
+                    fontFamily: "Lexend-Regular",
+                    fontSize: 15,
+                    paddingHorizontal: 12,
+                    paddingVertical: 8,
+                    color: "#000000",
+
+                }}>
                     {title}
                 </Text>
             </View>
 
-            {showArrow && <Image source={icons.rightArrow} tintColor="#92C4CE" className="size-5"/>}
+            <Image source={icons.rightArrow} tintColor="#92C4CE" className="size-6"/>
         </TouchableOpacity>
     );
 
@@ -104,52 +110,88 @@ const Profile = () => {
                           style={{color: colors.secondary, fontFamily: 'Lexend-Deca-Medium'}}>Manage your personal
                         data</Text>
 
-                    <View className="mt-10">
-                        <Text className="text-sm"
-                              style={{color: colors.primary, fontFamily: 'Lexend-Deca-Light'}}>Email</Text>
+                    <View className="mt-5">
                         <TextInput
+                            className="rounded-full w-full bg-white"
+                            style={{
+                                fontFamily: "Lexend-Regular",
+                                fontSize: 15,
+                                paddingHorizontal: 12,
+                                paddingVertical: 8,
+                                color: "#000000",
+                                height: 60
+                            }}
                             value={email ?? ""}
+                            placeholder="Email"
+                            placeholderTextColor="#82BCC7"
+                            autoCapitalize="none"
                             editable={false}
                             secureTextEntry={!isEmailVisible}
                             selectTextOnFocus={false}
-                            className="text-[#92C4CE] rounded-xl p-3 mt-1 bg-white"
-                        />
 
+                        />
                         <TouchableOpacity
                             onPress={() => setIsEmailVisible(!isEmailVisible)}
-                            className="absolute right-4 top-[19%] transform -translate-y-1/2"
+                            style={{
+                                position: "absolute",
+                                right: 15,
+                                top: "14%",
+                                transform: [{translateY: -12}],
+                            }}
                         >
                             <Image
                                 source={isEmailVisible ? icons.eyeOpen : icons.eyeClosed}
+                                tintColor={colors.secondary}
                                 style={{width: 24, height: 24}}
                             />
                         </TouchableOpacity>
 
-                        <Text className="text-sm mt-5"
-                              style={{color: colors.primary, fontFamily: 'Lexend-Deca-Light'}}>Password</Text>
-
                         <TextInput
+                            className="rounded-full w-full bg-white mt-5"
+                            style={{
+                                fontFamily: "Lexend-Regular",
+                                fontSize: 15,
+                                paddingHorizontal: 12,
+                                paddingVertical: 8,
+                                color: "#000000",
+                                height: 60,
+                            }}
                             value={password ?? ""}
+                            placeholder="Password"
+                            placeholderTextColor="#82BCC7"
                             editable={false}
+                            autoCapitalize="none"
                             selectTextOnFocus={false}
                             secureTextEntry={!isPasswordVisible}
-                            className="text-[#92C4CE] rounded-xl p-3 mt-1  bg-white pr-10"
                         />
 
                         <TouchableOpacity
                             onPress={() => setIsPasswordVisible(!isPasswordVisible)}
-                            className="absolute right-4 top-[54%] transform -translate-y-1/2"
-                        >
+                            style={{
+                                position: "absolute",
+                                right: 15,
+                                top: "50%",
+                                transform: [{translateY: -12}],
+                            }}>
                             <Image
                                 source={isPasswordVisible ? icons.eyeOpen : icons.eyeClosed}
+                                tintColor={colors.secondary}
                                 style={{width: 24, height: 24}}
                             />
                         </TouchableOpacity>
 
-                        <TouchableOpacity className="py-4 rounded-xl mt-10 bg-black"
+                        <TouchableOpacity className="rounded-full w-full mt-5"
+                                          style={{
+                                              backgroundColor: "#000000",
+                                              height: 60,
+                                              justifyContent: "center",
+                                              alignItems: "center",
+                                          }}
                         >
-                            <Text className="text-center text-white"
-                                  style={{fontFamily: 'Lexend-Deca-SemiBold'}}
+                            <Text style={{
+                                fontFamily: 'Lexend-Deca-Medium',
+                                color: "white",
+                            }}
                                 /*should change onPress to go to the change credentials screen*/
                                   onPress={() => {
                                   }}>Change</Text>
@@ -157,20 +199,20 @@ const Profile = () => {
                     </View>
 
                     <View className="mt-10">
-                        <View className="bg-white rounded-xl pl-4 mb-2">
+                        <View className="bg-white rounded-full pl-4 mb-2" style={{paddingRight: 15}}>
                             <ProfileItem icon={icons.card} title="My Cards"/>
                         </View>
-                        <View className="bg-white mt-2 rounded-xl pl-4 mb-2">
+                        <View className="bg-white mt-2 rounded-full pl-4 mb-2" style={{paddingRight: 15}}>
                             <ProfileItem icon={icons.bell} title="Notifications"/>
                         </View>
-                        <View className="bg-white mt-2 rounded-xl pl-4 mb-2">
+                        <View className="bg-white mt-2 rounded-full pl-4 mb-2" style={{paddingRight: 15}}>
                             <ProfileItem icon={icons.people} title="Invite Friends"/>
                         </View>
-                        <View className="bg-white mt-2 rounded-xl pl-4 mb-2">
+                        <View className="bg-white rounded-full mt-2 pl-4 mb-2" style={{paddingRight: 15}}>
                             <ProfileItem icon={icons.info} title="Support" onPress={() => {
                             }}/>
                         </View>
-                        <View className="bg-white mt-2 rounded-xl pl-4 mb-2">
+                        <View className="bg-white mt-2 rounded-full pl-4 mb-2" style={{paddingRight: 15}}>
                             <ProfileItem
                                 icon={icons.logout}
                                 title="Logout"

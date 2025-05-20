@@ -53,21 +53,8 @@ const Wallet = () => {
 
                             <Text style={{fontFamily: 'Lexend-Zetta-Bold', paddingTop: 62}}>Your Wallet</Text>
                             <Text className="mb-4"
-                                  style={{color: colors.secondary, fontFamily: 'Lexend-Deca-Medium'}}>Pick your card or
-                                add
-                                a
-                                new one</Text>
-                        </View>
-                        <View className="justify-end">
-                            <TouchableOpacity className="items-center justify-center">
-                                <Image source={images.rectangleBlue}
-                                       style={{width: 66, height: 50}}
-                                       resizeMode="cover"/>
-                                <Image source={icons.plus_icon}
-                                       tintColor="white"
-                                       className="absolute"
-                                       resizeMode="cover"/>
-                            </TouchableOpacity>
+                                  style={{color: colors.secondary, fontFamily: 'Lexend-Deca-Medium'}}>
+                                Pick your card and program</Text>
                         </View>
                     </View>
                     <View className="items-center justify-center px-7">
