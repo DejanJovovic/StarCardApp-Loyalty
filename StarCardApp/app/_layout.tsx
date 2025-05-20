@@ -21,6 +21,7 @@ export default function RootLayout() {
         'Lexend-Zetta-Regular': require('../assets/fonts/LexendZetta-Regular.ttf'),
         'Lexend-Zetta-Medium': require('../assets/fonts/LexendZetta-Medium.ttf'),
         'Lexend-Zetta-Light': require('../assets/fonts/LexendZetta-Light.ttf'),
+        'Lexend-Deca-Bold': require('../assets/fonts/LexendDeca-Bold.ttf'),
         'Lexend-Deca-SemiBold': require('../assets/fonts/LexendDeca-SemiBold.ttf'),
         'Lexend-Deca-Light': require('../assets/fonts/LexendDeca-Light.ttf'),
         'Lexend-Deca-Medium': require('../assets/fonts/LexendDeca-Medium.ttf'),
@@ -49,7 +50,6 @@ export default function RootLayout() {
                 <Stack.Screen name="sign-in" options={{headerShown: false}}/>
                 <Stack.Screen name="verify-account" options={{headerShown: false}}/>
                 <Stack.Screen name="reset-password" options={{headerShown: false}}/>
-                <Stack.Screen name="buy-now" options={{headerShown: false}}/>
                 <Stack.Screen name="settings" options={{headerShown: false}}/>
                 <Stack.Screen name="support" options={{headerShown: false}}/>
             </Stack>
