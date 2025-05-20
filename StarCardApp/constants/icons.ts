@@ -2,7 +2,6 @@ import google from "@/assets/icons/google.png";
 import search from "@/assets/icons/search.png";
 import person from "@/assets/icons/person.png";
 import bell from "@/assets/icons/bell.png";
-import heart from "@/assets/icons/heart.png";
 import backArrow from "@/assets/icons/back-arrow.png";
 import card from "@/assets/icons/card.png";
 import info from "@/assets/icons/info.png";
@@ -38,7 +37,6 @@ export default {
     search,
     person,
     bell,
-    heart,
     backArrow,
     card,
     info,
