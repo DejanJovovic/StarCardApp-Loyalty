@@ -1,92 +1,6 @@
-import {Tabs} from "expo-router";
+import { Tabs } from "expo-router";
 import icons from "@/constants/icons";
-import {View, Image, Text, Animated, TouchableWithoutFeedback, TouchableOpacity, Pressable} from "react-native";
-import React, {useEffect, useRef} from "react";
-
-function TabIcon({ focused, icon, title, isCenter = false }: any) {
-    const scaleAnim = useRef(new Animated.Value(1)).current;
-
-    useEffect(() => {
-        Animated.spring(scaleAnim, {
-            toValue: 1,
-            useNativeDriver: true,
-        }).start();
-    }, [focused]);
-
-    const size = isCenter ? 70 : 50;
-    const marginTop = isCenter ? -10 : 25;
-
-    const circleColor = isCenter
-        ? focused
-            ? "#000000E5"
-            : "#82BCC7"
-        : focused
-            ? "#000000E5"
-            : "white";
-
-    const iconTintColor = isCenter
-        ? focused
-            ? "white"
-            : "white"
-        : focused
-            ? "white"
-            : "#000000E5";
-
-    const borderWidth = isCenter ? 0 : focused ? 0 : 1.5;
-    const borderColor = isCenter ? "transparent" : "#82BCC7";
-
-    const textColor = focused ? "#000000E5" : "#82BCC7";
-
-    return (
-        <Animated.View
-            style={{
-                transform: [{ scale: scaleAnim }],
-                alignItems: "center",
-                marginTop,
-            }}
-        >
-            <View
-                style={{
-                    width: size,
-                    height: size,
-                    borderRadius: size / 2,
-                    backgroundColor: circleColor,
-                    justifyContent: "center",
-                    alignItems: "center",
-                    borderWidth,
-                    borderColor,
-                }}
-            >
-                <Image
-                    source={icon}
-                    style={{
-                        tintColor: iconTintColor,
-                        width: 24,
-                        height: 24,
-                    }}
-                />
-            </View>
-
-            {!isCenter && (
-                <View style={{ width: size, alignItems: "center" }}>
-                    <Text
-                        numberOfLines={1}
-                        ellipsizeMode="tail"
-                        style={{
-                            fontSize: 12,
-                            marginTop: 2,
-                            color: textColor,
-                            fontWeight: "600",
-                            textAlign: "center",
-                        }}
-                    >
-                        {title}
-                    </Text>
-                </View>
-            )}
-        </Animated.View>
-    );
-}
+import CustomTabBarButton from "@/components/CustomTabBarButton";
 
 export default function TabsLayout() {
     return (
@@ -119,75 +33,75 @@ export default function TabsLayout() {
             <Tabs.Screen
                 name="home"
                 options={{
-                    title: 'Home',
                     headerShown: false,
-                    tabBarIcon: ({ focused }) => (
-                        <TabIcon focused={focused} icon={icons.home} title="Home" />
+                    tabBarButton: (props) => (
+                        <CustomTabBarButton
+                            onPress={props.onPress}
+                            icon={icons.homeMenuButton}
+                            iconActive={icons.homeMenuButtonActive}
+                            iconHovered={icons.homeMenuButtonHover}
+                            routeName="home"
+                        />
                     ),
-                    tabBarButton: ({ children, onPress }) => (
-                        <Pressable onPress={onPress} android_ripple={{ color: "transparent" }}>
-                            {children}
-                        </Pressable>
-                    )
                 }}
             />
             <Tabs.Screen
                 name="scan"
                 options={{
-                    title: 'Scan',
                     headerShown: false,
-                    tabBarIcon: ({ focused }) => (
-                        <TabIcon focused={focused} icon={icons.scan} title="Scan" />
+                    tabBarButton: (props) => (
+                        <CustomTabBarButton
+                            onPress={props.onPress}
+                            icon={icons.scanMenuButton}
+                            iconActive={icons.scanMenuButtonActive}
+                            iconHovered={icons.scanMenuButtonHover}
+                            routeName="scan"
+                        />
                     ),
-                    tabBarButton: ({ children, onPress }) => (
-                        <Pressable onPress={onPress} android_ripple={{ color: "transparent" }}>
-                            {children}
-                        </Pressable>
-                    )
                 }}
             />
             <Tabs.Screen
                 name="wallet"
                 options={{
-                    title: 'Wallet',
                     headerShown: false,
-                    tabBarIcon: ({ focused }) => (
-                        <TabIcon focused={focused} icon={icons.wallet_new} title="Wallet" isCenter />
+                    tabBarButton: (props) => (
+                        <CustomTabBarButton
+                            onPress={props.onPress}
+                            icon={icons.walletMenuButton}
+                            iconActive={icons.walletMenuButtonActive}
+                            iconHovered={icons.walletMenuButtonHover}
+                            routeName="wallet"
+                        />
                     ),
-                    tabBarButton: ({ children, onPress }) => (
-                        <Pressable onPress={onPress} android_ripple={{ color: "transparent" }}>
-                            {children}
-                        </Pressable>
-                    )
                 }}
             />
             <Tabs.Screen
                 name="search"
                 options={{
-                    title: 'Search',
                     headerShown: false,
-                    tabBarIcon: ({ focused }) => (
-                        <TabIcon focused={focused} icon={icons.search} title="Search" />
+                    tabBarButton: (props) => (
+                        <CustomTabBarButton
+                            onPress={props.onPress}
+                            icon={icons.searchMenuButton}
+                            iconActive={icons.searchMenuButtonActive}
+                            iconHovered={icons.searchMenuButtonHover}
+                            routeName="search"
+                        />
                     ),
-                    tabBarButton: ({ children, onPress }) => (
-                        <Pressable onPress={onPress} android_ripple={{ color: "transparent" }}>
-                            {children}
-                        </Pressable>
-                    )
                 }}
             />
             <Tabs.Screen
                 name="profile"
                 options={{
-                    title: 'Profile',
                     headerShown: false,
-                    tabBarIcon: ({ focused }) => (
-                        <TabIcon focused={focused} icon={icons.person} title="Profile" />
-                    ),
-                    tabBarButton: ({ children, onPress }) => (
-                        <Pressable onPress={onPress} android_ripple={{ color: "transparent" }}>
-                            {children}
-                        </Pressable>
+                    tabBarButton: (props) => (
+                        <CustomTabBarButton
+                            onPress={props.onPress}
+                            icon={icons.profileMenuButton}
+                            iconActive={icons.profileMenuButtonActive}
+                            iconHovered={icons.profileMenuButtonHover}
+                            routeName="profile"
+                        />
                     ),
                 }}
             />
