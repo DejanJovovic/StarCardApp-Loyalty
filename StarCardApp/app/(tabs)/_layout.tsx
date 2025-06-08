@@ -36,7 +36,7 @@ export default function TabsLayout() {
                     headerShown: false,
                     tabBarButton: (props) => (
                         <CustomTabBarButton
-                            {...props}
+                            onPress={props.onPress}
                             icon={icons.homeMenuButton}
                             iconActive={icons.homeMenuButtonActive}
                             iconHovered={icons.homeMenuButtonHover}
