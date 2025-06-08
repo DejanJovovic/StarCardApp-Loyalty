@@ -1,9 +1,9 @@
 import React, { useEffect, useRef, useState } from "react";
-import {Animated, Easing, Image, Pressable, View} from "react-native";
+import {Animated, Easing, GestureResponderEvent, Image, Pressable, View} from "react-native";
 import { useNavigationState } from "@react-navigation/native";
 
 type Props = {
-    onPress?: () => void;
+    onPress?: (event: GestureResponderEvent) => void;
     icon: any;
     iconActive: any;
     iconHovered: any;
