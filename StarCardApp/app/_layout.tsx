@@ -9,6 +9,7 @@ import {useFonts} from "expo-font";
 import React, {useEffect, useState} from "react";
 import SplashScreen from "@/components/SplashScreen";
 import {StatusBar} from "react-native";
+import {CardProvider} from "@/context/CardContext";
 
 export default function RootLayout() {
 
@@ -42,17 +43,19 @@ export default function RootLayout() {
 
     return (
         <AuthProvider>
-            <StatusBar barStyle="dark-content" backgroundColor="transparent" translucent={true} animated={true}/>
-            <Stack>
-                <Stack.Screen name="index" options={{ headerShown: false }} />
-                <Stack.Screen name="(tabs)" options={{headerShown: false}}/>
-                <Stack.Screen name="sign-up" options={{headerShown: false}}/>
-                <Stack.Screen name="sign-in" options={{headerShown: false}}/>
-                <Stack.Screen name="verify-account" options={{headerShown: false}}/>
-                <Stack.Screen name="reset-password" options={{headerShown: false}}/>
-                <Stack.Screen name="settings" options={{headerShown: false}}/>
-                <Stack.Screen name="support" options={{headerShown: false}}/>
-            </Stack>
+            <CardProvider>
+                <StatusBar barStyle="dark-content" backgroundColor="transparent" translucent animated />
+                <Stack>
+                    <Stack.Screen name="index" options={{ headerShown: false }} />
+                    <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
+                    <Stack.Screen name="sign-up" options={{ headerShown: false }} />
+                    <Stack.Screen name="sign-in" options={{ headerShown: false }} />
+                    <Stack.Screen name="verify-account" options={{ headerShown: false }} />
+                    <Stack.Screen name="reset-password" options={{ headerShown: false }} />
+                    <Stack.Screen name="settings" options={{ headerShown: false }} />
+                    <Stack.Screen name="support" options={{ headerShown: false }} />
+                </Stack>
+            </CardProvider>
         </AuthProvider>
     );
 }
