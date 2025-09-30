@@ -1,4 +1,3 @@
-// components/LoyaltyCard.tsx
 import React from "react";
 import { View, Text, Image } from "react-native";
 import type { CardValues } from "@/types/card";
@@ -11,6 +10,8 @@ const REWARD_THRESHOLD = 10; // "Collect 10 stamps to get a reward"
 
 export default function LoyaltyCard({ card }: Props) {
     const bg = card.colors.background ?? "#1c1c9c";
+    const stampBg = card.colors.stampBackground ?? "#1c1c9c";
+    const stampText = card.colors.stampText ?? "#ffffff";
     const stampActiveBg = card.colors.stampActiveBg ?? "#5cc192";
     const stampInactiveBg = card.colors.stampInactiveBg ?? "#aaaaaa";
 
@@ -47,7 +48,6 @@ export default function LoyaltyCard({ card }: Props) {
                     <Text className="text-white text-4xl font-extrabold">
                         {card.stamps.total}
                     </Text>
-                    {/* explicit space by splitting into two nodes already ensures spacing */}
                     <Text className="text-white/90 text-base font-semibold"> stamps</Text>
                 </View>
             </View>
@@ -59,9 +59,11 @@ export default function LoyaltyCard({ card }: Props) {
                 <Text className="text-white font-medium">
                     {card.info.cardDescription ?? "Reward progress"}
                 </Text>
-                {/* NEW: put counts on their own lines below the description */}
                 <Text className="text-white/90 text-sm font-semibold tracking-wide mt-1">
-                    {active} stamps  {missing} missing
+                    {active} stamps
+                </Text>
+                <Text className="text-white/90 text-xs font-semibold tracking-wide">
+                    {missing} missing
                 </Text>
             </View>
 
@@ -73,14 +75,16 @@ export default function LoyaltyCard({ card }: Props) {
                             key={i}
                             className="w-8 h-8 rounded-full items-center justify-center border-2"
                             style={{
-                                backgroundColor: filled ? stampActiveBg : "transparent",
+                                backgroundColor: filled
+                                    ? stampActiveBg ?? stampBg
+                                    : stampBg ?? "transparent",
                                 borderColor: filled ? stampActiveBg : stampInactiveBg,
                             }}
                         >
                             <Ionicons
                                 name="cafe-outline"
                                 size={16}
-                                color={filled ? "white" : stampInactiveBg}
+                                color={filled ? stampText : stampInactiveBg}
                             />
                         </View>
                     );
@@ -94,7 +98,7 @@ export default function LoyaltyCard({ card }: Props) {
                 {card.info.rewardDetails ?? "Check our new offers"}
             </Text>
 
-            {/* QR image instead of user code */}
+            {/* QR image */}
             <View className="mt-3 rounded-xl bg-white/10 items-center p-3">
                 <Image
                     source={images.qrCodeTest}
