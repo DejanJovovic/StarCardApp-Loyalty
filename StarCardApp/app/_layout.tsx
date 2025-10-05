@@ -2,7 +2,7 @@ import {enableScreens} from 'react-native-screens';
 
 enableScreens();
 
-import {SplashScreen as ExpoSplashScreen, Stack} from 'expo-router';
+import {router, SplashScreen as ExpoSplashScreen, Stack} from 'expo-router';
 import "./globals.css";
 import {AuthProvider} from "@/components/AuthContext";
 import {useFonts} from "expo-font";
@@ -10,8 +10,12 @@ import React, {useEffect, useState} from "react";
 import SplashScreen from "@/components/SplashScreen";
 import {StatusBar} from "react-native";
 import {CardProvider} from "@/context/CardContext";
+import {useStarCardOneSignal} from "@/hooks/useOneSignalDeepLinks";
+import {RouteTarget} from "@/types/routeDeepLink";
 
 export default function RootLayout() {
+
+    const [showCustomSplash, setShowCustomSplash] = useState(true);
 
     const [fontsLoaded] = useFonts({
         'Lexend-Light': require('../assets/fonts/Lexend-Light.ttf'),
@@ -28,7 +32,23 @@ export default function RootLayout() {
         'Lexend-Deca-Medium': require('../assets/fonts/LexendDeca-Medium.ttf'),
     });
 
-    const [showCustomSplash, setShowCustomSplash] = useState(true);
+    // hides splash when openning the notification
+    const fastRoute = (to: RouteTarget) => {
+        setShowCustomSplash(false);
+        try {
+            ExpoSplashScreen.hideAsync();
+        } catch {}
+        requestAnimationFrame(() => router.push(to as any));
+    };
+
+    // OneSignal + deep links (Android-only for now)
+    useStarCardOneSignal({
+        navigate: fastRoute,
+        onesignalAppId: "d38275c3-a404-4718-9945-4f8654e00025",
+        debug: true, // set false in production
+    });
+
+
 
     if (showCustomSplash) {
         return (

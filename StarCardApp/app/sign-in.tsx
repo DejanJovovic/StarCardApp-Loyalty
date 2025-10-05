@@ -9,6 +9,7 @@ import colors from "@/constants/colors";
 import {useAuth} from "@/components/AuthContext";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import {LinearGradient} from 'expo-linear-gradient';
+import {fetchAndSaveMobileId} from "@/types/fetchAndSaveMobileId";
 
 const SignIn = () => {
 
@@ -85,6 +86,9 @@ const SignIn = () => {
                                 setAuth(userToken, userEmail, userPassword);
                                 setUserEmail(userEmail);
                                 setUserPassword(userPassword);
+
+                                const mobileId = await fetchAndSaveMobileId()
+                                console.log("Saved mobile id ", mobileId);
                                 router.replace("/home");
                             } else {
                                 Alert.alert("Error", "Session expired. Please log in again.");

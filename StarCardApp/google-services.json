@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "32055387751",
+    "project_id": "starcard-ae664",
+    "storage_bucket": "starcard-ae664.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:32055387751:android:7681a950a70097e58156c2",
+        "android_client_info": {
+          "package_name": "com.deks123.StarCardApp"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBIAZpLy0XnwV5LCdS9Dzt7h_h7HBD58Ao"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
