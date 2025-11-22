@@ -72,6 +72,8 @@ export default function RootLayout() {
                     <Stack.Screen name="sign-in" options={{ headerShown: false }} />
                     <Stack.Screen name="verify-account" options={{ headerShown: false }} />
                     <Stack.Screen name="reset-password" options={{ headerShown: false }} />
+                    <Stack.Screen name="notifications" options={{ headerShown: false }} />
+                    <Stack.Screen name="cards" options={{ headerShown: false }} />
                     <Stack.Screen name="settings" options={{ headerShown: false }} />
                     <Stack.Screen name="support" options={{ headerShown: false }} />
                 </Stack>

@@ -36,32 +36,41 @@ const Profile = () => {
         title: string;
         onPress?: () => void;
         showArrow?: boolean;
+        isLogout?: boolean
     }
 
     const ProfileItem = ({
                              icon,
                              title,
                              onPress,
+                             isLogout = false
                          }: ProfileItemProp) => (
+
         <TouchableOpacity
             onPress={onPress}
             className="flex flex-row items-center justify-between py-3"
         >
             <View className="flex flex-row items-center gap-4">
-                <Image source={icon} tintColor="#92C4CE" className="size-6"/>
+                <Image source={icon} tintColor={isLogout ? "white" : "#92C4CE"} className="size-6"/>
                 <Text style={{
                     fontFamily: "Lexend-Regular",
                     fontSize: 15,
                     paddingHorizontal: 12,
                     paddingVertical: 8,
-                    color: "#000000",
+                    color: isLogout ? "white" : "#000000",
 
                 }}>
                     {title}
                 </Text>
             </View>
 
-            <Image source={icons.rightArrow} tintColor="#92C4CE" className="size-6"/>
+            {!isLogout && (
+                <Image
+                    source={icons.rightArrow}
+                    tintColor="#92C4CE"
+                    className="size-6"
+                />
+            )}
         </TouchableOpacity>
     );
 
@@ -187,36 +196,38 @@ const Profile = () => {
                                               justifyContent: "center",
                                               alignItems: "center",
                                           }}
+                                          onPress={() => router.push('/reset-password')}
                         >
                             <Text style={{
                                 fontFamily: 'Lexend-Deca-Medium',
                                 color: "white",
-                            }}
-                                /*should change onPress to go to the change credentials screen*/
-                                  onPress={() => {
-                                  }}>Change</Text>
+                            }}>Change</Text>
                         </TouchableOpacity>
                     </View>
 
                     <View className="mt-10">
                         <View className="bg-white rounded-full pl-4 mb-2" style={{paddingRight: 15}}>
-                            <ProfileItem icon={icons.card} title="My Cards"/>
+                            <ProfileItem icon={icons.card} title="My Cards"
+                                         onPress={() => router.push('/cards')}/>
                         </View>
                         <View className="bg-white mt-2 rounded-full pl-4 mb-2" style={{paddingRight: 15}}>
-                            <ProfileItem icon={icons.bell} title="Notifications"/>
+                            <ProfileItem
+                                icon={icons.bell} title="Notifications"
+                                onPress={() => router.push('/notifications')}/>
                         </View>
                         <View className="bg-white mt-2 rounded-full pl-4 mb-2" style={{paddingRight: 15}}>
                             <ProfileItem icon={icons.people} title="Invite Friends"/>
                         </View>
                         <View className="bg-white rounded-full mt-2 pl-4 mb-2" style={{paddingRight: 15}}>
-                            <ProfileItem icon={icons.info} title="Support" onPress={() => {
-                            }}/>
+                            <ProfileItem icon={icons.info} title="Support"
+                                         onPress={() => router.push("/support")}/>
                         </View>
-                        <View className="bg-white mt-2 rounded-full pl-4 mb-2" style={{paddingRight: 15}}>
+                        <View className="bg-red-600 mt-2 rounded-full pl-4 mb-2" style={{paddingRight: 15}}>
                             <ProfileItem
                                 icon={icons.logout}
                                 title="Logout"
                                 onPress={handleLogout}
+                                isLogout={true}
                             />
                         </View>
                     </View>

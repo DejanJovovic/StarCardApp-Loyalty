@@ -19,6 +19,8 @@ const Index = () => {
     const [userEmail, setUserEmail] = useState("");
     const [userPassword, setUserPassword] = useState("");
     const [loading, setLoading] = useState(false);
+    const [checkUserToken, setCheckUserToken] = useState(true);
+
 
     const [emailError, setEmailError] = useState(false);
     const [passwordError, setPasswordError] = useState(false);
@@ -29,6 +31,31 @@ const Index = () => {
     const isEmailValid = userEmail.includes("@");
 
     const passwordInputRef = useRef<TextInput>(null);
+
+
+    useEffect(() => {
+        const checkStoredToken = async () => {
+            try {
+                const savedToken = await AsyncStorage.getItem("auth_token");
+
+                if (savedToken) {
+                    router.replace("/home");
+                }
+            } catch (error) {
+                console.log("Error checking stored token:", error);
+            }
+            finally {
+                setCheckUserToken(false);
+
+            }
+        };
+
+        checkStoredToken();
+    }, []);
+
+    if (checkUserToken) {
+        return null;
+    }
 
 
     const handleContinuePress = async () => {
@@ -99,7 +126,6 @@ const Index = () => {
     };
 
 
-    // Function that validates the token
     const validateToken = async (userToken: string) => {
         try {
             const response = await fetch("https://starcardapp.com/loyalty/admin/dashboard", {

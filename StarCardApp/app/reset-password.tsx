@@ -112,25 +112,6 @@ const ResetPassword = () => {
 
                     </View>
 
-                    <View className="flex flex-row justify-end mt-10"
-                          style={{paddingBottom: 50}}>
-                        <Text style={{
-                            fontFamily: "Lexend-SemiBold",
-                            fontSize: 11,
-                            lineHeight: 9 * 1.2,
-                            letterSpacing: 9 * 0.025,
-                        }}>Login instead?</Text>
-                        <TouchableOpacity className="ml-2"
-                                          onPress={() => router.push("/sign-in")}>
-                            <Text style={{
-                                fontFamily: "Lexend-SemiBold",
-                                color: "#82BCC7",
-                                fontSize: 11,
-                                lineHeight: 9 * 1.2,
-                                letterSpacing: 9 * 0.025,
-                            }}>Sign In</Text>
-                        </TouchableOpacity>
-                    </View>
                 </View>
             </LinearGradient>
         </SafeAreaView>
