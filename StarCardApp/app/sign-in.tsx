@@ -10,6 +10,7 @@ import {useAuth} from "@/components/AuthContext";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import {LinearGradient} from 'expo-linear-gradient';
 import {fetchAndSaveMobileId} from "@/types/fetchAndSaveMobileId";
+import {OneSignal} from "react-native-onesignal";
 
 const SignIn = () => {
 
@@ -18,7 +19,7 @@ const SignIn = () => {
     const [authToken, setAuthToken] = useState<string | null>(null);
 
 
-    // on figma says username, but i only have email for now
+    // username or email login?
     const [userEmail, setUserEmail] = useState("");
     const [userPassword, setUserPassword] = useState("");
 
@@ -30,45 +31,57 @@ const SignIn = () => {
     const [isPasswordVisible, setIsPasswordVisible] = useState(false);
 
     const isEmailValid = userEmail.includes("@");
-    // checks that the password has at least 8 characters, contains one digit (0-9) and one special character (#?!@$%^&*-)
-    // const isPasswordValid = /^(?=.*\d)(?=.*[#?!@$%^&*-]).{8,}$/.test(userPassword);
 
     const passwordInputRef = useRef<TextInput>(null);
 
+    const getOneSignalPlayerId = async (): Promise<string | null> => {
+        try {
+            const device = await OneSignal.User.getOnesignalId(); // SDK 5+
+            console.log("Fetched OneSignal Player ID:", device);
+            return device;
+        } catch (err) {
+            console.warn("Failed to get OneSignal Player ID:", err);
+            return null;
+        }
+    };
+
     const handleContinuePress = async () => {
         setEmailError(!isEmailValid);
-        // setPasswordError(!isPasswordValid);
 
         if (!isEmailValid) {
             Alert.alert("Invalid Input", "Please enter a valid email.");
             return;
         }
-        // if(!isPasswordValid) {
-        //     Alert.alert("Invalid Input", "Please enter a password with at least 8 characters, one digit and one special character.");
-        //     return;
-        // }
 
         try {
+            const oneSignalId = await getOneSignalPlayerId();
 
             const formData = new URLSearchParams();
             formData.append("email", userEmail);
             formData.append("pass", userPassword);
+            formData.append("oneSignalAppId", "d38275c3-a404-4718-9945-4f8654e00025");
+            formData.append("oneSignalPlayerId", oneSignalId ?? "");
+
+            console.log("Login payload being sent:");
+            for (const [key, value] of formData.entries()) {
+                console.log(`${key}: ${value}`);
+            }
 
             const response = await fetch('https://starcardapp.com/loyalty/login', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/x-www-form-urlencoded',
-                    'User-Agent': ' Mozilla/5.0 (iPhone; CPU iPhone OS 16_0 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/16.0 Mobile/15E148 Safari/604.1',
+                    'User-Agent': 'Mozilla/5.0 (iPhone; CPU iPhone OS 16_0 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/16.0 Mobile/15E148 Safari/604.1',
                 },
                 body: formData.toString(),
             });
 
             const data = await response.json();
-            console.log(data);
+
+            console.log("Response from backend:", data);
 
             if (response.ok) {
                 const userToken = data.jwtoken;
-
 
                 await AsyncStorage.setItem("auth_token", userToken);
                 await AsyncStorage.setItem("email", userEmail);
@@ -79,16 +92,15 @@ const SignIn = () => {
                         text: "OK",
                         onPress: async () => {
                             setLoading(true);
-                            // Validate token before navigating to the next screen
-                            const isValid = await validateToken(userToken);
 
+                            const isValid = await validateToken(userToken);
                             if (isValid) {
                                 setAuth(userToken, userEmail, userPassword);
                                 setUserEmail(userEmail);
                                 setUserPassword(userPassword);
 
-                                const mobileId = await fetchAndSaveMobileId()
-                                console.log("Saved mobile id ", mobileId);
+                                const mobileId = await fetchAndSaveMobileId();
+                                console.log("Saved mobile id", mobileId);
                                 router.replace("/home");
                             } else {
                                 Alert.alert("Error", "Session expired. Please log in again.");
@@ -100,12 +112,11 @@ const SignIn = () => {
                 Alert.alert("Error", "Login failed. Please try again.");
             }
         } catch (error) {
-            console.error("Error", error);
+            console.error("Error during login:", error);
             Alert.alert("Login failed", "Please enter valid email and password.");
         }
     };
 
-    // Function that validates the token
     const validateToken = async (userToken: string) => {
         try {
             const response = await fetch("https://starcardapp.com/loyalty/admin/dashboard", {
@@ -123,15 +134,8 @@ const SignIn = () => {
                 return false; // Token is not valid
             }
 
-            // In case the server returns a 200 OK, check the response body for further validation
-            // const data = await response.json(); // assuming the server sends JSON data
-            // if (data && data.error && data.error === "Invalid token") {
-            //     console.log("Server rejected token explicitly:", data.error);
-            //     return false;
-            // }
-
             setAuthToken(userToken);
-            return response.ok;// If response is OK (200), token is valid
+            return response.ok;
 
         } catch (error) {
             console.error("Token Validation Error:", error);
@@ -185,7 +189,7 @@ const SignIn = () => {
                                     setUserEmail(text);
                                     setEmailError(false);
                                 }}
-                                onSubmitEditing={() => passwordInputRef.current?.focus()} // Move to the next input
+                                onSubmitEditing={() => passwordInputRef.current?.focus()}
                                 returnKeyType="next"/>
                         </View>
 
