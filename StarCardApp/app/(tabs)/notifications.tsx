@@ -1,4 +1,4 @@
-import {View, Text, Switch, FlatList, ScrollView} from 'react-native';
+import {View, Text, Switch, FlatList, ScrollView, Alert} from 'react-native';
 import React, {useEffect, useState} from 'react';
 import colors from "@/constants/colors";
 import CustomHeaderLoggedIn from "@/components/CustomHeaderLoggedIn";
@@ -24,25 +24,42 @@ const Notifications = () => {
     }, []);
 
     const toggleSwitch = async (value: boolean) => {
-        setNotificationsEnabled(value);
-
-        if (value) {
-            // Ask for system permission
+        if (!value) {
+            Alert.alert(
+                "Turn off notifications",
+                "Are you sure you want to turn off notifications?",
+                [
+                    {
+                        text: "No",
+                        style: "cancel",
+                        onPress: () => {
+                            setNotificationsEnabled(true);
+                        },
+                    },
+                    {
+                        text: "Yes",
+                        style: "destructive",
+                        onPress: async () => {
+                            setNotificationsEnabled(false);
+                            await disableOneSignal();
+                        },
+                    },
+                ],
+                { cancelable: true }
+            );
+        } else {
+            setNotificationsEnabled(true);
             const granted = await requestSystemPermission();
 
             if (granted) {
-                // Enable OneSignal
                 await enableOneSignal();
             } else {
-                // Permission denied - revert toggle
                 setNotificationsEnabled(false);
                 await disableOneSignal();
             }
-        } else {
-            // Turn OFF notifications
-            await disableOneSignal();
         }
     };
+
     return (
         <SafeAreaView className="flex-1">
             <LinearGradient colors={[colors.gradientColor1, colors.gradientColor2]} className="flex-1">
@@ -50,7 +67,7 @@ const Notifications = () => {
                     <CustomHeaderLoggedIn/>
                 </View>
 
-                <View className="bg-white rounded-xl p-4"
+                <View className="bg-white rounded-xl p-4 flex-1"
                       style={{paddingTop: 70}}>
                     <Text className="text-2xl font-['Lexend-Zetta-Bold'] mb-5">Notifications</Text>
 

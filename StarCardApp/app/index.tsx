@@ -1,4 +1,14 @@
-import {View, Text, ScrollView, Image, StatusBar, TextInput, TouchableOpacity, Alert} from 'react-native'
+import {
+    View,
+    Text,
+    ScrollView,
+    Image,
+    StatusBar,
+    TextInput,
+    TouchableOpacity,
+    Alert,
+    ActivityIndicator
+} from 'react-native'
 import React, {useEffect, useRef, useState} from 'react'
 import {SafeAreaView} from 'react-native-safe-area-context';
 import images from "@/constants/images";
@@ -32,7 +42,6 @@ const Index = () => {
 
     const passwordInputRef = useRef<TextInput>(null);
 
-
     useEffect(() => {
         const checkStoredToken = async () => {
             try {
@@ -43,10 +52,8 @@ const Index = () => {
                 }
             } catch (error) {
                 console.log("Error checking stored token:", error);
-            }
-            finally {
+            } finally {
                 setCheckUserToken(false);
-
             }
         };
 
@@ -54,9 +61,12 @@ const Index = () => {
     }, []);
 
     if (checkUserToken) {
-        return null;
+        return (
+            <View className="flex-1 justify-center items-center bg-[#1c1c9]">
+                <ActivityIndicator size="large" />
+            </View>
+        );
     }
-
 
     const handleContinuePress = async () => {
         setEmailError(!isEmailValid);
@@ -125,7 +135,6 @@ const Index = () => {
         }
     };
 
-
     const validateToken = async (userToken: string) => {
         try {
             const response = await fetch("https://starcardapp.com/loyalty/admin/dashboard", {
@@ -160,7 +169,6 @@ const Index = () => {
             setLoading(false);
         }
     };
-
 
     return (
         <SafeAreaView className="h-full">
