@@ -42,13 +42,59 @@ const Index = () => {
 
     const passwordInputRef = useRef<TextInput>(null);
 
+
+    const validateToken = async (userToken: string) => {
+        try {
+            const response = await fetch("https://starcardapp.com/loyalty/admin/dashboard", {
+                method: "GET",
+                headers: {
+                    "Authorization": `Bearer ${userToken}`,
+                    "User-Agent": "Mozilla/5.0 (iPhone; CPU iPhone OS 16_0 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/16.0 Mobile/15E148 Safari/604.1",
+                },
+            });
+
+            console.log("Token Validation Response:", response.status, userToken);
+
+            if (response.status === 401 || response.status === 403) {
+                console.log("Token is invalid or expired.");
+                return false; // Token is not valid
+            }
+
+            // In case the server returns a 200 OK, check the response body for further validation
+            // const data = await response.json(); // assuming the server sends JSON data
+            // if (data && data.error && data.error === "Invalid token") {
+            //     console.log("Server rejected token explicitly:", data.error);
+            //     return false;
+            // }
+
+            setAuthToken(userToken);
+            return response.ok;// If response is OK (200), token is valid
+
+        } catch (error) {
+            console.error("Token Validation Error:", error);
+            return false;
+        } finally {
+            setLoading(false);
+        }
+    };
+
     useEffect(() => {
-        const checkStoredToken = async () => {
+        const verifyStoredToken = async () => {
             try {
                 const savedToken = await AsyncStorage.getItem("auth_token");
 
-                if (savedToken) {
+                if (!savedToken) {
+                    setCheckUserToken(false);
+                    return; // no token → stay on login
+                }
+
+                // Validate token BEFORE navigating
+                const isValid = await validateToken(savedToken);
+
+                if (isValid) {
                     router.replace("/home");
+                } else {
+                    await AsyncStorage.removeItem("auth_token");
                 }
             } catch (error) {
                 console.log("Error checking stored token:", error);
@@ -57,7 +103,7 @@ const Index = () => {
             }
         };
 
-        checkStoredToken();
+        verifyStoredToken();
     }, []);
 
     if (checkUserToken) {
@@ -132,41 +178,6 @@ const Index = () => {
         } catch (error) {
             console.error("Error", error);
             Alert.alert("Login failed", "Please enter valid email and password.");
-        }
-    };
-
-    const validateToken = async (userToken: string) => {
-        try {
-            const response = await fetch("https://starcardapp.com/loyalty/admin/dashboard", {
-                method: "GET",
-                headers: {
-                    "Authorization": `Bearer ${userToken}`,
-                    "User-Agent": "Mozilla/5.0 (iPhone; CPU iPhone OS 16_0 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/16.0 Mobile/15E148 Safari/604.1",
-                },
-            });
-
-            console.log("Token Validation Response:", response.status, userToken);
-
-            if (response.status === 401 || response.status === 403) {
-                console.log("Token is invalid or expired.");
-                return false; // Token is not valid
-            }
-
-            // In case the server returns a 200 OK, check the response body for further validation
-            // const data = await response.json(); // assuming the server sends JSON data
-            // if (data && data.error && data.error === "Invalid token") {
-            //     console.log("Server rejected token explicitly:", data.error);
-            //     return false;
-            // }
-
-            setAuthToken(userToken);
-            return response.ok;// If response is OK (200), token is valid
-
-        } catch (error) {
-            console.error("Token Validation Error:", error);
-            return false;
-        } finally {
-            setLoading(false);
         }
     };
 
