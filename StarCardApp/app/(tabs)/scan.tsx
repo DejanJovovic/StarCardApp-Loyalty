@@ -1,4 +1,4 @@
-import {View, TouchableOpacity, StyleSheet, Text, Image, Alert, StatusBar, Modal} from "react-native";
+import {View, TouchableOpacity, StyleSheet, Text, Image, Alert, Modal} from "react-native";
 import React, {useState, useCallback, useRef} from "react";
 import {Camera, CameraView} from "expo-camera";
 import {SafeAreaView} from 'react-native-safe-area-context';
@@ -48,13 +48,10 @@ const Scan = () => {
         await Haptics.notificationAsync(Haptics.NotificationFeedbackType.Success);
 
         try {
-            // Retrieve the stored scanned codes from AsyncStorage
             const storedData = await AsyncStorage.getItem("scannedCodes");
             const codes = storedData ? JSON.parse(storedData) : [];
 
-            // Check if the QR code has already been scanned
             if (codes.includes(data)) {
-                // Show alert if the QR code was already scanned
                 Alert.alert(
                     "QR Code Already Scanned",
                     "Please try to scan a different QR code.",
@@ -62,10 +59,9 @@ const Scan = () => {
                         {text: "OK", onPress: () => console.log("Duplicate scan attempt")},
                     ]
                 );
-                return; // Stop further processing if it's a duplicate
+                return;
             }
 
-            // Show modal instead of alert for new code
             setNewScannedData(data);
             setModalVisible(true);
 
@@ -73,7 +69,6 @@ const Scan = () => {
             console.error("Failed to process scan data", error);
         }
 
-        // Reset lastScannedData after a short delay to prevent multiple quick scans
         setTimeout(() => {
             lastScannedData.current = null;
         }, 2000);
@@ -101,16 +96,14 @@ const Scan = () => {
                     </Text>
                 </View>
 
-                {/* Camera View */}
                 <CameraView
                     onBarcodeScanned={scanned ? undefined : handleScanResult}
                     barcodeScannerSettings={{barcodeTypes: ["qr"]}}
-                    style={[StyleSheet.absoluteFill, {top: 160}]} // Only Camera fills full area starting lower
+                    style={[StyleSheet.absoluteFill, {top: 160}]}
                     enableTorch={torch}
                     zoom={0.1}
                 />
 
-                {/* QR Scan Box */}
                 <View className="absolute inset-0" style={{top: 70}}>
                     <View className="absolute inset-0 justify-center items-center">
                         <View
@@ -126,7 +119,6 @@ const Scan = () => {
                     </View>
                 </View>
 
-                {/* Bottom Buttons */}
                 <View className="absolute bottom-32 left-6 right-6 flex-row justify-between items-center">
                     <View>
                         {scanned && (
@@ -188,7 +180,6 @@ const Scan = () => {
                             </TouchableOpacity>
                         </View>
 
-                        {/* Add Program Button */}
                         <TouchableOpacity
                             className="bg-[#92C4CE] py-4 rounded-full"
                             style={{width: 320, marginTop: 150}}
@@ -198,7 +189,6 @@ const Scan = () => {
                                     const codes = storedData ? JSON.parse(storedData) : [];
 
                                     if (!codes.includes(newScannedData)) {
-                                        // Show success alert before saving
                                         Alert.alert(
                                             "Success",
                                             "Program has been added to your wallet.",
@@ -218,7 +208,6 @@ const Scan = () => {
                                             {cancelable: false}
                                         );
                                     } else {
-                                        // Already added, shouldn't happen in this flow, but safety check
                                         Alert.alert("Already added!", "This program is already in your wallet.");
                                     }
                                 } catch (error) {
@@ -226,7 +215,9 @@ const Scan = () => {
                                 }
                             }}
                         >
-                            <Text className="text-center" style={{color: 'white', fontSize: 16, fontFamily: 'Lexend-SemiBold'}}>ADD PROGRAM</Text>
+                            <Text className="text-center"
+                                  style={{color: 'white', fontSize: 16, fontFamily: 'Lexend-SemiBold'}}>ADD
+                                PROGRAM</Text>
                         </TouchableOpacity>
                     </View>
                 </View>

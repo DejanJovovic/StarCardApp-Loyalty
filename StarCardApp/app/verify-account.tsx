@@ -1,7 +1,7 @@
-import {View, Text, ScrollView, Image, TouchableOpacity, TextInput, Alert, StatusBar} from 'react-native'
+import {View, Text, ScrollView, Image, TouchableOpacity, TextInput, Alert} from 'react-native'
 import React, {useCallback, useState} from 'react'
-import {router, useFocusEffect} from "expo-router";
-import { SafeAreaView } from 'react-native-safe-area-context';
+import {useFocusEffect} from "expo-router";
+import {SafeAreaView} from 'react-native-safe-area-context';
 import {LinearGradient} from "expo-linear-gradient";
 import images from "@/constants/images";
 import colors from "@/constants/colors";
@@ -30,8 +30,6 @@ const VerifyAccount = () => {
             {
                 text: "OK",
                 // should be changed
-
-
             },
         ]);
 
@@ -53,7 +51,7 @@ const VerifyAccount = () => {
                     <CustomHeader/>
                 </View>
                 <ScrollView contentContainerStyle={{flexGrow: 1}}>
-                    <View className="mx-auto w-[100%] overflow-hidden" style={{ zIndex: 0 }}>
+                    <View className="mx-auto w-[100%] overflow-hidden" style={{zIndex: 0}}>
                         <Image
                             source={images.cellPhonesImage}
                             className="w-full rounded-bl-[80px]"

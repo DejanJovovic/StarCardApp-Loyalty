@@ -6,9 +6,9 @@ import {
     TouchableOpacity,
     ImageSourcePropType,
     Alert,
-    TextInput, ActivityIndicator, StatusBar
+    TextInput
 } from 'react-native'
-import React, {useEffect, useRef, useState} from 'react'
+import React, {useState} from 'react'
 import icons from "@/constants/icons";
 import {router} from "expo-router";
 import {LinearGradient} from "expo-linear-gradient";
@@ -16,7 +16,6 @@ import {SafeAreaView} from 'react-native-safe-area-context';
 import colors from "@/constants/colors";
 import {useAuth} from "@/components/AuthContext";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import images from "@/constants/images";
 import CustomHeaderLoggedIn from "@/components/CustomHeaderLoggedIn";
 
 const Profile = () => {
@@ -86,8 +85,8 @@ const Profile = () => {
                         try {
                             logout();
 
-                            const token = await AsyncStorage.getItem("auth_token"); // check if it's null
-                            console.log("Token after deletion:", token); // should be null if the token is successfully deleted
+                            const token = await AsyncStorage.getItem("auth_token");
+                            console.log("Token after deletion:", token);
 
                             setAuthToken(null);
                             setUserEmail("");

@@ -6,15 +6,12 @@ import {
     TextInput,
     ScrollView,
     Alert,
-    StatusBar,
     Platform,
     Modal,
-    Pressable
 } from 'react-native'
 import React, {useCallback, useRef, useState} from 'react'
 import {router, useFocusEffect} from "expo-router";
 import {SafeAreaView} from 'react-native-safe-area-context';
-import images from "@/constants/images";
 import icons from "@/constants/icons";
 import CustomHeader from "@/components/CustomHeader";
 import colors from "@/constants/colors";
@@ -48,7 +45,7 @@ const SignUp = () => {
 
     const isNameValid = name.trim().length > 2;
     const isEmailValid = email.includes("@");
-    // checks that the password has at least 8 characters, contains one digit (0-9) and one special character (#?!@$%^&*-)
+
     const isPasswordValid = /^(?=.*\d)(?=.*[#?!@$%^&*-]).{8,}$/.test(password);
     const isConfirmPasswordValid = /^(?=.*\d)(?=.*[#?!@$%^&*-]).{8,}$/.test(password);
     const isDateValid = date.trim().length > 2;
@@ -102,10 +99,10 @@ const SignUp = () => {
     };
 
     const handleDateChange = (event: any, chosenDate?: Date) => {
-        setShowPicker(Platform.OS === "ios"); // keep picker open on iOS
+        setShowPicker(Platform.OS === "ios")
         if (chosenDate) {
             setSelectedDate(chosenDate);
-            const formatted = chosenDate.toLocaleDateString("en-GB"); // Format as DD/MM/YYYY
+            const formatted = chosenDate.toLocaleDateString("en-GB");
             setDate(formatted);
             setDateError(false);
         }
@@ -164,7 +161,7 @@ const SignUp = () => {
                                 setName(text);
                                 setNameError(false);
                             }}
-                            onSubmitEditing={() => emailInputRef.current?.focus()} // Move to the next input
+                            onSubmitEditing={() => emailInputRef.current?.focus()}
                             returnKeyType="next"/>
                     </View>
 
@@ -189,7 +186,7 @@ const SignUp = () => {
                                 setEmail(text);
                                 setEmailError(false);
                             }}
-                            onSubmitEditing={() => passwordInputRef.current?.focus()} // Move to the next input
+                            onSubmitEditing={() => passwordInputRef.current?.focus()}
                             returnKeyType="next"/>
 
                     </View>
@@ -262,7 +259,7 @@ const SignUp = () => {
                                     setConfirmPassword(text);
                                     setConfirmPasswordError(false);
                                 }}
-                                onSubmitEditing={() => phoneInputRef.current?.focus()} // Move to the next input
+                                onSubmitEditing={() => phoneInputRef.current?.focus()}
                                 returnKeyType="next"/>
 
                             {confirmPassword.length > 0 && (
@@ -323,7 +320,6 @@ const SignUp = () => {
                             </TouchableOpacity>
                         </View>
 
-                        {/* Android picker */}
                         {showPicker && Platform.OS === "android" && (
                             <DateTimePicker
                                 value={selectedDate || new Date()}
@@ -334,7 +330,6 @@ const SignUp = () => {
                             />
                         )}
 
-                        {/* iOS modal picker */}
                         {Platform.OS === "ios" && (
                             <Modal visible={showPicker} transparent animationType="slide">
                                 <View
@@ -393,7 +388,7 @@ const SignUp = () => {
                             onChangeText={(text) => {
                                 setPhone(text);
                             }}
-                            onSubmitEditing={() => locationInputRef.current?.focus()} // Move to the next input
+                            onSubmitEditing={() => locationInputRef.current?.focus()}
                             returnKeyType="next"/>
 
                     </View>

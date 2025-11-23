@@ -7,8 +7,6 @@ import CustomHeaderLoggedIn from "@/components/CustomHeaderLoggedIn";
 import images from "@/constants/images";
 
 const Cards = () => {
-    const [codes, setCodes] = useState<string[]>([]);
-    const [authToken, setAuthToken] = useState<string | null>(null);
 
     return (
         <SafeAreaView>

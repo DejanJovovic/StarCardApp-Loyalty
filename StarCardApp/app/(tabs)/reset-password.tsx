@@ -1,12 +1,11 @@
-import {View, Text, ScrollView, Image, TouchableOpacity, TextInput, Alert, StatusBar} from 'react-native'
+import {View, Text, Image, TouchableOpacity, TextInput, Alert, StatusBar} from 'react-native'
 import React, {useCallback, useState} from 'react'
-import { SafeAreaView } from 'react-native-safe-area-context';
-import {router, useFocusEffect} from "expo-router";
+import {SafeAreaView} from 'react-native-safe-area-context';
+import {useFocusEffect} from "expo-router";
 import {LinearGradient} from "expo-linear-gradient";
 import images from "@/constants/images";
 import colors from "@/constants/colors";
 import CustomHeader from "@/components/CustomHeader";
-import icons from "@/constants/icons";
 
 const ResetPassword = () => {
 
@@ -54,7 +53,7 @@ const ResetPassword = () => {
                     <CustomHeader/>
                 </View>
 
-                <View className="mx-auto w-[100%] overflow-hidden" style={{ zIndex: 0 }}>
+                <View className="mx-auto w-[100%] overflow-hidden" style={{zIndex: 0}}>
                     <Image
                         source={images.cellPhonesImage}
                         className="w-full rounded-bl-[80px]"
@@ -109,9 +108,7 @@ const ResetPassword = () => {
                                       color: "#82BCC7",
                                   }}>RESET PASSWORD</Text>
                         </TouchableOpacity>
-
                     </View>
-
                 </View>
             </LinearGradient>
         </SafeAreaView>

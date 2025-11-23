@@ -1,16 +1,48 @@
 import {View, Text, Switch, FlatList, ScrollView} from 'react-native';
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import colors from "@/constants/colors";
 import CustomHeaderLoggedIn from "@/components/CustomHeaderLoggedIn";
 import {SafeAreaView} from "react-native-safe-area-context";
 import {LinearGradient} from "expo-linear-gradient";
+import {
+    disableOneSignal,
+    enableOneSignal,
+    loadStoredNotificationPreference,
+    requestSystemPermission
+} from "@/service/notificationService";
 
 const Notifications = () => {
     const [notificationsEnabled, setNotificationsEnabled] = useState(false);
     const notifications: string[] = []; // empty for now
 
-    const toggleSwitch = () => setNotificationsEnabled(prev => !prev);
+    useEffect(() => {
+        const load = async () => {
+            const stored = await loadStoredNotificationPreference();
+            setNotificationsEnabled(stored);
+        };
+        load();
+    }, []);
 
+    const toggleSwitch = async (value: boolean) => {
+        setNotificationsEnabled(value);
+
+        if (value) {
+            // Ask for system permission
+            const granted = await requestSystemPermission();
+
+            if (granted) {
+                // Enable OneSignal
+                await enableOneSignal();
+            } else {
+                // Permission denied - revert toggle
+                setNotificationsEnabled(false);
+                await disableOneSignal();
+            }
+        } else {
+            // Turn OFF notifications
+            await disableOneSignal();
+        }
+    };
     return (
         <SafeAreaView className="flex-1">
             <LinearGradient colors={[colors.gradientColor1, colors.gradientColor2]} className="flex-1">
@@ -19,7 +51,7 @@ const Notifications = () => {
                 </View>
 
                 <View className="bg-white rounded-xl p-4"
-                style={{paddingTop: 70}}>
+                      style={{paddingTop: 70}}>
                     <Text className="text-2xl font-['Lexend-Zetta-Bold'] mb-5">Notifications</Text>
 
                     <View className="flex-row items-center justify-between mb-5">

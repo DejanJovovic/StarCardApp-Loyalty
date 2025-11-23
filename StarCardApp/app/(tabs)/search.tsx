@@ -4,7 +4,6 @@ import {
     Image,
     Text,
     TouchableOpacity,
-    StatusBar,
     ScrollView,
     Modal,
     TouchableWithoutFeedback, Alert
@@ -96,7 +95,9 @@ const Search = () => {
                             />
                         </TouchableOpacity>
 
-                        <TouchableOpacity onPress={() => openModal(images.ferdinandSearch, "https://www.ferdinandknedle.com/")} style={{marginTop: 20}}>
+                        <TouchableOpacity
+                            onPress={() => openModal(images.ferdinandSearch, "https://www.ferdinandknedle.com/")}
+                            style={{marginTop: 20}}>
                             <Image
                                 source={images.ferdinandSearch}
                                 resizeMode="contain"
@@ -105,7 +106,8 @@ const Search = () => {
                             />
                         </TouchableOpacity>
 
-                        <TouchableOpacity onPress={() => openModal(images.waterdropSearch, "https://waterdrop.rs/")} style={{marginTop: 20}}>
+                        <TouchableOpacity onPress={() => openModal(images.waterdropSearch, "https://waterdrop.rs/")}
+                                          style={{marginTop: 20}}>
                             <Image
                                 source={images.waterdropSearch}
                                 resizeMode="contain"
@@ -114,7 +116,8 @@ const Search = () => {
                             />
                         </TouchableOpacity>
 
-                        <TouchableOpacity onPress={() => openModal(images.lagunaSearch, "https://laguna.rs/")} style={{marginTop: 50}}>
+                        <TouchableOpacity onPress={() => openModal(images.lagunaSearch, "https://laguna.rs/")}
+                                          style={{marginTop: 50}}>
 
                             <Image
                                 source={images.lagunaSearch}
@@ -129,7 +132,7 @@ const Search = () => {
             <Modal visible={showModal} animationType="fade" transparent>
                 <TouchableWithoutFeedback onPress={() => setShowModal(false)}>
                     <View className="flex-1 justify-center items-center bg-transparent">
-                        <TouchableWithoutFeedback onPress={() => { /* Do nothing to prevent closing modal when clicking inside */
+                        <TouchableWithoutFeedback onPress={() => {
                         }}>
                             <View
                                 style={{
@@ -146,7 +149,6 @@ const Search = () => {
                                     elevation: 10,
                                 }}
                             >
-                                {/* Top Section - White */}
                                 <View className="bg-white flex-row justify-between items-start px-4 pt-4 pb-2">
                                     {selectedImage && (
                                         <Image
@@ -164,7 +166,6 @@ const Search = () => {
                                     </TouchableOpacity>
                                 </View>
 
-                                {/* Bottom Section - Black */}
                                 <View style={{
                                     backgroundColor: 'black',
                                     flex: 1,
@@ -174,7 +175,12 @@ const Search = () => {
                                 }}>
                                     <View>
                                         <Text
-                                            style={{color: 'white', fontSize: 12, fontFamily: 'Lexend-SemiBold', marginBottom: 8}}>LOYALTY
+                                            style={{
+                                                color: 'white',
+                                                fontSize: 12,
+                                                fontFamily: 'Lexend-SemiBold',
+                                                marginBottom: 8
+                                            }}>LOYALTY
                                             PROGRAMS</Text>
                                         <Text style={{
                                             color: 'white',
@@ -195,15 +201,18 @@ const Search = () => {
                                             lineHeight: 20,
                                             marginBottom: 12
                                         }}>
-                                            Registruj se na <Text style={{fontFamily: "Lexend-SemiBold"}}>{selectedLink}</Text> i
+                                            Registruj se na <Text
+                                            style={{fontFamily: "Lexend-SemiBold"}}>{selectedLink}</Text> i
                                             prilikom prve kupovine
                                             ostvari popust od neverovatnih <Text
-                                            style={{fontFamily: "Lexend-SemiBold"}}>15%</Text> na bilo koji proizvod u nekoj od
+                                            style={{fontFamily: "Lexend-SemiBold"}}>15%</Text> na bilo koji proizvod u
+                                            nekoj od
                                             naših radnji.
                                         </Text>
 
                                         <Text style={{color: 'white', fontSize: 12, fontFamily: "Lexend-SemiBold"}}>
-                                            NAPOMENA: <Text style={{fontFamily: "Lexend-Regular"}}>Ovaj program nije validan za
+                                            NAPOMENA: <Text style={{fontFamily: "Lexend-Regular"}}>Ovaj program nije
+                                            validan za
                                             ONLINE kupovinu.</Text>
                                         </Text>
 
@@ -230,7 +239,7 @@ const Search = () => {
                                                         },
                                                     },
                                                 ],
-                                                { cancelable: false }
+                                                {cancelable: false}
                                             );
                                         }}
                                     >

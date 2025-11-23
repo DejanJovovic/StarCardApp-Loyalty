@@ -1,8 +1,6 @@
-import {View, Text, FlatList, ScrollView, Image, TouchableOpacity, StatusBar} from "react-native";
-import React, {useCallback, useState} from "react";
-import { SafeAreaView } from 'react-native-safe-area-context';
-import AsyncStorage from "@react-native-async-storage/async-storage";
-import {useFocusEffect} from "expo-router";
+import {View, Text, Image} from "react-native";
+import React, {useState} from "react";
+import {SafeAreaView} from 'react-native-safe-area-context';
 import CustomHeaderLoggedIn from "@/components/CustomHeaderLoggedIn";
 import colors from "@/constants/colors";
 import images from "@/constants/images";

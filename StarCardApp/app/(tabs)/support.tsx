@@ -1,7 +1,7 @@
-import {View, Text, ScrollView, TextInput, TouchableOpacity, Image, Alert, StatusBar} from 'react-native'
+import {View, Text, ScrollView, TextInput, TouchableOpacity, Image, Alert} from 'react-native'
 import React, {useCallback, useRef, useState} from 'react'
 import colors from "@/constants/colors";
-import { SafeAreaView } from 'react-native-safe-area-context';
+import {SafeAreaView} from 'react-native-safe-area-context';
 import {LinearGradient} from "expo-linear-gradient";
 import images from "@/constants/images";
 import CustomHeader from "@/components/CustomHeader";
@@ -72,8 +72,8 @@ const Support = () => {
                 <View style={{position: "absolute", top: 0, left: 0, right: 0, zIndex: 1000}}>
                     <CustomHeader/>
                 </View>
-                <ScrollView contentContainerStyle={{flexGrow: 1,}} className="px-5 pb-15"
-                            style={{marginTop: 80}}>
+                <ScrollView contentContainerStyle={{flexGrow: 1,}} className="px-5 "
+                            style={{marginTop: 80, marginBottom: 80}}>
                     <View className="flex flex-col mt-10 items-center justify-center">
                         <Text style={{color: "#82BCC7", fontFamily: "Lexend-Zetta-Bold", fontSize: 19}}>SUPPORT</Text>
                         <Text className="mt-3 w-full"
@@ -104,7 +104,7 @@ const Support = () => {
                                     setFullName(text);
                                     setFullNameError(false);
                                 }}
-                                onSubmitEditing={() => phoneInputRef.current?.focus()} // Move to the next input
+                                onSubmitEditing={() => phoneInputRef.current?.focus()}
                                 returnKeyType="next"/>
                         </View>
 
@@ -128,7 +128,7 @@ const Support = () => {
                                     setPhone(text);
                                     setPhoneError(false);
                                 }}
-                                onSubmitEditing={() => emailInputRef.current?.focus()} // Move to the next input
+                                onSubmitEditing={() => emailInputRef.current?.focus()}
                                 returnKeyType="next"/>
                         </View>
                     </View>
@@ -152,7 +152,7 @@ const Support = () => {
                             setEmail(text);
                             setEmailError(false);
                         }}
-                        onSubmitEditing={() => questionInputRef.current?.focus()} // Move to the next input
+                        onSubmitEditing={() => questionInputRef.current?.focus()}
                         returnKeyType="next"/>
 
 
@@ -223,7 +223,6 @@ const Support = () => {
                             <Text style={{
                                 color: "#000000", fontFamily: "Lexend-Light", fontSize: 11
                             }}>Dubai (UAE)</Text>
-                            {/*can we clickable to open mail app???*/}
                             <Text style={{
                                 color: "#000000", fontFamily: "Lexend-SemiBold", fontSize: 11, marginTop: 10
                             }}>office@starcardapp.com</Text>

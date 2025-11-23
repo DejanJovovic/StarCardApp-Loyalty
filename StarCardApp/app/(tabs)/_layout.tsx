@@ -1,4 +1,4 @@
-import { Tabs } from "expo-router";
+import {Tabs} from "expo-router";
 import icons from "@/constants/icons";
 import CustomTabBarButton from "@/components/CustomTabBarButton";
 
@@ -23,7 +23,7 @@ export default function TabsLayout() {
                     borderTopWidth: 0,
                     elevation: 10,
                     shadowColor: "#000",
-                    shadowOffset: { width: 0, height: 2 },
+                    shadowOffset: {width: 0, height: 2},
                     shadowOpacity: 0.1,
                     shadowRadius: 4,
                     paddingBottom: 42,
@@ -103,6 +103,35 @@ export default function TabsLayout() {
                             routeName="profile"
                         />
                     ),
+                }}
+            />
+
+            <Tabs.Screen
+                name="notifications"
+                options={{
+                    href: null,
+                    headerShown: false,
+                }}
+            />
+            <Tabs.Screen
+                name="cards"
+                options={{
+                    href: null,
+                    headerShown: false,
+                }}
+            />
+            <Tabs.Screen
+                name="reset-password"
+                options={{
+                    href: null,
+                    headerShown: false,
+                }}
+            />
+            <Tabs.Screen
+                name="support"
+                options={{
+                    href: null,
+                    headerShown: false,
                 }}
             />
         </Tabs>

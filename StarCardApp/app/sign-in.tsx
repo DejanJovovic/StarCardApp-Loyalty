@@ -18,8 +18,6 @@ const SignIn = () => {
 
     const [authToken, setAuthToken] = useState<string | null>(null);
 
-
-    // username or email login?
     const [userEmail, setUserEmail] = useState("");
     const [userPassword, setUserPassword] = useState("");
 
