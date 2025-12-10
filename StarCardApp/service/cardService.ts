@@ -2,7 +2,7 @@ import type { CardValues } from '@/types/card';
 import { CardValuesMapper } from '@/model/CardValuesMapper';
 
 export async function fetchCardValues(token: string, userCode: string): Promise<CardValues> {
-    const url = `https://starcardapp.com/loyalty/cards/get_all_card_values/${encodeURIComponent(userCode)}`;
+    const url = `https://starcardapp.com/loyalty/cards/get_all_program_cards_values/${encodeURIComponent(userCode)}`;
     const res = await fetch(url, {
         method: 'GET',
         headers: {

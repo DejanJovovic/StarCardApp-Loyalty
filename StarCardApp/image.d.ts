@@ -18,3 +18,11 @@ declare module "*.svg" {
     const value: any;
     export default value;
 }
+declare module "*.sql" {
+    const value: any;
+    export default value;
+}
+declare module "*.sqlite" {
+    const value: any;
+    export default value;
+}

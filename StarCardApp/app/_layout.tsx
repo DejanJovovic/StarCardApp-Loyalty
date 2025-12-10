@@ -6,12 +6,13 @@ import {router, SplashScreen as ExpoSplashScreen, Stack} from 'expo-router';
 import "./globals.css";
 import {AuthProvider} from "@/components/AuthContext";
 import {useFonts} from "expo-font";
-import React, {useState} from "react";
+import React, {useEffect, useState} from "react";
 import SplashScreen from "@/components/SplashScreen";
 import {StatusBar} from "react-native";
 import {CardProvider} from "@/context/CardContext";
 import {useStarCardOneSignal} from "@/hooks/useOneSignalDeepLinks";
 import {RouteTarget} from "@/types/routeDeepLink";
+import {getAll, openDatabase} from "@/db/initDb";
 
 export default function RootLayout() {
 
@@ -46,6 +47,30 @@ export default function RootLayout() {
         onesignalAppId: "d38275c3-a404-4718-9945-4f8654e00025",
         debug: true, // set false in production
     });
+
+
+    useEffect(() => {
+        (async () => {
+            const db = await openDatabase();
+
+            const tables = getAll(
+                db,
+                "SELECT name FROM sqlite_master WHERE type='table'"
+            );
+            const counts = getAll(db, `
+                SELECT name,
+                       (SELECT COUNT(*)
+                        FROM (SELECT *
+                              FROM "main"."${'program_cards'}" 
+                             )) as c
+                FROM sqlite_master
+                WHERE type = 'table'
+                  AND name NOT LIKE 'sqlite_%'`);
+            console.log("Counts:", counts);
+
+            console.log("Tables in DB:", tables);
+        })();
+    }, []);
 
 
     if (showCustomSplash) {

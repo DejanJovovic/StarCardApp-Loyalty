@@ -29,8 +29,6 @@ const Index = () => {
     const [userEmail, setUserEmail] = useState("");
     const [userPassword, setUserPassword] = useState("");
     const [loading, setLoading] = useState(false);
-    const [checkUserToken, setCheckUserToken] = useState(true);
-
 
     const [emailError, setEmailError] = useState(false);
     const [passwordError, setPasswordError] = useState(false);
@@ -42,26 +40,31 @@ const Index = () => {
 
     const passwordInputRef = useRef<TextInput>(null);
 
-    useEffect(() => {
-        const checkToken = async () => {
-            const savedToken = await AsyncStorage.getItem("auth_token");
+    const [checkingAuth, setCheckingAuth] = useState(true);
 
-            if (savedToken) {
-                router.replace("/home");
-            } else {
-                setCheckUserToken(false);
+    useEffect(() => {
+        const checkStoredAuth = async () => {
+            try {
+                const storedToken = await AsyncStorage.getItem("auth_token");
+                const storedEmail = await AsyncStorage.getItem("email");
+                const storedPassword = await AsyncStorage.getItem("password");
+                if (storedToken && storedToken !== "null" && storedToken !== "undefined" && storedEmail && storedEmail !== "null" && storedEmail !== "undefined" && storedPassword && storedPassword !== "null" && storedPassword !== "undefined") {
+                    router.replace("/home");
+                }
+            } catch (error) {
+                console.error("Error checking stored auth:", error);
+            } finally {
+                setCheckingAuth(false);
             }
         };
-
-        checkToken();
+        checkStoredAuth();
     }, []);
-
-    if (checkUserToken) {
+    if (checkingAuth) {
         return (
-            <View className="flex-1 justify-center items-center bg-[#1c1c9]">
-                <ActivityIndicator size="large" />
+            <View style={{flex: 1, justifyContent: 'center', alignItems: 'center', backgroundColor: '#fff'}}>
+                <ActivityIndicator size="large" color="#000000"/>
             </View>
-        );
+        )
     }
 
     const handleContinuePress = async () => {
