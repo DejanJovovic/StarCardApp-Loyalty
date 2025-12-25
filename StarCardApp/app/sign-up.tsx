@@ -18,11 +18,10 @@ import colors from "@/constants/colors";
 import {LinearGradient} from 'expo-linear-gradient';
 import DateTimePicker from "@react-native-community/datetimepicker";
 
-
 const SignUp = () => {
 
 
-    const [name, setName] = useState("");
+    const [fullname, setFullname] = useState("");
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const [confirmPassword, setConfirmPassword] = useState("");
@@ -34,7 +33,7 @@ const SignUp = () => {
     const [showPicker, setShowPicker] = useState(false);
     const [selectedDate, setSelectedDate] = useState<Date | undefined>(undefined);
 
-    const [nameError, setNameError] = useState(false);
+    const [fullnameError, setFullnameError] = useState(false);
     const [emailError, setEmailError] = useState(false);
     const [passwordError, setPasswordError] = useState(false);
     const [confirmPasswordError, setConfirmPasswordError] = useState(false);
@@ -43,11 +42,11 @@ const SignUp = () => {
     const [isPasswordVisible, setIsPasswordVisible] = useState(false);
     const [isConfirmPasswordVisible, setIsConfirmPasswordVisible] = useState(false);
 
-    const isNameValid = name.trim().length > 2;
+    const isFullnameValid = fullname.trim().length > 2;
     const isEmailValid = email.includes("@");
 
     const isPasswordValid = /^(?=.*\d)(?=.*[#?!@$%^&*-]).{8,}$/.test(password);
-    const isConfirmPasswordValid = /^(?=.*\d)(?=.*[#?!@$%^&*-]).{8,}$/.test(password);
+    const isConfirmPasswordValid = /^(?=.*\d)(?=.*[#?!@$%^&*-]).{8,}$/.test(confirmPassword);
     const isDateValid = date.trim().length > 2;
 
     const emailInputRef = useRef<TextInput>(null);
@@ -58,13 +57,13 @@ const SignUp = () => {
 
     const handleContinuePress = () => {
 
-        setNameError(!isNameValid);
+        setFullnameError(!isFullnameValid);
         setEmailError(!isEmailValid);
         setPasswordError(!isPasswordValid);
         setConfirmPasswordError(!isConfirmPasswordValid);
         setDateError(!isDateValid);
 
-        if (!isNameValid) {
+        if (!isFullnameValid) {
             Alert.alert("Invalid Input", "Please check your name.");
             return;
         }
@@ -79,23 +78,75 @@ const SignUp = () => {
 
         if (!isConfirmPasswordValid) {
             Alert.alert("Invalid Input", "Please check your confirm password.");
+            return;
         }
 
         if (password !== confirmPassword) {
             Alert.alert("Invalid Input", "Please make sure that your passwords match.");
+            return;
         }
         if (!isDateValid) {
             Alert.alert("Invalid Input", "Please set your date of birth.");
+            return;
         }
 
-        Alert.alert("Success", "Sign up successful.", [
-            {
-                // code should be sent to the email and then let the user verify it later after signin occurs?
-                // Or don't allow the user to sign-in unless the code is verified
-                text: "OK",
-                onPress: () => router.replace("/sign-in"),
-            },
-        ]);
+        handleSignUp()
+    };
+
+    const handleSignUp = async () => {
+
+        try {
+
+            const fullnameTrim = fullname.trim();
+            const emailTrim = email.trim();
+            const passwordTrim = password.trim();
+            const confirmPasswordTrim = confirmPassword.trim();
+            const phoneTrim = phone.trim();
+            const locationTrim = location.trim();
+            const dateToSend = selectedDate ? selectedDate.toISOString().split('T')[0] : '';
+
+            const formData = new URLSearchParams();
+            formData.append("fullname", fullname);
+            formData.append("email", email);
+            formData.append("password", password);
+            formData.append("confirmPassword", confirmPassword);
+            formData.append("date", dateToSend);
+            formData.append("phone", phone);
+            formData.append("location", location);
+
+            console.log("Sign up payload being sent:");
+            for (const [key, value] of formData.entries()) {
+                console.log(`${key}: ${value}`);
+            }
+
+            const response = await fetch('https://starcardapp.com/loyalty/api/mobile/register', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded',
+                    'User-Agent': 'Mozilla/5.0 (iPhone; CPU iPhone OS 16_0 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/16.0 Mobile/15E148 Safari/604.1',
+                },
+                body: formData.toString(),
+            });
+
+            const data = await response.json();
+
+            console.log("Response from backend:", data ?? response.status);
+
+            if (response.ok) {
+                Alert.alert("Success", "Sign up successful.", [
+                    {
+                        text: "OK",
+                        onPress: () => router.replace("/sign-in"),
+                    },
+                ]);
+            } else {
+                const message = data?.message || 'Registration failed. Please check your details and try again.';
+                Alert.alert("Error", message);
+            }
+        } catch (error) {
+            console.error("Error during registration:", error);
+            Alert.alert("Registration failed", "Please check your internet connection and try again.");
+        }
     };
 
     const handleDateChange = (event: any, chosenDate?: Date) => {
@@ -111,14 +162,14 @@ const SignUp = () => {
     useFocusEffect(
         useCallback(() => {
             return () => {
-                setName("");
+                setFullname("");
                 setEmail("");
                 setPassword("");
                 setConfirmPassword("");
                 setDate("");
                 setPhone("");
                 setLocation("");
-                setNameError(false);
+                setFullnameError(false);
                 setEmailError(false);
                 setPasswordError(false);
                 setConfirmPasswordError(false);
@@ -144,7 +195,7 @@ const SignUp = () => {
 
                     <View className="mt-10 px-6">
                         <TextInput
-                            className={`rounded-full w-full bg-white ${nameError ? "border border-red-500" : ""}`}
+                            className={`rounded-full w-full bg-white ${fullnameError ? "border border-red-500" : ""}`}
                             style={{
                                 fontFamily: "Lexend-Regular",
                                 fontSize: 15,
@@ -153,13 +204,13 @@ const SignUp = () => {
                                 color: "#000000",
                                 height: 60
                             }}
-                            placeholder="* Name"
+                            placeholder="* Fullname"
                             placeholderTextColor="#82BCC7"
-                            value={name}
+                            value={fullname}
                             autoCapitalize="words"
                             onChangeText={(text) => {
-                                setName(text);
-                                setNameError(false);
+                                setFullname(text);
+                                setFullnameError(false);
                             }}
                             onSubmitEditing={() => emailInputRef.current?.focus()}
                             returnKeyType="next"/>
