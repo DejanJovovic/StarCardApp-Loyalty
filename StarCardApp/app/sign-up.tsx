@@ -96,13 +96,6 @@ const SignUp = () => {
     const handleSignUp = async () => {
 
         try {
-
-            const fullnameTrim = fullname.trim();
-            const emailTrim = email.trim();
-            const passwordTrim = password.trim();
-            const confirmPasswordTrim = confirmPassword.trim();
-            const phoneTrim = phone.trim();
-            const locationTrim = location.trim();
             const dateToSend = selectedDate ? selectedDate.toISOString().split('T')[0] : '';
 
             const formData = new URLSearchParams();
@@ -136,7 +129,7 @@ const SignUp = () => {
                 Alert.alert("Success", "Sign up successful.", [
                     {
                         text: "OK",
-                        onPress: () => router.replace("/sign-in"),
+                        onPress: () => router.replace("/verify-account"),
                     },
                 ]);
             } else {
