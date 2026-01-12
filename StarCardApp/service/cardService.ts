@@ -1,8 +1,9 @@
-import type { CardValues } from '@/types/card';
+import type { CardValues, ProgramCardsApiResponse } from '@/types/card';
 import { CardValuesMapper } from '@/model/CardValuesMapper';
 
-export async function fetchCardValues(token: string, userCode: string): Promise<CardValues> {
-    const url = `https://starcardapp.com/loyalty/cards/get_all_program_cards_values/${encodeURIComponent(userCode)}`;
+export async function fetchCardValues(token: string): Promise<CardValues[]> {
+    const url = 'https://starcardapp.com/loyalty/cards/get_all_program_cards_values';
+
     const res = await fetch(url, {
         method: 'GET',
         headers: {
@@ -12,18 +13,20 @@ export async function fetchCardValues(token: string, userCode: string): Promise<
                 'Mozilla/5.0 (iPhone; CPU iPhone OS 16_0 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/16.0 Mobile/15E148 Safari/604.1',
         },
     });
+
     const raw = await res.text();
-
-
     console.log('[CardService] status:', res.status);
     console.log('[CardService] raw body:', raw);
 
-    const parsed = JSON.parse(raw);
+    if (!res.ok) {
+        throw new Error(`API ${res.status}`);
+    }
+
+    const parsed: ProgramCardsApiResponse = JSON.parse(raw);
     console.log('[CardService] parsed JSON:', parsed);
 
-    const mapped = CardValuesMapper.fromApi(parsed);
-    console.log('[CardService] mapped CardValues:', mapped);
+    const mapped = CardValuesMapper.fromApiResponse(parsed);
+    console.log('[CardService] mapped CardValues[]:', mapped);
 
     return mapped;
-
 }

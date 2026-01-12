@@ -4,29 +4,29 @@ import { fetchCardValues } from '@/service/cardService';
 import { loadCardValues as loadFromStorage, saveCardValues as saveToStorage, clearCardValues } from '@/storage/cardStorage';
 
 type State = {
-    card: CardValues | null;
+    cards: CardValues[] | null;
     status: 'idle' | 'loading' | 'ready' | 'error';
     error?: string;
 };
 
 type Action =
     | { type: 'LOAD_START' }
-    | { type: 'LOAD_SUCCESS'; payload: CardValues }
+    | { type: 'LOAD_SUCCESS'; payload: CardValues[] }
     | { type: 'LOAD_ERROR'; payload: string }
     | { type: 'CLEAR' };
 
-const initialState: State = { card: null, status: 'idle' };
+const initialState: State = { cards: null, status: 'idle' };
 
 function reducer(state: State, action: Action): State {
     switch (action.type) {
         case 'LOAD_START':
             return { ...state, status: 'loading', error: undefined };
         case 'LOAD_SUCCESS':
-            return { ...state, status: 'ready', card: action.payload, error: undefined };
+            return { ...state, status: 'ready', cards: action.payload, error: undefined };
         case 'LOAD_ERROR':
             return { ...state, status: 'error', error: action.payload };
         case 'CLEAR':
-            return { ...state, card: null, status: 'idle', error: undefined };
+            return { ...state, cards: null, status: 'idle', error: undefined };
         default:
             return state;
     }
@@ -34,7 +34,7 @@ function reducer(state: State, action: Action): State {
 
 type Ctx = State & {
     initFromCache: () => Promise<void>;
-    refreshFromApi: (token: string, userCode: string) => Promise<void>;
+    refreshFromApi: (token: string) => Promise<void>;
     clear: () => Promise<void>;
 };
 
@@ -47,22 +47,22 @@ export const CardProvider: React.FC<React.PropsWithChildren> = ({ children }) =>
         dispatch({ type: 'LOAD_START' });
         try {
             const cached = await loadFromStorage();
-            if (cached) {
+            if (cached && cached.length > 0) {
                 dispatch({ type: 'LOAD_SUCCESS', payload: cached });
             } else {
-                dispatch({ type: 'LOAD_ERROR', payload: 'No cached card.' });
+                dispatch({ type: 'LOAD_ERROR', payload: 'No cached cards.' });
             }
         } catch (e: any) {
             dispatch({ type: 'LOAD_ERROR', payload: e?.message ?? 'Cache load failed' });
         }
     }, []);
 
-    const refreshFromApi = useCallback(async (token: string, userCode: string) => {
+    const refreshFromApi = useCallback(async (token: string) => {
         dispatch({ type: 'LOAD_START' });
         try {
-            const card = await fetchCardValues(token, userCode);
-            await saveToStorage(card);
-            dispatch({ type: 'LOAD_SUCCESS', payload: card });
+            const cards = await fetchCardValues(token);
+            await saveToStorage(cards);
+            dispatch({ type: 'LOAD_SUCCESS', payload: cards });
         } catch (e: any) {
             dispatch({ type: 'LOAD_ERROR', payload: e?.message ?? 'API load failed' });
         }

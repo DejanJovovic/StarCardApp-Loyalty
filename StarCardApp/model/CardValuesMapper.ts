@@ -1,58 +1,77 @@
-import type { CardValuesApi, CardValues } from '@/types/card';
-
-const parseDate = (s: string) => new Date(s.replace(' ', 'T') + 'Z');
-const trimMultiline = (s: string | null): string | null =>
-    s ? s.replace(/\r/g, '').split('\n').map(line => line.trimEnd()).join('\n').trim() : null;
+import type { CardValues, ProgramCardsApiResponse, ProgramCardApiItem } from '@/types/card';
 
 export class CardValuesMapper {
-    static fromApi(json: CardValuesApi): CardValues {
-        if (!json || typeof json !== 'object' || !json.data) {
-            throw new Error('Invalid API payload');
-        }
-        const d = json.data;
+    static fromApiResponse(resp: ProgramCardsApiResponse): CardValues[] {
+        const items = Array.isArray(resp?.data) ? resp.data : [];
+        return items.map(this.fromApiItem);
+    }
+
+    static fromApiItem(item: ProgramCardApiItem): CardValues {
+        const pc = item.program_cards;
+        const pi = item.program_images;
+        const color = item.program_color;
+        const stamps = item.program_stamps;
+        const info = item.program_information;
+
+        const total = toInt(stamps?.stamped_number, 0);
+        const created = safeDate(pc?.program_date) ?? new Date();
 
         return {
-            id: d.id,
-            cardId: d.card_id,
-            userId: d.user_id,
-            userCode: d.user_code,
-            name: d.card_name,
-            type: d.card_type,
-            isActive: d.is_active === 1,
-            status: d.status,
-            createdAt: parseDate(d.created_at),
-            updatedAt: parseDate(d.updated_at),
+            id: pc?.program_code ?? `${pc?.company_code ?? ''}-${pc?.program_selector ?? ''}`,
+
+            name: pc?.program_title ?? null,
+            isActive: (pc?.program_status ?? 'inactive') === 'active',
+            status: (pc?.program_status as any) ?? 'inactive',
+
+            createdAt: created,
+            updatedAt: created,
 
             colors: {
-                // prefer NEW card_background; fallback to legacy background_color; fallback null
-                background: d.card_background ?? d.background_color ?? null,
-
-                // NEW fields (may be null/undefined)
-                stampBackground: d.stamp_background_color ?? null,
-                stampText: d.stamp_text_color ?? null,
-
-                // existing
-                stampActiveBg: d.active_stamp_bg ?? null,
-                stampInactiveBg: d.inactive_stamp_bg ?? null,
+                background: color?.card_background ?? color?.card_background_hex ?? null,
+                stampBackground: color?.stamp_background_color ?? null,
+                stampText: color?.stamp_text_color ?? null,
+                stampActiveBg: color?.active_stamp_color ?? null,
+                stampInactiveBg: color?.inactive_stamp_color ?? null,
             },
 
             stamps: {
-                total: d.stamps,
-                active: d.active_stamps,
-                iconActive: d.active_stamp_icon,
-                iconInactive: d.inactive_stamp_icon,
-                rewardsCount: d.rewards,
+                total,
+                active: total, // show same progress as before (10-dots UI)
+                iconActive: orNull(pi?.active_select_image_url),
+                iconInactive: orNull(pi?.inactive_select_image_url),
+                rewardsCount: Math.max(0, Math.floor(total / 10)),
             },
 
             info: {
-                companyName: d.info_company_name,
-                cardDescription: d.info_card_description,
-                howToEarn: d.info_how_to_earn_stamp,
-                rewardDetails: d.info_reward_details,
-                earnedStampMsg: d.info_earned_stamp_message,
-                earnedRewardMsg: d.info_earned_reward_message,
-                termsOfUse: trimMultiline(d.text_info_terms_of_use),
+                companyName: orNull(info?.company_name),
+                cardDescription: orNull(info?.card_description) ?? orNull(pc?.program_description),
+                howToEarn: orNull(info?.how_to_earn_stamp),
+                rewardDetails: orNull(info?.card_description) ?? 'Check our new offers',
+                earnedStampMsg: orNull(info?.earned_stamp_message),
+                earnedRewardMsg: null,
+                termsOfUse: trimMultiline(orNull(info?.terms_of_use)),
             },
         };
     }
+}
+
+function toInt(n: string | number | null | undefined, fallback = 0): number {
+    if (n === null || n === undefined) return fallback;
+    const v = typeof n === 'string' ? parseInt(n, 10) : Number(n);
+    return Number.isFinite(v) ? v : fallback;
+}
+
+function orNull<T>(v: T | undefined): T | null {
+    return v === undefined ? null : (v as any);
+}
+
+function safeDate(s?: string | null): Date | null {
+    if (!s) return null;
+    const dt = new Date(s);
+    return isNaN(dt.getTime()) ? null : dt;
+}
+
+function trimMultiline(v: string | null) {
+    if (!v) return v;
+    return v.replace(/\n\s+/g, '\n').trim();
 }
