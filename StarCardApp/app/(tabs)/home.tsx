@@ -7,14 +7,30 @@ import colors from '@/constants/colors';
 import CustomHeaderLoggedIn from '@/components/CustomHeaderLoggedIn';
 import LoyaltyCard from '@/components/LoyaltyCard';
 import { useCard } from '@/context/CardContext';
+import { fetchStampImages } from '@/service/cardService';
 
 const Home = () => {
     const { auth_token } = useAuth();
     const { status, cards, refreshFromApi } = useCard();
 
     useEffect(() => {
+        console.log('[Home] mounted');
+    }, []);
+
+    useEffect(() => {
+        console.log('[Home] auth_token:', auth_token ? 'present' : auth_token);
         if (auth_token) {
-            refreshFromApi(auth_token);
+            console.log('[Home] refreshFromApi start');
+            refreshFromApi(auth_token).then(() => {
+                console.log('[Home] refreshFromApi done');
+            });
+            fetchStampImages(auth_token)
+                .then((images) => {
+                    console.log('[Home] fetchStampImages done, count:', images.length);
+                })
+                .catch((error) => {
+                    console.error('[Home] fetchStampImages error:', error);
+                });
         }
     }, [auth_token, refreshFromApi]);
 

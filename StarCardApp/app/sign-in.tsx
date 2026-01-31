@@ -65,7 +65,7 @@ const SignIn = () => {
                 console.log(`${key}: ${value}`);
             }
 
-            const response = await fetch('https://starcardapp.com/loyalty/login', {
+            const response = await fetch('https://starcardapp.com/loyalty/api/mobile/login', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/x-www-form-urlencoded',

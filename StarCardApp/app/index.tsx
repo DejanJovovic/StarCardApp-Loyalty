@@ -68,6 +68,7 @@ const Index = () => {
     }
 
     const handleContinuePress = async () => {
+        console.log("[Auth] Sign in pressed", { email: userEmail });
         setEmailError(!isEmailValid);
         // setPasswordError(!isPasswordValid);
 
@@ -86,7 +87,7 @@ const Index = () => {
             formData.append("email", userEmail);
             formData.append("pass", userPassword);
 
-            const response = await fetch('https://starcardapp.com/loyalty/login', {
+            const response = await fetch('https://starcardapp.com/loyalty/api/mobile/login', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/x-www-form-urlencoded',
@@ -95,11 +96,18 @@ const Index = () => {
                 body: formData.toString(),
             });
 
+    
+            console.log("[Login] Login response status:", response.status);
             const data = await response.json();
-            console.log(data);
+            console.log("[Auth] Login parsed JSON:", data);
 
             if (response.ok) {
-                const userToken = data.jwtoken;
+                const userToken = data?.jwtoken;
+                console.log("[Auth] JWT token:", userToken);
+                if (!userToken) {
+                    Alert.alert("Error", "Login failed. Missing token.");
+                    return;
+                }
 
 
                 await AsyncStorage.setItem("auth_token", userToken);

@@ -60,10 +60,13 @@ export const CardProvider: React.FC<React.PropsWithChildren> = ({ children }) =>
     const refreshFromApi = useCallback(async (token: string) => {
         dispatch({ type: 'LOAD_START' });
         try {
+            console.log('[CardContext] refreshFromApi token:', token);
             const cards = await fetchCardValues(token);
+            console.log('[CardContext] refreshFromApi fetched cards:', cards);
             await saveToStorage(cards);
             dispatch({ type: 'LOAD_SUCCESS', payload: cards });
         } catch (e: any) {
+            console.error('[CardContext] refreshFromApi error:', e);
             dispatch({ type: 'LOAD_ERROR', payload: e?.message ?? 'API load failed' });
         }
     }, []);
